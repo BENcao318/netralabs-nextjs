@@ -1,4 +1,5 @@
 // import { prisma } from '@/lib/prisma'
+import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react'
@@ -28,6 +29,7 @@ export default async function Home() {
           Promptopia is an open-source AI prompting tool for modern world to
           discover, create and share creative prompts
         </p>
+        <Button className="bg-orange-300">Get Started</Button>
         <Link href={'/dashboard'}>dashboard</Link>
       </section>
     </main>
