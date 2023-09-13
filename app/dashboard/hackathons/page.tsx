@@ -1,7 +1,7 @@
 import React from 'react'
 
 const HackathonPage = () => {
-  return <div>hackathons</div>
+  return <div>hackathons page</div>
 }
 
 export default HackathonPage
