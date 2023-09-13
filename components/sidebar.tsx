@@ -134,7 +134,7 @@ export const Sidebar = () => {
           {routes.map(({ icon: Icon, ...route }) => {
             const classes = getNavItemClasses(route)
             return (
-              <div className={classes}>
+              <div className={classes} key={route.name}>
                 <Link href={route.link}>
                   <div className="flex py-4 px-3 items-center w-full h-full">
                     <div style={{ width: '3rem' }}>{Icon && <Icon />}</div>
