@@ -1,12 +1,11 @@
 import { prisma } from '@/lib/prisma'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiResponse } from 'next'
 
 type Params = {
   id: any
 }
 
 export const GET = async (
-  request: NextApiRequest,
   response: NextApiResponse,
   { params }: { params: Params }
 ): Promise<void> => {
