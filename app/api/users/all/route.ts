@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { NextApiRequest } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 type Params = {
   id: any
@@ -7,13 +7,14 @@ type Params = {
 
 export const GET = async (
   request: NextApiRequest,
+  response: NextApiResponse,
   { params }: { params: Params }
-) => {
+): Promise<void> => {
   try {
     const users = await prisma.user.findMany()
     console.log('user++++++++++')
-    return new Response(JSON.stringify(users), { status: 200 })
+    response.status(200).json(users)
   } catch (error) {
-    return new Response('Failed to fetch users', { status: 500 })
+    response.status(500).send('Failed to fetch users')
   }
 }
