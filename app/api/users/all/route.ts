@@ -1,13 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import { NextApiResponse } from 'next'
-
-type Params = {
-  id: any
-}
-
 export const GET = async (
-  response: NextApiResponse,
-  { params }: { params: Params }
+  request: any,
+  response: NextApiResponse
 ): Promise<void> => {
   try {
     const users = await prisma.user.findMany()
