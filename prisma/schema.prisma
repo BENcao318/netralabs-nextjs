@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  password  String
+  email     String   @unique
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userPreference         UserPreference? @relation(fields: [userPreferenceId], references: [id])
+  userPreferenceId       String?         @unique
+  createdHackathons      Hackathon[]     @relation("HackathonCreator")
+  participatedHackathons Hackathon[]     @relation("HackathonParticipant")
+  createdProjects        Project[]       @relation("ProjectCreator")
+  participatedProjects   Project[]       @relation("ProjectParticipant")
+  createdInvitations     Invitation[]    @relation("InvitationCreator")
+  receivedInvitations    Invitation[]    @relation("InvitationInvitee")
+
+  @@index([email])
+}
+
+model UserPreference {
+  id      String  @id @default(uuid())
+  role    String?
+  skills  Json?
+  avatar  Bytes?
+  company String?
+
+  user User?
+}
+
+model Hackathon {
+  id            String    @id @default(uuid())
+  name          String
+  description   String
+  rules         String
+  tagline       String
+  manager_email String
+  location      String
+  time_zone     String
+  start_time    DateTime
+  deadline      DateTime
+  prizes        Json
+  judges        String    @db.LongText
+  requirements  String?   @db.LongText
+  about         String?   @db.LongText
+  partners      String?   @db.LongText
+  resources     String?   @db.LongText
+  launched      Boolean   @default(false)
+  company       String?
+  createdAt     DateTime? @default(now())
+  updatedAt     DateTime? @updatedAt
+
+  creator      User      @relation("HackathonCreator", fields: [creatorId], references: [id])
+  creatorId    String
+  participants User[]    @relation("HackathonParticipant")
+  projects     Project[]
+
+  @@index([creatorId])
+}
+
+model Project {
+  id            String    @id @default(uuid())
+  name          String
+  isSubmitted   Boolean   @default(false)
+  pitch         String?   @db.Text
+  story         String?   @db.LongText
+  techStack     Json?
+  videoUrl      String?
+  repositoryUrl String?
+  createdAt     DateTime? @default(now())
+  updatedAt     DateTime? @updatedAt
+
+  creator      User         @relation("ProjectCreator", fields: [creatorId], references: [id])
+  creatorId    String       @unique
+  participants User[]       @relation("ProjectParticipant")
+  hackathon    Hackathon    @relation(fields: [hackathonId], references: [id])
+  hackathonId  String
+  invitations  Invitation[] @relation("ProjectInvitation")
+
+  @@index([hackathonId])
+}
+
+model Invitation {
+  id         String    @id @default(uuid())
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+  isViewed   Boolean   @default(false)
+  isAccepted Boolean   @default(false)
+
+  creator   User    @relation("InvitationCreator", fields: [creatorId], references: [id])
+  creatorId String  @unique
+  invitee   User    @relation("InvitationInvitee", fields: [inviteeId], references: [id])
+  inviteeId String  @unique
+  project   Project @relation("ProjectInvitation", fields: [projectId], references: [id])
+  projectId String  @unique
+}
