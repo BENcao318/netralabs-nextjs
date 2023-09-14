@@ -1,4 +1,5 @@
-// import { prisma } from '@/lib/prisma'
+'use client'
+
 import { Button } from '@/components/ui/button'
 import { getServerSession } from 'next-auth'
 import Image from 'next/image'
@@ -7,18 +8,21 @@ import { useEffect } from 'react'
 import { authOptions } from './api/auth/[...nextauth]/route'
 import { User } from './user'
 import { LoginButton, LogoutButton } from './auth'
+import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
-export default async function Home() {
-  // await prisma.user.create({
-  //   data: {
-  //     name: 'John Doe',
-  //     password: '123456',
-  //     email: '0PvVx@example.com',
-  //   },
-  // })
-  // const users = await prisma.user.findMany()
+export default function Home() {
+  const router = useRouter()
 
-  const session = await getServerSession(authOptions)
+  const { data: session } = useSession()
+
+  if (session) {
+    if (session?.user?.isAdmin) {
+      router.push('/manager')
+    } else {
+      router.push('/dashboard/hackathons')
+    }
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -28,7 +32,7 @@ export default async function Home() {
           <br className="max-md:hidden" />
           <span className="orange_gradient text-center">
             {' '}
-            AI-Powered Prompts
+            AI-Powered Prompts1
           </span>
         </h1>
         <p className="desc text-center">
@@ -40,7 +44,7 @@ export default async function Home() {
 
         <Button className="bg-orange-300">Get Started</Button>
         <Link href={'/dashboard'}>dashboard</Link>
-        <pre>{JSON.stringify(session)}</pre>
+        {/* <pre>{JSON.stringify(session)}</pre> */}
         <User />
       </section>
     </main>

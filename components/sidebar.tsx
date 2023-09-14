@@ -11,8 +11,6 @@ import {
   ChevronsLeft,
 } from 'lucide-react'
 import Link from 'next/link'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import CollapsIcon from './icons/CollapsIcon'
 import Image from 'next/image'
 import BrandImg from './images/BrandImage.png'
 import NetraChainImage from './images/NetraChainImage.png'

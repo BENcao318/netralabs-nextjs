@@ -16,7 +16,6 @@ const onClick = async () => {
   }
 }
 const HackathonPage = () => {
-<<<<<<< HEAD
   return (
     <>
       <div>
@@ -24,9 +23,6 @@ const HackathonPage = () => {
       </div>
     </>
   )
-=======
-  return <div>hackathons page</div>
->>>>>>> b1e8bd55928ecf41412fe381cff3ef53762ff57f
 }
 
 export default HackathonPage
