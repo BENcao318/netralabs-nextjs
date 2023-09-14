@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: 'Powered by Netra Labs - Ben Cao',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode

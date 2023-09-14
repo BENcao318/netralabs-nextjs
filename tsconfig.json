@@ -27,7 +27,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/api/users/all/route.js"
+    "app/api/users/all/route.js",
+    "prisma/seed.js"
   ],
   "exclude": ["node_modules"]
 }

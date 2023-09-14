@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { Providers } from './api/providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,7 +20,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-slate-400 text-slate-100 mx-auto`}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   )

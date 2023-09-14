@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { hash } from 'bcrypt'
 
 const prisma = new PrismaClient()
 
@@ -6,14 +7,26 @@ async function main() {
   // Perform seeding operations using Prisma
   await prisma.hackathon.deleteMany({})
   await prisma.user.deleteMany({})
+  await prisma.userPreference.deleteMany({})
 
   const user = await prisma.user.create({
     data: {
-      name: 'John Doe',
-      password: '123456',
-      email: '0PvVx@example.com',
+      name: 'Ben Cao',
+      password: await hash('123456', 10),
+      email: 'benc.netrascale@gmail.com',
+      isAdmin: true,
+      userPreference: {
+        create: {
+          company: 'NetraScale',
+        },
+      },
+    },
+    include: {
+      userPreference: true,
     },
   })
+
+  console.log(user)
 
   await prisma.hackathon.createMany({
     data: [

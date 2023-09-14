@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ParticipantsPage = () => {
-  return <div>participants</div>
+  return <div>participants1</div>
 }
 
 export default ParticipantsPage
