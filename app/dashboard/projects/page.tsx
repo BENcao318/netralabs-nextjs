@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth/next'
 import { authOptions } from '../../api/auth/[...nextauth]/route'
 const ProjectsPage = async () => {
   const session = await getServerSession(authOptions)
-  console.log('123')
+
   if (!session) {
     console.log('not loggedin')
   }

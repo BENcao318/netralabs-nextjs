@@ -38,6 +38,12 @@ export async function POST(request: Request) {
       name: body.name,
       email: body.email,
       password: hashedPassword,
+      userPreference: {
+        create: {},
+      },
+    },
+    include: {
+      userPreference: true,
     },
   })
 

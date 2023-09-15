@@ -1,0 +1,25 @@
+'use client'
+
+import React from 'react'
+import { Card } from './ui/card'
+import { PlusCircle } from 'lucide-react'
+
+const CreateNewHackathonCard = () => {
+  const handleClick = () => {
+    console.log('handle click')
+  }
+
+  return (
+    <Card
+      className="flex flex-col items-center justify-center h-full cursor-pointer hover:bg-orange-50 w-[500px] py-12"
+      onClick={handleClick}
+    >
+      <PlusCircle className="w-20 h-20 text-gray-600 mb-12" />
+      <p className="font-semibold text-gray-600 uppercase text-2xl  group-hover:text-gray-800">
+        Create New Hackathon
+      </p>
+    </Card>
+  )
+}
+
+export default CreateNewHackathonCard
