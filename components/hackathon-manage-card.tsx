@@ -1,4 +1,6 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 import {
   Card,
   CardContent,
@@ -7,21 +9,21 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/card'
-import { Table } from 'lucide-react'
-import { TableBody } from './ui/table'
 import { convertDateString } from '@/helpers/utils'
 import { Button } from './ui/button'
+import Link from 'next/link'
+import { launchHackathon } from '@/app/libs/hackathons'
+import LaunchConfirm from './launch-confirm'
 
 type Hackathon = {
-  id: string | null
+  id: string
   name: string | null
   tagline: string | null
   timeZone: string | null
-  startTime: string | Date | null
-  endTime: string | Date | null
+  startDate: string | null
+  endDate: string | null
   managerEmail: string | null
   launched: boolean | null
-  [key: string]: unknown
 }
 
 export default function HackathonManageCard({
@@ -29,13 +31,15 @@ export default function HackathonManageCard({
 }: {
   hackathon: Hackathon
 }) {
+  const [launched, setLaunched] = useState(hackathon.launched)
+
   const options = {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true,
+    // hour: 'numeric',
+    // minute: 'numeric',
+    // hour12: true,
   }
 
   const TABLE_ROWS = [
@@ -48,14 +52,30 @@ export default function HackathonManageCard({
       content: hackathon.timeZone,
     },
     {
-      name: 'Start time:',
-      content: convertDateString(hackathon.startTime, options),
+      name: 'Start Date:',
+      content: convertDateString(hackathon.startDate, options),
     },
     {
-      name: 'Deadline:',
-      content: convertDateString(hackathon.endTime, options),
+      name: 'End Date:',
+      content: convertDateString(hackathon.endDate, options),
     },
   ]
+
+  const handleClick = async () => {
+    const res = await fetch('/api/manage/hackathons/launch', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        hackathonId: hackathon.id,
+      }),
+    })
+
+    if (res.ok) {
+      setLaunched(true)
+    }
+  }
 
   return (
     <Card className="w-[500px]">
@@ -90,19 +110,31 @@ export default function HackathonManageCard({
           </tbody>
         </table>
       </CardContent>
-      <CardFooter className="pt-0 flex justify-between mx-12">
+      <CardFooter className="pt-0 flex justify-between mx-4">
         <div className="flex gap-6 items-center">
           <Button>Preview</Button>
-          <a className="font-medium text-blue-600 hover:underline cursor-pointer text-center">
+          <Link
+            className="font-medium text-blue-600 hover:underline cursor-pointer text-center"
+            href={{
+              pathname: '/manager/edit-hackathon',
+              query: { hid: hackathon.id },
+            }}
+          >
             Edit
-          </a>
+          </Link>
         </div>
-        {hackathon.launched ? (
+        {launched ? (
           <p className="flex uppercase items-center font-bold text-green-600">
             launched
           </p>
         ) : (
-          <Button className="bg-orange-600 hover:bg-orange-400">Launch</Button>
+          // <Button
+          //   className="bg-orange-600 hover:bg-orange-400"
+          //   onClick={handleClick}
+          // >
+          //   Launch
+          // </Button>
+          <LaunchConfirm confirm={handleClick} />
         )}
       </CardFooter>
     </Card>

@@ -5,50 +5,48 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const hacakthonId = params.id
+  const hackathonId = params.id
   const hackathon = await prisma.hackathon.findUnique({
     where: {
-      id: hacakthonId,
+      id: hackathonId,
     },
   })
 
   return NextResponse.json(hackathon)
 }
 
-export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  const hacakthonId = params.id
-  const json = await request.json()
+// export async function PUT(request: Request) {
+//   const body = await request.json()
+//   console.log('body.name', body.name)
 
-  const updated = await prisma.hackathon.update({
-    where: {
-      id: hacakthonId,
-    },
-    // remove data if not sent
-    data: {
-      name: json.name || null,
-      description: json.description || null,
-      rules: json.rules || null,
-      tagline: json.tagline || null,
-      managerEmail: json.managerEmail || null,
-      location: json.location || null,
-      timeZone: json.timeZone || null,
-      dateRange: json.dateRange || null,
-      prizes: json.prizes || null,
-      judges: json.judges || null,
-      requirements: json.requirements || null,
-      about: json.about || null,
-      partners: json.partners || null,
-      resources: json.resources || null,
-      launched: json.launched || null,
-      company: json.company || null,
-    },
-  })
+//   const updated = await prisma.hackathon.update({
+//     where: {
+//       id: body.hacakthonId,
+//     },
+//     // remove data if not sent
+//     data: {
+//       name: body.name || null,
+//       description: body.description || null,
+//       rules: body.rules || null,
+//       tagline: body.tagline || null,
+//       managerEmail: body.managerEmail || null,
+//       location: body.location || null,
+//       timeZone: body.timeZone || null,
+//       dateRange: body.dateRange || null,
+//       prizes: body.prizes || null,
+//       judges: body.judges || null,
+//       requirements: body.requirements || null,
+//       about: body.about || null,
+//       partners: body.partners || null,
+//       resources: body.resources || null,
+//       launched: body.launched || null,
+//       company: body.company || null,
+//     },
+//   })
 
-  return NextResponse.json(updated)
-}
+//   return NextResponse.json(updated)
+//   // return NextResponse.json({ message: 'ok' })
+// }
 
 export async function PATCH(
   request: Request,

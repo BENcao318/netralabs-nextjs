@@ -28,6 +28,8 @@ export const createHackathonSchema = z.object({
   tagline: z.string().optional(),
   email: z.string().email().optional(),
   location: z.string().optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
 })
 
 export const createPrizeSchema = z.object({

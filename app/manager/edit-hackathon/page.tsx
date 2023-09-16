@@ -1,28 +1,34 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import CreateHackathonForm from '@/components/create-hackathon-form'
+import EditHackathonForm from '@/components/edit-hackathon-form'
 import { Separator } from '@/components/ui/separator'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
-export default async function page() {
+export default async function page({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string }
+}) {
   const session = await getServerSession(authOptions)
 
-  if (!session) {
+  if (!session || !session.user.isAdmin) {
     redirect('/auth/signIn')
   }
+
+  const hackathonId = searchParams?.hid ?? ''
 
   return (
     <>
       <div className="space-y-6 container mt-16 pb-36">
         <div>
-          <h3 className="text-3xl font-bold">Create your hackathon</h3>
+          <h3 className="text-3xl font-bold">Edit your hackathon</h3>
           <p className="text-md text-muted-foreground">
-            Fill the form to create a new hackathon
+            Configure the hackathon with the details
           </p>
         </div>
         <Separator />
-        <CreateHackathonForm creatorId={session.user.id} />
+        <EditHackathonForm hackathonId={hackathonId} />
       </div>
     </>
   )

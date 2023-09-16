@@ -52,7 +52,8 @@ model Hackathon {
   managerEmail String?
   location     String?   @db.Text
   timeZone     String?   @db.Text
-  dateRange    Json?
+  startDate    String?
+  endDate      String?
   prizes       Json?
   judges       String?   @db.LongText
   requirements String?   @db.LongText

@@ -1,7 +1,4 @@
-export const convertDateString = (
-  dateString: string | Date | null,
-  options: {}
-) => {
+export const convertDateString = (dateString: string | null, options: {}) => {
   if (dateString === null) {
     return null // or handle the null case appropriately
   }

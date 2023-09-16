@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth'
 import React from 'react'
 import { authOptions } from '../api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
-import getManagedHackathons from '../libs/get-managed-hackathons'
+import { getManagedHackathons } from '../libs/hackathons'
 import HackathonManageCard from '@/components/hackathon-manage-card'
 import CreateNewHackathonCard from '@/components/create-new-hackathon-card'
 

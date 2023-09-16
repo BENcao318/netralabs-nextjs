@@ -31,8 +31,10 @@ import { Label } from '@radix-ui/react-label'
 import { Card, CardContent } from './ui/card'
 
 type CreateHackathonFormValues = z.infer<typeof createHackathonSchema>
+// const defaultValues: Partial<CreateHackathonFormValues> = {
 
-const defaultValues: Partial<CreateHackathonFormValues> = {}
+//   // email: 'cby204@gmail.com',
+// }
 
 export type Prize = {
   id: string
@@ -43,13 +45,21 @@ export type Prize = {
   isEditing?: boolean
 }
 
-export default function CreateHackathonForm({
-  creatorId,
+export default function EditHackathonForm({
+  hackathonId,
 }: {
-  creatorId: string
+  hackathonId: string
 }) {
   const router = useRouter()
+  const { toast } = useToast()
 
+  const [data, setData] = useState<any>({})
+  const [name, setName] = useState<string>('')
+  const [tagline, setTagline] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [startDate, setStartDate] = useState<string>('')
+  const [endDate, setEndDate] = useState<string>('')
+  const [location, setLocation] = useState<string>('')
   const [descriptionContent, setDescriptionContent] = useState<string>('')
   const [requirementContent, setRequirementContent] = useState<string>('')
   const [rulesContent, setRulesContent] = useState<string>('')
@@ -68,46 +78,127 @@ export default function CreateHackathonForm({
     Intl.DateTimeFormat().resolvedOptions().timeZone
   )
 
+  // const currentDate = new Date()
+  // const year = currentDate.getFullYear()
+  // const month = currentDate.getMonth()
+  // const day = currentDate.getDate()
+
   const [timeZoneSelect, setTimeZoneSelect] = useState<any>(timeZone)
 
   useEffect(() => {
     setTimeZoneSelect({ value: timeZone })
   }, [timeZone])
 
+  // const [dateRange, setDateRange] = useState<DateRange | undefined>({
+  //   from: new Date(year, month, day),
+  //   to: addDays(new Date(year, month, day), 20),
+  // })
+
   const form = useForm<TCreateHackathonSchema>({
     resolver: zodResolver(createHackathonSchema),
-    defaultValues,
     mode: 'onChange',
+    defaultValues: useMemo(
+      () => ({
+        name,
+        tagline,
+        email,
+        location,
+        startDate,
+        endDate,
+      }),
+      []
+    ),
   })
 
-  const { toast } = useToast()
+  useEffect(() => {
+    setName(data.name)
+    setTagline(data.tagline)
+    setEmail(data.managerEmail)
+    setLocation(data.location)
+    setStartDate(data.startDate)
+    setEndDate(data.endDate)
+    form.reset({ name, tagline, email, location, startDate, endDate })
+    setDescriptionEditorText(data.description)
+    setRequirementEditorText(data.requirement)
+    setRulesEditorText(data.rules)
+    setResourcesEditorText(data.resources)
+    setJudgesEditorText(data.judges)
+    setPartnersEditorText(data.partners)
+    setPrizeList(data.prizes)
+    setTimeZone(data.timeZone)
+  }, [
+    name,
+    tagline,
+    email,
+    location,
+    data,
+    form,
+    timeZone,
+    descriptionEditorText,
+    requirementEditorText,
+    rulesEditorText,
+    resourcesEditorText,
+    judgesEditorText,
+    partnersEditorText,
+    startDate,
+    endDate,
+  ])
+
+  useEffect(() => {
+    async function getHackathonById(hackathonId: string) {
+      try {
+        const res = await fetch('/api/manage/hackathons', {
+          method: 'POST',
+          body: JSON.stringify({ hackathonId }),
+        })
+        const data = await res.json()
+        setData(data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    getHackathonById(hackathonId)
+  }, [
+    setDescriptionContent,
+    hackathonId,
+    name,
+    tagline,
+    email,
+    location,
+    startDate,
+    endDate,
+  ])
 
   const onSubmit = async (data: TCreateHackathonSchema) => {
     const formData = {
       ...data,
       managerEmail: data.email,
-      descriptionContent,
-      requirementContent,
-      rulesContent,
-      resourcesContent,
-      judgesContent,
-      partnersContent,
+      description: descriptionContent,
+      requirements: requirementContent,
+      rules: rulesContent,
+      resources: resourcesContent,
+      judges: judgesContent,
+      partners: partnersContent,
       prizes: prizeList,
-      creatorId,
+      timeZone: timeZone,
+      hackathonId,
     }
 
     try {
-      const res = await fetch('/api/manage/hackathons/create', {
-        method: 'POST',
+      console.log('update')
+      const res = await fetch('/api/manage/hackathons', {
+        method: 'PUT',
         body: JSON.stringify(formData),
       })
-      console.log(res)
+      const data = await res.json()
+      console.log(data)
+
       if (res.ok) {
         router.refresh()
-        router.push('/manager')
         toast({
           title: 'Success!',
-          description: 'A new hackathon has been created.',
+          description: 'Updated your hackathon.',
         })
       }
     } catch (error) {
@@ -403,6 +494,13 @@ export default function CreateHackathonForm({
           </CardContent>
         </Card>
 
+        {/* <DateAndTimeZonePicker
+          timeZone={timeZone}
+          setTimeZone={setTimeZone}
+          date={dateRange}
+          setDate={setDateRange}
+        /> */}
+
         <div className="flex items-center justify-center">
           <Button
             type="submit"
@@ -412,7 +510,7 @@ export default function CreateHackathonForm({
             {form.formState.isSubmitting && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Submit
+            Update
           </Button>
           <div
             className="font-bold text-red-500 underline cursor-pointer text-center ml-6 text-lg"

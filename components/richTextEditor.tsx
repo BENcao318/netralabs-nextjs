@@ -371,10 +371,12 @@ type TiptapProps = {
   content: string
   setContent: (content: string) => void
   placeholder: string
+  editorText: string | undefined
 }
 
 export default function Tiptap(props: TiptapProps) {
-  const { setContent, content, placeholder } = props
+  const { setContent, content, placeholder, editorText } = props
+
   const editor = useEditor({
     extensions: [
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -421,6 +423,21 @@ export default function Tiptap(props: TiptapProps) {
       setContent(editor.getHTML())
     },
   })
+
+  useEffect(() => {
+    if (editor && editorText) {
+      editor
+        .chain()
+        .focus()
+        .insertContent(editorText)
+        .insertContent(`<br />`)
+        .run()
+    }
+  }, [editorText, editor])
+
+  // useEffect(() => {
+  //   editor?.chain().focus().insertContent(content).run()
+  // }, [content, editor])
 
   return (
     <div className="w-full border-slate-200 border-2 rounded-2xl">
