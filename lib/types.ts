@@ -23,5 +23,22 @@ export const signInSchema = z.object({
   password: z.string(),
 })
 
+export const createHackathonSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  tagline: z.string().optional(),
+  email: z.string().email().optional(),
+  location: z.string().optional(),
+})
+
+export const createPrizeSchema = z.object({
+  name: z.string(),
+  value: z.string(),
+  numberOfWinningTeams: z.string(),
+  description: z.string(),
+})
+
 export type TSignUpSchema = z.infer<typeof signUpSchema>
 export type TSignInSchema = z.infer<typeof signInSchema>
+export type TCreateHackathonSchema = z.infer<typeof createHackathonSchema>
+export type TCreatePrizeSchema = z.infer<typeof createPrizeSchema>
+//todo add number of characters limit to name and tagline

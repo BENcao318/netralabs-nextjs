@@ -24,7 +24,11 @@ type Hackathon = {
   [key: string]: unknown
 }
 
-const HackathonManageCard = ({ hackathon }: { hackathon: Hackathon }) => {
+export default function HackathonManageCard({
+  hackathon,
+}: {
+  hackathon: Hackathon
+}) {
   const options = {
     year: 'numeric',
     month: 'long',
@@ -103,41 +107,4 @@ const HackathonManageCard = ({ hackathon }: { hackathon: Hackathon }) => {
       </CardFooter>
     </Card>
   )
-}
-
-export default HackathonManageCard
-{
-  /* <table className="w-full min-w-max text-left">
-            <tbody>
-              {TABLE_ROWS.map(({ name, content }, index) => {
-                const isLast = index === TABLE_ROWS.length - 1
-                const classes = isLast
-                  ? 'p-4'
-                  : 'p-4 border-b border-blue-gray-50l'
-
-                return (
-                  <tr key={name} className="even:bg-blue-gray-50/50">
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-semibold"
-                      >
-                        {name}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal font-roboto"
-                      >
-                        {content}
-                      </Typography>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table> */
 }

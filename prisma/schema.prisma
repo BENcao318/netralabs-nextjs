@@ -45,15 +45,14 @@ model UserPreference {
 
 model Hackathon {
   id           String    @id @default(uuid())
-  name         String    @db.Text
-  description  String    @db.Text
+  name         String?   @db.Text
+  description  String?   @db.Text
   rules        String?   @db.LongText
   tagline      String?   @db.Text
-  managerEmail String
-  location     String    @db.Text
-  timeZone     String    @db.Text
-  startTime    DateTime?
-  endTime      DateTime?
+  managerEmail String?
+  location     String?   @db.Text
+  timeZone     String?   @db.Text
+  dateRange    Json?
   prizes       Json?
   judges       String?   @db.LongText
   requirements String?   @db.LongText

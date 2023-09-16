@@ -15,7 +15,7 @@ const onClick = async () => {
     console.error(error)
   }
 }
-const HackathonPage = () => {
+export default function HackathonPage() {
   return (
     <>
       <div>
@@ -24,5 +24,3 @@ const HackathonPage = () => {
     </>
   )
 }
-
-export default HackathonPage

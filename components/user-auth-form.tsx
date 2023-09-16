@@ -1,12 +1,11 @@
 'use client'
 
 import * as React from 'react'
-
 import { cn } from '@/lib/utils'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
-import { Icons } from './ui/icons'
+import { Icons } from './ui/ui-icons'
 import {
   Card,
   CardContent,

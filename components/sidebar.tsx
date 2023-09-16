@@ -45,7 +45,7 @@ const routes: Route[] = [
   },
 ]
 
-export const Sidebar = () => {
+export function Sidebar() {
   const [toggleCollapse, setToggleCollapse] = useState(false)
   const [isCollapsible, setIsCollapsible] = useState(false)
 

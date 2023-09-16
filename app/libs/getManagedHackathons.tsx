@@ -1,5 +1,4 @@
-import { getSession } from 'next-auth/react'
-const getManagedHackathons = async (creatorId: string) => {
+export default async function getManagedHackathons(creatorId: string) {
   const hackathons = await prisma.hackathon.findMany({
     where: {
       creatorId,
@@ -8,5 +7,3 @@ const getManagedHackathons = async (creatorId: string) => {
 
   return hackathons
 }
-
-export default getManagedHackathons

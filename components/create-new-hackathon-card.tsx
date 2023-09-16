@@ -3,10 +3,12 @@
 import React from 'react'
 import { Card } from './ui/card'
 import { PlusCircle } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
-const CreateNewHackathonCard = () => {
+export default function CreateNewHackathonCard() {
+  const router = useRouter()
   const handleClick = () => {
-    console.log('handle click')
+    router.push('/manager/create-hackathon')
   }
 
   return (
@@ -21,5 +23,3 @@ const CreateNewHackathonCard = () => {
     </Card>
   )
 }
-
-export default CreateNewHackathonCard
