@@ -1,7 +1,4 @@
-import { PrismaClient } from '@prisma/client'
-
-// Initialize the Prisma client
-const prisma = new PrismaClient()
+import prisma from '@/lib/prisma'
 
 export default async function getManagedHackathons(creatorId: string) {
   const hackathons = await prisma.hackathon.findMany({
