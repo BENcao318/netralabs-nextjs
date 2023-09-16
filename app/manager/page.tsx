@@ -5,7 +5,6 @@ import { redirect } from 'next/navigation'
 import getManagedHackathons from '../libs/getManagedHackathons'
 import HackathonManageCard from '@/components/hackathon-manage-card'
 import CreateNewHackathonCard from '@/components/create-new-hackathon-card'
-import ManagerNavbar from '@/components/manager-navbar'
 
 export default async function page() {
   const session = await getServerSession(authOptions)
