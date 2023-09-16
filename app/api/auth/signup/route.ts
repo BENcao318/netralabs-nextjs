@@ -1,3 +1,4 @@
+import prisma from '@/lib/prisma'
 import { signUpSchema } from '@/lib/types'
 import { hash } from 'bcrypt'
 import { NextResponse } from 'next/server'

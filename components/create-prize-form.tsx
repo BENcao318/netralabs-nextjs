@@ -45,7 +45,7 @@ export default function CreatePrizeForm({
     setValue('value', prize.value)
     setValue('numberOfWinningTeams', prize.numOfWinningTeams)
     setValue('description', prize.description)
-  }, [prize])
+  }, [prize, setValue])
 
   return (
     <div className="flex w-[60rem] flex-col gap-4 rounded-lg bg-slate-200 p-6 text-black">

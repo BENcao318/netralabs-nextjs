@@ -129,7 +129,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </CardContent>
           <CardFooter>
             <div className=" flex justify-center">
-              Don't have an account?
+              Don&apos;t have an account?
               <Link
                 href="/auth/signUp"
                 className="underline underline-offset-4 hover:text-primary"

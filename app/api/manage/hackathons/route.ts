@@ -1,10 +1,10 @@
 import prisma from '@/lib/prisma'
+import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
-import { getSession } from '../../route'
 
 export async function GET(request: Request) {
   try {
-    const session = await getSession()
+    const session = await getServerSession()
 
     const hackathons = await prisma.hackathon.findMany()
 
@@ -29,13 +29,6 @@ export async function POST(request: Request) {
   const body = await request.json()
 
   try {
-    // const session = await getSession()
-    // if (
-    //   session?.user.isAdmin === false ||
-    //   session?.user?.id !== body.creatorId
-    // ) {
-    //   return NextResponse.json({ error: 'unauthorized', status: 401 })
-    // }
     const hackathon = await prisma.hackathon.create({
       data: {
         name: body.name,

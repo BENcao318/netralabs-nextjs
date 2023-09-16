@@ -21,7 +21,7 @@ export default async function page() {
         {createdHackathons.length === 0 && (
           <div>
             <h3 className="text-center text-2xl">
-              You haven't created any hackathons yet.
+              You have not created any hackathons yet.
             </h3>
           </div>
         )}
