@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth'
 import React from 'react'
 import { authOptions } from '../api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
-import getManagedHackathons from '../libs/getManagedHackathons'
+import getManagedHackathons from '../libs/get-managed-hackathons'
 import HackathonManageCard from '@/components/hackathon-manage-card'
 import CreateNewHackathonCard from '@/components/create-new-hackathon-card'
 
@@ -26,7 +26,7 @@ export default async function page() {
           </div>
         )}
         {createdHackathons.length !== 0 &&
-          createdHackathons.map((hackathon) => (
+          createdHackathons.map((hackathon: any) => (
             <HackathonManageCard key={hackathon.id} hackathon={hackathon} />
           ))}
         <div>

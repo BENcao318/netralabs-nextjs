@@ -11,12 +11,26 @@
 //   })
 
 // if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+import { PrismaClient } from '@prisma/client'
+
+declare global {
+  namespace NodeJS {
+    interface Global {}
+  }
+}
+
+interface CustomNodeJsGlobals extends NodeJS.Global {
+  prisma: PrismaClient
+}
+
+declare const global: CustomNodeJsGlobals
 // declare global {
 //   var prisma: PrismaClient
 // }
 
-// import { PrismaClient } from '@prisma/client'
+const prisma = global.prisma || new PrismaClient()
 
+if (process.env.NODE_ENV === 'development') global.prisma = prisma
 // let prisma: PrismaClient
 
 // if (process.env.NODE_ENV === 'production') {
@@ -28,15 +42,15 @@
 //   prisma = global.prisma
 // }
 
-// export default prisma
-
-import { PrismaClient } from '@prisma/client'
-
-declare global {
-  var prisma: PrismaClient | undefined
-}
-
-const prisma = global.prisma || new PrismaClient({ log: ['info'] })
-if (process.env.NODE_ENV !== 'production') global.prisma = prisma
-
 export default prisma
+
+// import { PrismaClient } from '@prisma/client'
+
+// declare global {
+//   var prisma: PrismaClient | undefined
+// }
+
+// const prisma = global.prisma || new PrismaClient({ log: ['info'] })
+// if (process.env.NODE_ENV !== 'production') global.prisma = prisma
+
+// export default prisma

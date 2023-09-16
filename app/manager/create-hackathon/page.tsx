@@ -1,17 +1,21 @@
-'use client'
-
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import CreateHackathonForm from '@/components/create-hackathon-form'
 import { Separator } from '@/components/ui/separator'
-
+import { getServerSession } from 'next-auth'
 import { useSession } from 'next-auth/react'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
-export default function page() {
-  const { data: session } = useSession()
+export default async function page() {
+  const session = await getServerSession(authOptions)
 
   if (!session) {
-    return <div>loading or not logged in</div>
+    redirect('/auth/signIn')
   }
+  console.log('first session', session)
+  // if (!session) {
+  //   return <div>loading or not logged in</div>
+  // }
 
   return (
     <>
