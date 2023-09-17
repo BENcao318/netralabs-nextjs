@@ -10,7 +10,7 @@ export async function PUT(request: Request) {
     },
     // remove data if not sent
     data: {
-      launched: false,
+      launched: true,
     },
   })
 

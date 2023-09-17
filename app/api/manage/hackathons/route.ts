@@ -46,8 +46,6 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   const body = await request.json()
 
-  console.log('body.name', body.dateRange)
-
   const updated = await prisma.hackathon.update({
     where: {
       id: body.hackathonId,

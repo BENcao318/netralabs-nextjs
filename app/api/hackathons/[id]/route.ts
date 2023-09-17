@@ -6,6 +6,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   const hackathonId = params.id
+  console.log(hackathonId)
   const hackathon = await prisma.hackathon.findUnique({
     where: {
       id: hackathonId,

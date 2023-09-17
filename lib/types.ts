@@ -43,4 +43,27 @@ export type TSignUpSchema = z.infer<typeof signUpSchema>
 export type TSignInSchema = z.infer<typeof signInSchema>
 export type TCreateHackathonSchema = z.infer<typeof createHackathonSchema>
 export type TCreatePrizeSchema = z.infer<typeof createPrizeSchema>
+export type Hackathon = {
+  about: null
+  company: null
+  createdAt: Date
+  creatorId: string
+  description: string
+  endDate: string
+  id: string
+  judges: string
+  launched: boolean
+  location: string
+  managerEmail: string
+  name: string
+  partners: string
+  prizes: Object[]
+  requirements: string
+  resources: string
+  rules: string
+  startDate: string
+  tagline: string
+  timeZone: string
+  updatedAt: Date
+}
 //todo add number of characters limit to name and tagline

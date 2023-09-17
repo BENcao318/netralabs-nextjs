@@ -29,3 +29,33 @@ export async function launchHackathon(hackathonId: string) {
     throw new Error('Failed to retrieve managed hackathons')
   }
 }
+
+export async function getLaunchedHackathons() {
+  try {
+    const hackathons = await prisma.hackathon.findMany({
+      where: {
+        launched: true,
+      },
+    })
+
+    return hackathons
+  } catch (error) {
+    console.error('Error retrieving launched hackathons:', error)
+    throw new Error('Failed to retrieve hackathons')
+  }
+}
+
+export async function getHackathonByHackathonId(hid: string) {
+  try {
+    const hackathon = await prisma.hackathon.findUnique({
+      where: {
+        id: hid,
+      },
+    })
+
+    return hackathon
+  } catch (error) {
+    console.error('Error retrieving launched hackathons:', error)
+    throw new Error('Failed to retrieve hackathons')
+  }
+}

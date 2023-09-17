@@ -20,6 +20,7 @@ import { useForm } from 'react-hook-form'
 import { TSignInSchema, signInSchema } from '@/lib/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { getSession, signIn } from 'next-auth/react'
+import { set } from 'date-fns'
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>
 
@@ -31,6 +32,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
+    setValue,
   } = useForm<TSignInSchema>({
     resolver: zodResolver(signInSchema),
   })
@@ -105,6 +107,35 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 Sign In with Email
+              </Button>
+
+              <Button
+                onClick={async () => {
+                  setValue('email', 'cby204@gmail.com')
+                  setValue('password', '123456789s!')
+                  const res = await signIn('credentials', {
+                    redirect: false,
+                    email: 'cby204@gmail.com',
+                    password: '123456789s!',
+                    callbackUrl: '/',
+                  })
+                }}
+              >
+                User Sign in
+              </Button>
+              <Button
+                onClick={async () => {
+                  setValue('email', 'benc.netrascale@gmail.com')
+                  setValue('password', '123456')
+                  const res = await signIn('credentials', {
+                    redirect: false,
+                    email: 'benc.netrascale@gmail.com',
+                    password: '123456',
+                    callbackUrl: '/',
+                  })
+                }}
+              >
+                Admin Sign in
               </Button>
             </form>
 

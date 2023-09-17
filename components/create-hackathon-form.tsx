@@ -29,6 +29,7 @@ import { Icons } from './ui/ui-icons'
 import { useToast } from './ui/use-toast'
 import { Label } from '@radix-ui/react-label'
 import { Card, CardContent } from './ui/card'
+import { PlusCircle } from 'lucide-react'
 
 type CreateHackathonFormValues = z.infer<typeof createHackathonSchema>
 
@@ -332,8 +333,9 @@ export default function CreateHackathonForm({
           <Button
             type="submit"
             onClick={addPrize}
-            className="flex items-center gap-4 mt-2"
+            className="flex items-center gap-2 mt-2"
           >
+            <PlusCircle className=" h-4 w-4" />
             Create prize
           </Button>
         </div>
