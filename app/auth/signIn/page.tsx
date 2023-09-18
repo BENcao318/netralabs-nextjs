@@ -1,5 +1,4 @@
 import { UserAuthForm } from '@/components/user-auth-form'
-import { Link } from 'lucide-react'
 import React from 'react'
 
 const page = () => {
@@ -7,7 +6,7 @@ const page = () => {
     <>
       <img
         src="https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80"
-        alt=""
+        alt="background page"
         className="absolute inset-0 z-0 h-full w-full opacity-80 object-cover"
       />
       <div className="absolute inset-0 z-0 h-full w-full bg-black/50" />

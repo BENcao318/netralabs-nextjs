@@ -107,7 +107,7 @@ export default function EditHackathonForm({
         startDate,
         endDate,
       }),
-      []
+      [email, endDate, location, name, startDate, tagline]
     ),
   })
 

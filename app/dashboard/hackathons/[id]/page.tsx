@@ -8,10 +8,17 @@ import { Hackathon } from '@/lib/types'
 import { Separator } from '@radix-ui/react-separator'
 import React, { useEffect, useState } from 'react'
 import parse from 'html-react-parser'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useToast } from '@/components/ui/use-toast'
 
-export default function page({ params }: { params: { id: string } }) {
+export default function HackathonPage({ params }: { params: { id: string } }) {
   const [hackathon, setHackathon] = useState<Hackathon | undefined | null>()
   const [progress, setProgress] = useState<any>(null)
+  const [isJoined, setIsJoined] = useState<boolean>(false)
+  const { data: session } = useSession()
+  const router = useRouter()
+  const { toast } = useToast()
 
   useEffect(() => {
     const getHackathonByHid = async () => {
@@ -30,7 +37,41 @@ export default function page({ params }: { params: { id: string } }) {
       )
     }
     getHackathonByHid()
-  }, [setHackathon, setProgress])
+  }, [setHackathon, setProgress, params.id])
+
+  const handleSignIn = () => {
+    router.push('/auth/signIn')
+  }
+
+  const handleJoin = async () => {
+    const res = await fetch('/api/hackathons/join', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        hackathonId: params.id,
+        userId: session?.user.id,
+      }),
+    })
+
+    if (res.ok) {
+      setIsJoined(true)
+      toast({
+        title: 'Success!',
+        description: 'You joined the hackathon.',
+      })
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Failed 😓',
+        description:
+          'We had some issue add you in the hackathon. Please try again.',
+      })
+    }
+  }
+
+  const handleCreate = async () => {}
 
   return (
     <div className="container">
@@ -94,7 +135,34 @@ export default function page({ params }: { params: { id: string } }) {
                   </span>
                 </Badge>
               </div>
-              <div className="mt-10 text-xl flex flex-col py-6 mx-10 lg:mx-20">
+
+              <div className="flex w-full justify-center mt-5">
+                {progress.running &&
+                  (!session ? (
+                    <Button
+                      className="w-fit text-xl py-8 bg-sky-600"
+                      onClick={handleSignIn}
+                    >
+                      Sign in to join
+                    </Button>
+                  ) : hackathon.isJoined ? (
+                    <Button
+                      className="w-fit text-xl py-6 bg-green-800 hover:ring-2 hover:ring-slate-200 font-bold"
+                      onClick={handleCreate}
+                    >
+                      Create your project
+                    </Button>
+                  ) : (
+                    <Button
+                      className="w-fit text-xl py-6 bg-orange-500 hover:ring-2 hover:ring-slate-200 font-bold"
+                      onClick={handleJoin}
+                    >
+                      Click to join
+                    </Button>
+                  ))}
+              </div>
+
+              <div className="mt-5 text-xl flex flex-col py-6 mx-10 lg:mx-20">
                 {parse(hackathon.description)}
               </div>
               <Separator className="my-2 border border-slate-300 mx-10 lg:mx-20" />

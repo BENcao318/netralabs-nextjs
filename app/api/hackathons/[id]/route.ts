@@ -1,19 +1,52 @@
+import { calculateTimeForHackathon } from '@/helpers/utils'
 import prisma from '@/lib/prisma'
+import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
+import { authOptions } from '../../auth/[...nextauth]/route'
 
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   const hackathonId = params.id
-  console.log(hackathonId)
-  const hackathon = await prisma.hackathon.findUnique({
+  const session = await getServerSession(authOptions)
+
+  let hackathon = await prisma.hackathon.findUnique({
     where: {
       id: hackathonId,
     },
+    include: {
+      participants: true,
+    },
   })
 
-  return NextResponse.json(hackathon)
+  const participantIds = hackathon?.participants.map(
+    (participant) => participant.id
+  )
+
+  let response = { ...hackathon, isJoined: false }
+
+  if (session) {
+    if (participantIds?.includes(session.user.id)) {
+      response.isJoined = true
+    }
+  }
+
+  let isRunning = false
+  if (hackathon) {
+    const localTimeZone = hackathon?.timeZone
+    isRunning = calculateTimeForHackathon(
+      hackathon?.startDate ?? '',
+      hackathon?.endDate ?? '',
+      hackathon?.timeZone ?? '',
+      localTimeZone ?? ''
+    ).progress.running
+  }
+
+  if (isRunning) {
+    return NextResponse.json(response)
+  }
+  return NextResponse.redirect(new URL('/dashboard/hackathons', request.url))
 }
 
 // export async function PUT(request: Request) {

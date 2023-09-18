@@ -7,6 +7,7 @@ const page = () => {
       <img
         src="https://unsplash.com/photos/QBpZGqEMsKg/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjkxMTE4Mjc2fA&force=true&w=1920"
         className="absolute inset-0 z-0 h-full w-full object-cover"
+        alt="background page"
       />
       <div className="absolute inset-0 z-0 h-full w-full bg-black/50" />
       <div className="lg:p-8">

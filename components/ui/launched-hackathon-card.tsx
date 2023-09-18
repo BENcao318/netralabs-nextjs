@@ -78,7 +78,7 @@ export default function LaunchedHackathonCard({ hackathon }: Hackathon | any) {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="grid grid-cols-2 justify-items-center -mt-2">
+      <CardFooter className="flex justify-between mx-10">
         <Badge
           className={`py-2  w-fit ${
             progress.running ? 'bg-green-600' : 'bg-sky-600'
@@ -86,12 +86,14 @@ export default function LaunchedHackathonCard({ hackathon }: Hackathon | any) {
         >
           <span className="w-full text-center text-lg">{progress.status}</span>
         </Badge>
-        <Button
-          className="text-lg border-2 bg-white text-black border-black hover:text-white mr-10 font-bold"
-          onClick={() => router.push(`/dashboard/hackathons/${hackathon.id}`)}
-        >
-          Click to View
-        </Button>
+        {progress.running && (
+          <Button
+            className="text-lg border-2 bg-white text-black border-black hover:text-white mr-10 font-bold"
+            onClick={() => router.push(`/dashboard/hackathons/${hackathon.id}`)}
+          >
+            Click to View
+          </Button>
+        )}
       </CardFooter>
     </Card>
   )

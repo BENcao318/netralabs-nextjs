@@ -3,15 +3,17 @@ import { Separator } from '@/components/ui/separator'
 import UserProfileForm from '@/components/user-profile-form'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 
-export default function page() {
+export default function ProfilePage() {
   const router = useRouter()
   const { data: session } = useSession()
 
-  // if (!session) {
-  //   router.push('/auth/signIn')
-  // }
+  useEffect(() => {
+    if (!session) {
+      router.push('/auth/signIn')
+    }
+  }, [session])
 
   return (
     <>

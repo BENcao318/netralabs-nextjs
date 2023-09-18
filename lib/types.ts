@@ -70,7 +70,7 @@ export type Hackathon = {
   managerEmail: string
   name: string
   partners: string
-  prizes: Object[]
+  prizes: any[]
   requirements: string
   resources: string
   rules: string
@@ -78,6 +78,7 @@ export type Hackathon = {
   tagline: string
   timeZone: string
   updatedAt: Date
+  isJoined?: boolean
 }
 
 export type User = {
