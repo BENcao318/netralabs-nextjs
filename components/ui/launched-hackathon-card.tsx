@@ -26,14 +26,12 @@ export default function LaunchedHackathonCard({ hackathon }: Hackathon | any) {
     hackathon.endDate,
     hackathon.timeZone,
     localTimeZone
-  )
+  ).progress
   const router = useRouter()
-
-  console.log(hackathon)
 
   return (
     <Card className="min-w-[420px] max-w-[600px] w-full">
-      <CardHeader className="pb-3 text-center">
+      <CardHeader className="pb-3 text-center grid grid-rows-2">
         <CardTitle>{hackathon.name}</CardTitle>
         <CardDescription>{hackathon.tagline}</CardDescription>
       </CardHeader>
@@ -83,10 +81,10 @@ export default function LaunchedHackathonCard({ hackathon }: Hackathon | any) {
       <CardFooter className="grid grid-cols-2 justify-items-center -mt-2">
         <Badge
           className={`py-2  w-fit ${
-            progress !== 'hackathon has ended' ? 'bg-green-600' : 'bg-slate-600'
+            progress.running ? 'bg-green-600' : 'bg-sky-600'
           }`}
         >
-          <span className="w-full text-center text-md">{progress}</span>
+          <span className="w-full text-center text-lg">{progress.status}</span>
         </Badge>
         <Button
           className="text-lg border-2 bg-white text-black border-black hover:text-white mr-10 font-bold"

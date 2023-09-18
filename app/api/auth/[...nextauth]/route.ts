@@ -64,11 +64,15 @@ export const authOptions: NextAuthOptions = {
           ...session.user,
           id: token.id,
           isAdmin: token.isAdmin,
+          name: token.name,
         },
       }
     },
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, trigger, session }) => {
       // console.log('JWT Callback', { token, user })
+      if (trigger === 'update') {
+        token.name = session.name
+      }
       if (user) {
         const u = user as unknown as User
         return {

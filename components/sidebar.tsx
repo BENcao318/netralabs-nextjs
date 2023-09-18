@@ -65,7 +65,7 @@ export function Sidebar() {
 
   const getNavItemClasses = (route: Route) => {
     return classNames(
-      'flex items-center cursor-pointer hover:bg-orange-300 rounded w-full overflow-hidden whitespace-nowrap',
+      'flex items-center cursor-pointer hover:bg-orange-300 hover:text-slate-900 rounded w-full overflow-hidden whitespace-nowrap',
       {
         ['bg-orange-600']: activeRoute?.name === route.name,
       }
@@ -73,7 +73,7 @@ export function Sidebar() {
   }
 
   const wrapperClasses = classNames(
-    'h-screen px-4 pt-8 pb-4 bg-slate-800 flex justify-between flex-col ',
+    'h-screen px-4 pt-8 pb-4 bg-slate-900 flex justify-between flex-col ',
     {
       ['w-80']: !toggleCollapse,
       ['w-20']: toggleCollapse,

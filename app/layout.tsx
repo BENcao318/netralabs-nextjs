@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-slate-600 text-slate-200 mx-auto`}
+        className={`${inter.className} bg-slate-700 text-slate-200 mx-auto`}
       >
         <Providers>{children}</Providers>
         <Toaster />

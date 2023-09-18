@@ -28,16 +28,16 @@ export const calculateTimeForHackathon = (
     hackathonTimeZone
   )
 
-  const utcStartTimeDate = DateTime.fromISO(startTimeUTCDateString, {
+  const utcStartTimeDateUTC = DateTime.fromISO(startTimeUTCDateString, {
     zone: 'utc',
   })
-  const utcDeadlineDate = DateTime.fromISO(deadlineUTCDateString, {
+  const utcDeadlineDateUTC = DateTime.fromISO(deadlineUTCDateString, {
     zone: 'utc',
   })
 
   const currentDate = DateTime.now().setZone(localTimeZone)
-  const userTimeZoneStartTimeDate = utcStartTimeDate.setZone(localTimeZone)
-  const userTimeZoneDeadlineDate = utcDeadlineDate.setZone(localTimeZone)
+  const userTimeZoneStartTimeDate = utcStartTimeDateUTC.setZone(localTimeZone)
+  const userTimeZoneDeadlineDate = utcDeadlineDateUTC.setZone(localTimeZone)
 
   const startTimeDaysDifference = userTimeZoneStartTimeDate.diff(
     currentDate,
@@ -49,6 +49,10 @@ export const calculateTimeForHackathon = (
     'days'
   ).days
 
+  let progress = {
+    running: true,
+    status: '',
+  }
   let formattedString = ''
   if (startTimeDaysDifference > 0) {
     if (startTimeDaysDifference > 1) {
@@ -68,6 +72,10 @@ export const calculateTimeForHackathon = (
           ? 'starting in 1 hour'
           : `starting in ${roundedTime} hours`
     }
+    progress = {
+      running: false,
+      status: formattedString,
+    }
   } else if (deadlineDaysDifference > 0) {
     if (deadlineDaysDifference > 1) {
       const roundedTime = Math.floor(deadlineDaysDifference)
@@ -82,11 +90,23 @@ export const calculateTimeForHackathon = (
       formattedString =
         roundedTime === 1 ? 'about 1 hour left' : `${roundedTime} hours left`
     }
+    progress = {
+      running: true,
+      status: formattedString,
+    }
   } else {
     formattedString = 'hackathon has ended'
+    progress = {
+      running: false,
+      status: formattedString,
+    }
   }
 
-  return formattedString
+  return {
+    progress,
+    userStartTime: userTimeZoneStartTimeDate,
+    userEndTime: userTimeZoneDeadlineDate,
+  }
 }
 
 export const calculateTotalPrize = (prizesArr: any[]) => {
