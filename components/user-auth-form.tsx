@@ -116,7 +116,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                   const res = await signIn('credentials', {
                     redirect: false,
                     email: 'cby204@gmail.com',
-                    password: '123456789s!',
+                    password: '1234567890s!',
                     callbackUrl: '/',
                   })
                 }}

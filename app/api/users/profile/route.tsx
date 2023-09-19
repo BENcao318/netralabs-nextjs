@@ -61,7 +61,7 @@ export async function PUT(request: Request) {
       userPreference: {
         update: {
           role: body.role,
-          skills: body.techStack,
+          skills: body.skills,
         },
       },
     },

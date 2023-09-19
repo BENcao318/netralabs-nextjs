@@ -14,20 +14,18 @@ import { Input } from '@/components/ui/input'
 import { TUserProfileSchema, UserProfile, userProfileSchema } from '@/lib/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { useToast } from './ui/use-toast'
 import { useSession } from 'next-auth/react'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from './ui/select'
 import { useRouter } from 'next/navigation'
 import { options } from '@/lib/options.js'
 import { MultiSelect } from './ui/multi-select'
 import { Checkbox } from './ui/checkbox'
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
+import techStackOptions from '@/lib/techStackOptions.json'
+import { roleOptions } from '@/lib/roleOptions.js'
+import { Icons } from './ui/ui-icons'
 
 export default function UserProfileForm({
   userId,
@@ -39,10 +37,10 @@ export default function UserProfileForm({
     items: ['recents', 'home'],
   }
   // const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
+  const animatedComponents = makeAnimated()
   const { toast } = useToast()
   const { data: session, update } = useSession()
   const router = useRouter()
-  const [selected, setSelected] = useState<string[]>([])
 
   const form = useForm<TUserProfileSchema>({
     resolver: zodResolver(userProfileSchema),
@@ -63,15 +61,16 @@ export default function UserProfileForm({
           }),
         })
         const data = await res.json()
+        console.log(data)
         form.setValue('name', data.name)
         form.setValue('role', data.userPreference.role)
-        if (data.skills) setSelected(data.specialties)
+        form.setValue('skills', data.userPreference.skills)
       } catch (error) {
         console.log(error)
       }
     }
     getUserProfile()
-  }, [userId, form, setSelected])
+  }, [userId, form])
 
   const onSubmit = async (data: TUserProfileSchema) => {
     try {
@@ -84,7 +83,7 @@ export default function UserProfileForm({
           userId,
           name: data.name,
           role: data.role,
-          techStack: selected,
+          skills: data.skills,
         }),
       })
       if (res.ok) {
@@ -99,18 +98,17 @@ export default function UserProfileForm({
     } catch (error) {
       console.log(error)
     }
-    toast
   }
 
-  const specialtyList = [
-    { value: 'Full-stack developer', label: 'Full-stack developer' },
-    { value: 'Front-end developer', label: 'Front-end developer' },
-    { value: 'Back-end developer', label: 'Back-end developer' },
-    { value: 'UI Designer', label: 'UI Designer' },
-    { value: 'Data Scientist', label: 'Data Scientist' },
-    { value: 'Product Manager', label: 'Product Manager' },
-    { value: 'Business Manager', label: 'Business Manager' },
-  ]
+  // const specialtyList = [
+  //   { value: 'Full-stack developer', label: 'Full-stack developer' },
+  //   { value: 'Front-end developer', label: 'Front-end developer' },
+  //   { value: 'Back-end developer', label: 'Back-end developer' },
+  //   { value: 'UI Designer', label: 'UI Designer' },
+  //   { value: 'Data Scientist', label: 'Data Scientist' },
+  //   { value: 'Product Manager', label: 'Product Manager' },
+  //   { value: 'Business Manager', label: 'Business Manager' },
+  // ]
 
   return (
     <Form {...form}>
@@ -135,58 +133,67 @@ export default function UserProfileForm({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="role"
-          render={({ field }) => (
-            <FormItem className="w-1/2 min-w-[200px]">
-              <FormLabel className="text-md">Your specialty</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-                {...field}
-              >
-                <FormControl>
-                  <SelectTrigger className="text-slate-800 text-lg font-bold">
-                    <SelectValue placeholder="Select a specialty" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {specialtyList.map((item) => (
-                    <SelectItem
-                      className="text-md"
-                      value={item.value}
-                      key={item.label}
-                    >
-                      {item.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormDescription className="text-slate-300">
-                What role do you want to play in a project?
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div>
+          <h1 className="mb-2 text-md font-semibold">Your specialty</h1>
+          <Controller
+            name="role"
+            control={form.control}
+            render={({ field }) => (
+              <>
+                <Select
+                  {...field}
+                  options={roleOptions}
+                  placeholder="Select tags..."
+                  components={animatedComponents}
+                  className="text-black font-semibold w-1/2 min-w-[200px]"
+                  instanceId={field.name}
+                />
+                <p className="mt-2 text-red-600">
+                  {form.formState.errors.role &&
+                    form.formState.errors.role.message}
+                </p>
+              </>
+            )}
+          />
+        </div>
 
-        <div className="w-1/2 min-w-[200px]">
-          <h1 className="mb-2 text-md">Tech stack</h1>
-          <div>
-            <MultiSelect
-              options={options}
-              selected={selected}
-              onChange={setSelected}
-            />
-          </div>
-          <p className="mt-2 text-sm text-slate-300">
-            What languages, frameworks, databases are you familiar with?
+        <div>
+          <h1 className="mb-2 text-md font-semibold">Skills</h1>
+          <Controller
+            name="skills"
+            control={form.control}
+            render={({ field }) => (
+              <>
+                <Select
+                  {...field}
+                  isMulti
+                  options={techStackOptions}
+                  placeholder="Select tags..."
+                  components={animatedComponents}
+                  className="text-black font-semibold w-1/2 min-w-[200px]"
+                  instanceId={field.name}
+                />
+                <p className="mt-2 text-red-600">
+                  {form.formState.errors.skills &&
+                    form.formState.errors.message}
+                </p>
+              </>
+            )}
+          />
+          <p className="text-sm text-slate-100 mt-2">
+            What languages, frameworks, databases did you use?
           </p>
         </div>
 
         <div className="flex gap-10 ">
-          <Button type="submit" className="text-lg">
+          <Button
+            type="submit"
+            className="text-lg"
+            disabled={form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}
             Update profile
           </Button>
           <Button

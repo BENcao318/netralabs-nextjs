@@ -35,7 +35,7 @@ model User {
 
 model UserPreference {
   id      String  @id @default(uuid())
-  role    String?
+  role    Json?
   skills  Json?
   avatar  Bytes?
   company String?

@@ -23,14 +23,25 @@ export const signInSchema = z.object({
   password: z.string(),
 })
 
-export const createHackathonSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  tagline: z.string().optional(),
-  email: z.string().email().optional(),
-  location: z.string().optional(),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
-})
+export const createHackathonSchema = z
+  .object({
+    name: z.string().min(2, 'Name must be at least 2 characters'),
+    tagline: z.string().optional(),
+    email: z.string().email().optional(),
+    location: z.string().optional(),
+    startDate: z.string().optional(),
+    endDate: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      if (!data.startDate || !data.endDate) return true
+      return new Date(data.startDate) <= new Date(data.endDate)
+    },
+    {
+      message: 'End date cannot be before start date',
+      path: ['endDate'],
+    }
+  )
 
 export const createProjectSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -69,9 +80,19 @@ export const userProfileSchema = z.object({
     message: 'Name must be at least 2 characters.',
   }),
   // email: z.string().email(),
-  role: z.string(),
+  role: z.object({
+    value: z.string(),
+    label: z.string(),
+  }),
   items: z.array(z.string()),
-  // techStack: z.array(z.string()),
+  skills: z
+    .array(
+      z.object({
+        value: z.string(),
+        label: z.string(),
+      })
+    )
+    .optional(),
   // numberOfWinningTeams: z.string(),
   // description: z.string(),
 })
