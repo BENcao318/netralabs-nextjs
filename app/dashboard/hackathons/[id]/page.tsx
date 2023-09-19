@@ -16,6 +16,7 @@ export default function HackathonPage({ params }: { params: { id: string } }) {
   const [hackathon, setHackathon] = useState<Hackathon | undefined | null>()
   const [progress, setProgress] = useState<any>(null)
   const [isJoined, setIsJoined] = useState<boolean>(false)
+  const [hasProject, setHasProject] = useState<boolean>(false)
   const { data: session } = useSession()
   const router = useRouter()
   const { toast } = useToast()
@@ -25,7 +26,8 @@ export default function HackathonPage({ params }: { params: { id: string } }) {
       const res = await fetch(`/api/hackathons/${params.id}`)
       const data = await res.json()
       setHackathon(data)
-
+      setIsJoined(data.isJoined)
+      setHasProject(data.hasProject)
       const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
       setProgress(
         calculateTimeForHackathon(
@@ -38,6 +40,11 @@ export default function HackathonPage({ params }: { params: { id: string } }) {
     }
     getHackathonByHid()
   }, [setHackathon, setProgress, params.id])
+
+  useEffect(() => {
+    if (session) {
+    }
+  }, [session])
 
   const handleSignIn = () => {
     router.push('/auth/signIn')
@@ -71,7 +78,13 @@ export default function HackathonPage({ params }: { params: { id: string } }) {
     }
   }
 
-  const handleCreate = async () => {}
+  const handleCreate = () => {
+    router.push(`/dashboard/projects/create?hid=${hackathon?.id}`)
+  }
+
+  const handleEdit = () => {
+    router.push(`/dashboard/projects/edit?pid=${hackathon?.projectId}`)
+  }
 
   return (
     <div className="container">
@@ -136,7 +149,7 @@ export default function HackathonPage({ params }: { params: { id: string } }) {
                 </Badge>
               </div>
 
-              <div className="flex w-full justify-center mt-5">
+              <div className="flex w-full justify-center mt-6">
                 {progress.running &&
                   (!session ? (
                     <Button
@@ -145,13 +158,22 @@ export default function HackathonPage({ params }: { params: { id: string } }) {
                     >
                       Sign in to join
                     </Button>
-                  ) : hackathon.isJoined ? (
-                    <Button
-                      className="w-fit text-xl py-6 bg-green-800 hover:ring-2 hover:ring-slate-200 font-bold"
-                      onClick={handleCreate}
-                    >
-                      Create your project
-                    </Button>
+                  ) : isJoined ? (
+                    hasProject ? (
+                      <Button
+                        className="w-fit text-xl py-6 bg-teal-600 hover:ring-2 hover:ring-slate-200 font-bold"
+                        onClick={handleEdit}
+                      >
+                        Edit your project
+                      </Button>
+                    ) : (
+                      <Button
+                        className="w-fit text-xl py-6 bg-green-800 hover:ring-2 hover:ring-slate-200 font-bold"
+                        onClick={handleCreate}
+                      >
+                        Create your project
+                      </Button>
+                    )
                   ) : (
                     <Button
                       className="w-fit text-xl py-6 bg-orange-500 hover:ring-2 hover:ring-slate-200 font-bold"

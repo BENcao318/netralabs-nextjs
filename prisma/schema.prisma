@@ -86,12 +86,13 @@ model Project {
   updatedAt     DateTime? @updatedAt
 
   creator      User         @relation("ProjectCreator", fields: [creatorId], references: [id])
-  creatorId    String       @unique
+  creatorId    String
   participants User[]       @relation("ProjectParticipant")
   hackathon    Hackathon    @relation(fields: [hackathonId], references: [id])
   hackathonId  String
   invitations  Invitation[] @relation("ProjectInvitation")
 
+  @@index([creatorId])
   @@index([hackathonId])
 }
 

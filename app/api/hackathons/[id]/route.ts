@@ -24,11 +24,26 @@ export async function GET(
     (participant) => participant.id
   )
 
-  let response = { ...hackathon, isJoined: false }
+  let response = {
+    ...hackathon,
+    isJoined: false,
+    hasProject: false,
+    projectId: '',
+  }
 
   if (session) {
     if (participantIds?.includes(session.user.id)) {
       response.isJoined = true
+      const project = await prisma.project.findMany({
+        where: {
+          hackathonId: hackathonId,
+          creatorId: session.user.id,
+        },
+      })
+      if (project.length !== 0) {
+        response.hasProject = true
+        response.projectId = project[0].id
+      }
     }
   }
 

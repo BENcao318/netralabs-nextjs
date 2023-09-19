@@ -1,12 +1,8 @@
 'use client'
 import { signOut, useSession } from 'next-auth/react'
-import Image from 'next/image'
-import Link from 'next/link'
-import React, { useEffect, useMemo } from 'react'
+import React from 'react'
 import { Button } from './ui/button'
-import BrandImg from '@/components/images/BrandImage.png'
 import { useRouter } from 'next/navigation'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import UserDropdownMenu from './user-dropdown-menu'
 
 export default function DashboardNavbar() {
@@ -25,11 +21,6 @@ export default function DashboardNavbar() {
   const goToUserProfile = () => {
     router.push('/dashboard/users/profile')
   }
-
-  // useEffect(() => {
-  //   if (session) {
-  //   }
-  // }, [session])
 
   return (
     <>

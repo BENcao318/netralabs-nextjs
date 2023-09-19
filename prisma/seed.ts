@@ -5,6 +5,7 @@ const prisma = new PrismaClient()
 
 async function main() {
   // Perform seeding operations using Prisma
+  await prisma.project.deleteMany({})
   await prisma.hackathon.deleteMany({})
   await prisma.user.deleteMany({})
   await prisma.userPreference.deleteMany({})

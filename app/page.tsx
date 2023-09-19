@@ -1,19 +1,16 @@
-'use client'
-
 import { User } from './user'
-import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
+import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from './api/auth/[...nextauth]/route'
 
-export default function Home() {
-  const router = useRouter()
-
-  const { data: session } = useSession()
+export default async function Home() {
+  const session = await getServerSession(authOptions)
 
   if (session) {
     if (session?.user?.isAdmin) {
-      router.push('/manager')
+      redirect('/manager')
     } else {
-      router.push('/dashboard/hackathons')
+      redirect('/dashboard/hackathons')
     }
   }
 

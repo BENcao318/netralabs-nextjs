@@ -1,6 +1,10 @@
 'use client'
 
-import { TCreateHackathonSchema, createHackathonSchema } from '@/lib/types'
+import {
+  Prize,
+  TCreateHackathonSchema,
+  createHackathonSchema,
+} from '@/lib/types'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useEffect, useState, useMemo } from 'react'
@@ -34,15 +38,6 @@ import { PlusCircle } from 'lucide-react'
 type CreateHackathonFormValues = z.infer<typeof createHackathonSchema>
 
 const defaultValues: Partial<CreateHackathonFormValues> = {}
-
-export type Prize = {
-  id: string
-  name: string
-  value: string
-  numberOfWinningTeams: string
-  description: string
-  isEditing?: boolean
-}
 
 export default function CreateHackathonForm({
   creatorId,
@@ -102,7 +97,7 @@ export default function CreateHackathonForm({
         method: 'POST',
         body: JSON.stringify(formData),
       })
-      console.log(res)
+
       if (res.ok) {
         router.refresh()
         router.push('/manager')
@@ -426,4 +421,5 @@ export default function CreateHackathonForm({
       </form>
     </Form>
   )
+  //todo add assertion for the start and end date, end date should be after start date
 }
