@@ -175,7 +175,7 @@ export default function UserProfileForm({
                 />
                 <p className="mt-2 text-red-600">
                   {form.formState.errors.skills &&
-                    form.formState.errors.message}
+                    form.formState.errors.skills.message}
                 </p>
               </>
             )}

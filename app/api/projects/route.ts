@@ -1,7 +1,17 @@
 import prisma from '@/lib/prisma'
+import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
 export async function POST(request: Request) {
   const body = await request.json()
+  const session = await getServerSession()
+  if (!session) {
+    return NextResponse.json(
+      { error: 'unauthorized' },
+      {
+        status: 401,
+      }
+    )
+  }
 
   try {
     const project = await prisma.project.findMany({
@@ -33,6 +43,30 @@ export async function POST(request: Request) {
         {},
         {
           statusText: 'You are allowed to create only one project',
+          status: 401,
+        }
+      )
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: body.userId,
+      },
+    })
+
+    if (!user) {
+      return NextResponse.json(
+        {},
+        {
+          statusText: 'User not found',
+          status: 401,
+        }
+      )
+    } else if (session.user.email !== user.email) {
+      return NextResponse.json(
+        {},
+        {
+          statusText: 'unauthorized',
           status: 401,
         }
       )

@@ -1,5 +1,5 @@
 'use client'
-import React, { useMemo } from 'react'
+import React from 'react'
 import {
   Card,
   CardContent,
@@ -7,15 +7,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from './card'
+} from './ui/card'
 import { CalendarCheck, Clock, Globe, Map, Medal } from 'lucide-react'
 import {
   calculateTimeForHackathon,
   calculateTotalPrize,
   convertDateStringToFormattedString,
 } from '@/helpers/utils'
-import { Badge } from './badge'
-import { Button } from './button'
+import { Badge } from './ui/badge'
+import { Button } from './ui/button'
 import { useRouter } from 'next/navigation'
 import { Hackathon } from '@/lib/types'
 

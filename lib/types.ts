@@ -54,7 +54,7 @@ export const createProjectSchema = z.object({
       })
     )
     .optional(),
-  repositoryUrl: z.string().url().optional(),
+  repositoryUrl: z.string().url().optional().or(z.literal('')),
   videoUrl: z
     .string()
     .url()
@@ -65,7 +65,34 @@ export const createProjectSchema = z.object({
         ),
       { message: 'Only Vimeo or Youtube video links are acceptable.' }
     )
+    .optional()
+    .or(z.literal('')),
+})
+
+export const editProjectSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  pitch: z.string().optional(),
+  techStack: z
+    .array(
+      z.object({
+        value: z.string(),
+        label: z.string(),
+      })
+    )
     .optional(),
+  repositoryUrl: z.string().url().optional().or(z.literal('')),
+  videoUrl: z
+    .string()
+    .url()
+    .refine(
+      (value) =>
+        /^(?:(?:https?:\/\/)?(?:www\.)?(?:vimeo\.com\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?feature=player_embedded&v=|youtu.be\/|user\/\S+|playlist\?list=\S+)))([^\s\/?#]+)/.test(
+          value
+        ),
+      { message: 'Only Vimeo or Youtube video links are acceptable.' }
+    )
+    .optional()
+    .or(z.literal('')),
 })
 
 export const createPrizeSchema = z.object({
@@ -103,6 +130,7 @@ export type TCreateHackathonSchema = z.infer<typeof createHackathonSchema>
 export type TCreatePrizeSchema = z.infer<typeof createPrizeSchema>
 export type TUserProfileSchema = z.infer<typeof userProfileSchema>
 export type TCreateProjectSchema = z.infer<typeof createProjectSchema>
+export type TEditProjectSchema = z.infer<typeof editProjectSchema>
 export type Hackathon = {
   about: null
   company: null

@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google'
 import { Providers } from './api/providers'
 import { Toaster } from '@/components/ui/toaster'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
   title: 'Netra Labs App',
@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-slate-700 text-slate-200 mx-auto`}
+        className={`${inter.variable} font-sans bg-slate-700 text-slate-200 mx-auto`}
       >
         <Providers>{children}</Providers>
         <Toaster />

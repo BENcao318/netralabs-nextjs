@@ -1,6 +1,6 @@
 import { getLaunchedHackathons } from '@/app/libs/hackathons'
 import { Button } from '@/components/ui/button'
-import LaunchedHackathonCard from '@/components/ui/launched-hackathon-card'
+import LaunchedHackathonCard from '@/components/launched-hackathon-card'
 import { Separator } from '@/components/ui/separator'
 import React from 'react'
 
@@ -9,7 +9,7 @@ export default async function HackathonPage() {
 
   return (
     <>
-      <div className="mx-5 lg:mx-10 2xl:mx-30">
+      <div className="container">
         <div className="flex items-center justify-between">
           <div className="space-y-1 mt-6 ">
             <h2 className="text-2xl font-semibold tracking-tight">Join Now</h2>

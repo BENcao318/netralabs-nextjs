@@ -1,8 +1,8 @@
 'use client'
 
-import { TCreateProjectSchema, createProjectSchema } from '@/lib/types'
+import { TEditProjectSchema, editProjectSchema } from '@/lib/types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import {
@@ -24,18 +24,18 @@ import techStackOptions from '@/lib/techStackOptions.json'
 import makeAnimated from 'react-select/animated'
 import { useToast } from './ui/use-toast'
 
-type CreatProjectFormValues = z.infer<typeof createProjectSchema>
-const defaultValues: Partial<CreatProjectFormValues> = {}
-export default function CreateProjectForm({
+type EditProjectFormValues = z.infer<typeof editProjectSchema>
+const defaultValues: Partial<EditProjectFormValues> = {}
+export default function EditProjectForm({
   userId,
-  hackathonId,
+  projectId,
 }: {
   userId: string
-  hackathonId: string
+  projectId: string
 }) {
   const router = useRouter()
-  const form = useForm<TCreateProjectSchema>({
-    resolver: zodResolver(createProjectSchema),
+  const form = useForm<TEditProjectSchema>({
+    resolver: zodResolver(editProjectSchema),
     defaultValues,
     mode: 'onChange',
   })
@@ -45,12 +45,35 @@ export default function CreateProjectForm({
   const [storyContent, setStoryContent] = useState<string>('')
   const [storyEditorText, setStoryEditorText] = useState<string>('')
 
-  const onSubmit = async (data: TCreateProjectSchema) => {
-    if (!hackathonId) {
+  useEffect(() => {
+    const getProjectByPid = async () => {
+      try {
+        const res = await fetch(`/api/projects/${projectId}`)
+        if (res.ok) {
+          const data = await res.json()
+          form.setValue('name', data.name)
+          form.setValue('pitch', data.pitch)
+          form.setValue('techStack', data.techStack)
+          form.setValue('repositoryUrl', data.repositoryUrl)
+          form.setValue('videoUrl', data.videoUrl)
+          setStoryEditorText(data.story)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    if (projectId) {
+      getProjectByPid()
+    }
+  }, [])
+
+  const onSubmit = async (data: TEditProjectSchema) => {
+    if (!projectId) {
       toast({
         variant: 'destructive',
-        title: 'No hackathon id found',
-        description: 'Please select a hackathon first.',
+        title: 'No project id found',
+        description: 'Please select a project first.',
       })
       return
     }
@@ -58,25 +81,24 @@ export default function CreateProjectForm({
     const projectData = {
       ...data,
       story: storyContent,
-      hackathonId,
+      projectId,
       userId,
     }
     try {
-      const res = await fetch('/api/projects', {
-        method: 'POST',
+      const res = await fetch(`/api/projects/${projectId}`, {
+        method: 'PUT',
         body: JSON.stringify(projectData),
       })
       // console.log(res)
       if (res.ok) {
         toast({
           title: 'Success!',
-          description: 'A new project has been created.',
+          description: 'Your project has been updated.',
         })
-        router.push('/dashboard/projects')
       } else {
         toast({
           variant: 'destructive',
-          title: 'Failed to create project',
+          title: 'Failed to update project',
           description: res.statusText,
         })
       }
@@ -219,7 +241,7 @@ export default function CreateProjectForm({
             {form.formState.isSubmitting && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Create
+            Update
           </Button>
           <div
             className="font-bold text-red-500 underline cursor-pointer text-center ml-6 text-lg"

@@ -25,7 +25,7 @@ export default function DashboardNavbar() {
   return (
     <>
       {session ? (
-        <div className="sticky top rounded-lg transition-all px-6 py-6 w-full flex items-center justify-end">
+        <div className="sticky top rounded-lg transition-all px-6 py-6 w-full flex items-center justify-end container">
           <UserDropdownMenu
             handleSignOut={handleSignOut}
             user={session.user}

@@ -112,11 +112,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               <Button
                 onClick={async () => {
                   setValue('email', 'cby204@gmail.com')
-                  setValue('password', '123456789s!')
-                  const res = await signIn('credentials', {
+                  setValue('password', '1234567890s!')
+                  await signIn('credentials', {
                     redirect: false,
-                    email: 'cby204@gmail.com',
-                    password: '1234567890s!',
                     callbackUrl: '/',
                   })
                 }}
@@ -127,10 +125,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 onClick={async () => {
                   setValue('email', 'benc.netrascale@gmail.com')
                   setValue('password', '123456')
-                  const res = await signIn('credentials', {
+                  await signIn('credentials', {
                     redirect: false,
-                    email: 'benc.netrascale@gmail.com',
-                    password: '123456',
                     callbackUrl: '/',
                   })
                 }}
