@@ -25,6 +25,33 @@ export async function GET(
       where: {
         id: pid,
       },
+      include: {
+        hackathon: {
+          select: {
+            id: true,
+            name: true,
+            startDate: true,
+            endDate: true,
+            timeZone: true,
+          },
+        },
+        participants: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            userPreference: true,
+          },
+        },
+        creator: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            userPreference: true,
+          },
+        },
+      },
     })
 
     if (!project) {

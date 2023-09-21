@@ -12,7 +12,7 @@ const ProjectsPage = async () => {
     console.log('not loggedin')
   } else {
     projects = await getProjects(session.user.id)
-    projects[1] = { ...projects[0] } //todo
+    // projects[1] = { ...projects[0] } //todo
   }
 
   //todo get projects with user as participants

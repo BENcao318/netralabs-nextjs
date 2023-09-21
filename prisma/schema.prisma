@@ -27,8 +27,8 @@ model User {
   participatedHackathons Hackathon[]     @relation("HackathonParticipant")
   createdProjects        Project[]       @relation("ProjectCreator")
   participatedProjects   Project[]       @relation("ProjectParticipant")
-  createdInvitations     Invitation[]    @relation("InvitationCreator")
-  receivedInvitations    Invitation[]    @relation("InvitationInvitee")
+  createdNotifications   Notification[]  @relation("NotificationSender")
+  receivedNotifications  Notification[]  @relation("NotificationReceiver")
 
   @@index([email])
 }
@@ -45,7 +45,7 @@ model UserPreference {
 
 model Hackathon {
   id           String    @id @default(uuid())
-  name         String?   @db.Text
+  name         String    @db.Text
   description  String?   @db.Text
   rules        String?   @db.LongText
   tagline      String?   @db.Text
@@ -85,28 +85,27 @@ model Project {
   createdAt     DateTime? @default(now())
   updatedAt     DateTime? @updatedAt
 
-  creator      User         @relation("ProjectCreator", fields: [creatorId], references: [id])
+  creator      User      @relation("ProjectCreator", fields: [creatorId], references: [id])
   creatorId    String
-  participants User[]       @relation("ProjectParticipant")
-  hackathon    Hackathon    @relation(fields: [hackathonId], references: [id])
+  participants User[]    @relation("ProjectParticipant")
+  hackathon    Hackathon @relation(fields: [hackathonId], references: [id])
   hackathonId  String
-  invitations  Invitation[] @relation("ProjectInvitation")
 
   @@index([creatorId])
   @@index([hackathonId])
 }
 
-model Invitation {
+model Notification {
   id         String    @id @default(uuid())
-  createdAt  DateTime? @default(now())
-  updatedAt  DateTime? @updatedAt
+  category   String
   isViewed   Boolean   @default(false)
   isAccepted Boolean   @default(false)
+  content    String    @db.Text
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
 
-  creator   User    @relation("InvitationCreator", fields: [creatorId], references: [id])
-  creatorId String  @unique
-  invitee   User    @relation("InvitationInvitee", fields: [inviteeId], references: [id])
-  inviteeId String  @unique
-  project   Project @relation("ProjectInvitation", fields: [projectId], references: [id])
-  projectId String  @unique
+  sender     User   @relation("NotificationSender", fields: [senderId], references: [id])
+  senderId   String @unique
+  receiver   User   @relation("NotificationReceiver", fields: [receiverId], references: [id])
+  receiverId String @unique
 }

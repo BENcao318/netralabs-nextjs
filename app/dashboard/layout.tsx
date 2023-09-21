@@ -16,7 +16,7 @@ export default async function RootLayout({
     <>
       <div className="h-screen flex flex-row justify-start">
         <Sidebar />
-        <section className="col-span-3 lg:col-span-4 lg:border-l w-full">
+        <section className="col-span-3 lg:col-span-4 w-full container  ml-24 md:ml-96 ">
           <DashboardNavbar />
           {children}
         </section>

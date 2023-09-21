@@ -32,10 +32,7 @@ import { Card, CardContent } from './ui/card'
 import { PlusCircle } from 'lucide-react'
 
 type CreateHackathonFormValues = z.infer<typeof createHackathonSchema>
-// const defaultValues: Partial<CreateHackathonFormValues> = {
-
-//   // email: 'cby204@gmail.com',
-// }
+const defaultValues: Partial<CreateHackathonFormValues> = {}
 
 export type Prize = {
   id: string
@@ -46,34 +43,16 @@ export type Prize = {
   isEditing?: boolean
 }
 
-export default function EditHackathonForm({
-  hackathonId,
-}: {
-  hackathonId: string
-}) {
+export default function EditHackathonForm({ hackathon }: { hackathon: any }) {
   const router = useRouter()
   const { toast } = useToast()
 
-  const [data, setData] = useState<any>({})
-  const [name, setName] = useState<string>('')
-  const [tagline, setTagline] = useState<string>('')
-  const [email, setEmail] = useState<string>('')
-  const [startDate, setStartDate] = useState<string>('')
-  const [endDate, setEndDate] = useState<string>('')
-  const [location, setLocation] = useState<string>('')
   const [descriptionContent, setDescriptionContent] = useState<string>('')
   const [requirementContent, setRequirementContent] = useState<string>('')
   const [rulesContent, setRulesContent] = useState<string>('')
   const [resourcesContent, setResourcesContent] = useState<string>('')
   const [judgesContent, setJudgesContent] = useState<string>('')
   const [partnersContent, setPartnersContent] = useState<string>('')
-  const [descriptionEditorText, setDescriptionEditorText] = useState<string>('')
-  const [requirementEditorText, setRequirementEditorText] = useState<string>('')
-  const [rulesEditorText, setRulesEditorText] = useState<string>('')
-  const [resourcesEditorText, setResourcesEditorText] = useState<string>('')
-  const [judgesEditorText, setJudgesEditorText] = useState<string>('')
-  const [partnersEditorText, setPartnersEditorText] = useState<string>('')
-
   const [prizeList, setPrizeList] = useState<Prize[]>([])
   const [timeZone, setTimeZone] = useState<string>(
     Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -98,78 +77,57 @@ export default function EditHackathonForm({
   const form = useForm<TCreateHackathonSchema>({
     resolver: zodResolver(createHackathonSchema),
     mode: 'onChange',
-    defaultValues: useMemo(
-      () => ({
-        name,
-        tagline,
-        email,
-        location,
-        startDate,
-        endDate,
-      }),
-      [email, endDate, location, name, startDate, tagline]
-    ),
+    defaultValues,
   })
 
   useEffect(() => {
-    setName(data.name)
-    setTagline(data.tagline)
-    setEmail(data.managerEmail)
-    setLocation(data.location)
-    setStartDate(data.startDate)
-    setEndDate(data.endDate)
-    form.reset({ name, tagline, email, location, startDate, endDate })
-    setDescriptionEditorText(data.description)
-    setRequirementEditorText(data.requirement)
-    setRulesEditorText(data.rules)
-    setResourcesEditorText(data.resources)
-    setJudgesEditorText(data.judges)
-    setPartnersEditorText(data.partners)
-    setPrizeList(data.prizes)
-    setTimeZone(data.timeZone)
-  }, [
-    name,
-    tagline,
-    email,
-    location,
-    data,
-    form,
-    timeZone,
-    descriptionEditorText,
-    requirementEditorText,
-    rulesEditorText,
-    resourcesEditorText,
-    judgesEditorText,
-    partnersEditorText,
-    startDate,
-    endDate,
-  ])
-
-  useEffect(() => {
-    async function getHackathonById(hackathonId: string) {
-      try {
-        const res = await fetch('/api/manage/hackathons', {
-          method: 'POST',
-          body: JSON.stringify({ hackathonId }),
-        })
-        const data = await res.json()
-        setData(data)
-      } catch (error) {
-        console.error(error)
-      }
+    if (hackathon) {
+      form.setValue('name', hackathon.name)
+      form.setValue('tagline', hackathon.tagline)
+      form.setValue('email', hackathon.managerEmail)
+      form.setValue('location', hackathon.location)
+      form.setValue('startDate', hackathon.startDate)
+      form.setValue('endDate', hackathon.endDate)
+      //Tiptap content
+      setDescriptionContent(hackathon.description || ' ')
+      setRequirementContent(hackathon.requirements || ' ')
+      setRulesContent(hackathon.rules || ' ')
+      setResourcesContent(hackathon.resources || ' ')
+      setJudgesContent(hackathon.judges || ' ')
+      setPartnersContent(hackathon.partners || ' ')
+      setPrizeList(hackathon.prizes)
+      setTimeZone(hackathon.timeZone)
+      console.log('descriptionContent', typeof descriptionContent)
     }
-
-    getHackathonById(hackathonId)
   }, [
+    hackathon,
+    form,
     setDescriptionContent,
-    hackathonId,
-    name,
-    tagline,
-    email,
-    location,
-    startDate,
-    endDate,
+    setRequirementContent,
+    setRulesContent,
+    setResourcesContent,
+    setJudgesContent,
+    setPartnersContent,
+    setPrizeList,
+    setTimeZone,
   ])
+
+  // useEffect(() => {
+  //   async function getHackathonById(hackathonId: string) {
+  //     try {
+  //       const res = await fetch('/api/manage/hackathons', {
+  //         method: 'POST',
+  //         body: JSON.stringify({ hackathonId }),
+  //       })
+  //       const data = await res.json()
+  //       setData(data)
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
+
+  //   getHackathonById(hackathonId)
+  // }, [hackathonId, name, tagline, email, location, startDate, endDate])
 
   const onSubmit = async (data: TCreateHackathonSchema) => {
     const formData = {
@@ -183,17 +141,14 @@ export default function EditHackathonForm({
       partners: partnersContent,
       prizes: prizeList,
       timeZone: timeZone,
-      hackathonId,
+      hackathonId: hackathon.id,
     }
 
     try {
-      console.log('update')
       const res = await fetch('/api/manage/hackathons', {
         method: 'PUT',
         body: JSON.stringify(formData),
       })
-      const data = await res.json()
-      console.log(data)
 
       if (res.ok) {
         router.refresh()
@@ -203,7 +158,6 @@ export default function EditHackathonForm({
         })
       }
     } catch (error) {
-      // Handle the error
       console.error('Error creating hackathon:', error)
       throw new Error('Failed to create hackathon')
     }
@@ -236,7 +190,7 @@ export default function EditHackathonForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <div className="space-y-8">
         <FormField
           control={form.control}
           name="name"
@@ -318,85 +272,93 @@ export default function EditHackathonForm({
             </FormItem>
           )}
         />
-        <div>
-          <h1 className="mb-2 text-md font-semibold">Description</h1>
-          <Tiptap
-            content={descriptionContent}
-            setContent={setDescriptionContent}
-            placeholder="Description of the hackathon. e.g. Introduction, about the company, schedules."
-            editorText={descriptionEditorText}
-          />
-          <p className="text-sm text-slate-100 mt-2">
-            Description of the hackathon. e.g. Introduction, about the company,
-            schedules.
-          </p>
-        </div>
-        <div>
-          <h1 className="mb-2 text-md font-semibold">Requirements</h1>
-          <Tiptap
-            content={requirementContent}
-            setContent={setRequirementContent}
-            placeholder="Requirements for building the hackathon project and what the
+
+        {descriptionContent && (
+          <div>
+            <h1 className="mb-2 text-md font-semibold">Description</h1>
+            <Tiptap
+              content={descriptionContent}
+              setContent={setDescriptionContent}
+              placeholder="Description of the hackathon. e.g. Introduction, about the company, schedules."
+            />
+            <p className="text-sm text-slate-100 mt-2">
+              Description of the hackathon. e.g. Introduction, about the
+              company, schedules.
+            </p>
+          </div>
+        )}
+        {requirementContent && (
+          <div>
+            <h1 className="mb-2 text-md font-semibold">Requirements</h1>
+            <Tiptap
+              content={requirementContent}
+              setContent={setRequirementContent}
+              placeholder="Requirements for building the hackathon project and what the
             participants needed when submitting."
-            editorText={requirementEditorText}
-          />
-          <p className="text-sm text-slate-100 mt-2">
-            Requirements for building the hackathon project and what the
-            participants needed when submitting.
-          </p>
-        </div>
-        <div>
-          <h1 className="mb-2 text-md font-semibold">Rules</h1>
-          <Tiptap
-            content={rulesContent}
-            setContent={setRulesContent}
-            placeholder="Rules of the contest. Inculding legal requirements and code of
+            />
+            <p className="text-sm text-slate-100 mt-2">
+              Requirements for building the hackathon project and what the
+              participants needed when submitting.
+            </p>
+          </div>
+        )}
+        {rulesContent && (
+          <div>
+            <h1 className="mb-2 text-md font-semibold">Rules</h1>
+            <Tiptap
+              content={rulesContent}
+              setContent={setRulesContent}
+              placeholder="Rules of the contest. Inculding legal requirements and code of
             conduct."
-            editorText={rulesEditorText}
-          />
-          <p className="text-sm text-slate-100 mt-2">
-            Rules of the contest. Inculding legal requirements and code of
-            conduct.
-          </p>
-        </div>
-        <div>
-          <h1 className="mb-2 text-md font-semibold">Resources</h1>
-          <Tiptap
-            content={resourcesContent}
-            setContent={setResourcesContent}
-            placeholder="Resources for the hackathon that can be helpful for participants.
+            />
+            <p className="text-sm text-slate-100 mt-2">
+              Rules of the contest. Inculding legal requirements and code of
+              conduct.
+            </p>
+          </div>
+        )}
+        {resourcesContent && (
+          <div>
+            <h1 className="mb-2 text-md font-semibold">Resources</h1>
+            <Tiptap
+              content={resourcesContent}
+              setContent={setResourcesContent}
+              placeholder="Resources for the hackathon that can be helpful for participants.
             e.g. technical support tools, links, additional documents, etc."
-            editorText={resourcesEditorText}
-          />
-          <p className="text-sm text-slate-100 mt-2">
-            Resources for the hackathon that can be helpful for participants.
-            e.g. technical support tools, links, additional documents, etc.
-          </p>
-        </div>
-        <div>
-          <h1 className="mb-2 text-md font-semibold">Judges</h1>
-          <Tiptap
-            content={judgesContent}
-            setContent={setJudgesContent}
-            placeholder="Information of judges. e.g. name, title, personal link."
-            editorText={judgesEditorText}
-          />
-          <p className="text-sm text-slate-100 mt-2">
-            Information of judges. e.g. name, title, personal link.
-          </p>
-        </div>
-        <div>
-          <h1 className="mb-2 text-md font-semibold">Partners</h1>
-          <Tiptap
-            content={partnersContent}
-            setContent={setPartnersContent}
-            placeholder="Information of partners. e.g. name, description, link."
-            editorText={partnersEditorText}
-          />
-          <p className="text-sm text-slate-100 mt-2">
-            Information of partners. e.g. name, description, link.
-          </p>
-        </div>
+            />
+            <p className="text-sm text-slate-100 mt-2">
+              Resources for the hackathon that can be helpful for participants.
+              e.g. technical support tools, links, additional documents, etc.
+            </p>
+          </div>
+        )}
+        {judgesContent && (
+          <div>
+            <h1 className="mb-2 text-md font-semibold">Judges</h1>
+            <Tiptap
+              content={judgesContent}
+              setContent={setJudgesContent}
+              placeholder="Information of judges. e.g. name, title, personal link."
+            />
+            <p className="text-sm text-slate-100 mt-2">
+              Information of judges. e.g. name, title, personal link.
+            </p>
+          </div>
+        )}
+        {partnersContent && (
+          <div>
+            <h1 className="mb-2 text-md font-semibold">Partners</h1>
+            <Tiptap
+              content={partnersContent}
+              setContent={setPartnersContent}
+              placeholder="Information of partners. e.g. name, description, link."
+            />
+            <p className="text-sm text-slate-100 mt-2">
+              Information of partners. e.g. name, description, link.
+            </p>
+          </div>
+        )}
+
         <div>
           <h1 className="mb-1 text-lg font-semibold dark:text-white">Prizes</h1>
           <div className="flex flex-col gap-2">
@@ -508,6 +470,7 @@ export default function EditHackathonForm({
             type="submit"
             className="p-6 text-lg"
             disabled={form.formState.isSubmitting}
+            onClick={form.handleSubmit(onSubmit)}
           >
             {form.formState.isSubmitting && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -521,7 +484,7 @@ export default function EditHackathonForm({
             Cancel
           </div>
         </div>
-      </form>
+      </div>
     </Form>
   )
 }

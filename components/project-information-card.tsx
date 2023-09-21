@@ -12,23 +12,13 @@ import { Button } from './ui/button'
 import Image from 'next/image'
 import blueprintImage from '@/components/images/BlueprintImage.png'
 import { calculateTimeForHackathon } from '@/helpers/utils'
-import { is } from 'date-fns/locale'
-import { Youtube, getVimeoThumbnailUrl } from '@/lib/utils'
+import { useRouter } from 'next/navigation'
+import { Project } from '@/lib/types'
+// import { is } from 'date-fns/locale'
+// import { Youtube, getVimeoThumbnailUrl } from '@/lib/utils'
 
 type ProjectInformationCardProps = {
-  project: {
-    name: string
-    pitch: string
-    hackathon: {
-      name: string
-      startDate: string
-      endDate: string
-      timeZone: string
-    }
-    participants: []
-    creatorId: string
-    isSubmitted: boolean
-  }
+  project: Project
   userId: string
 }
 
@@ -45,6 +35,7 @@ export default function ProjectInformationCard({
   ).progress
 
   const [data, setData] = useState<Object | null>(null)
+  const router = useRouter()
 
   // useEffect(() => {
   //   getVimeoThumbnailUrl('https://vimeo.com/524933864')
@@ -112,18 +103,22 @@ export default function ProjectInformationCard({
             </Badge>
           )}
 
-          <Button className="w-fit px-4 text-xl mt-2 font-bold mx-auto border-2 border-slate-950 bg-slate-100 text-slate-950 hover:text-slate-100">
-            {' '}
+          <Button
+            className="w-fit px-4 text-xl mt-2 font-bold mx-auto border-2 border-slate-950 bg-slate-100 text-slate-950 hover:text-slate-100"
+            onClick={() =>
+              router.push(`/dashboard/projects/edit?pid=${project.id}`)
+            }
+          >
             Click to view project
           </Button>
 
-          <img
+          {/* <img
             src={Youtube.thumb(
               'https://www.youtube.com/watch?v=CREM-mFuyyo&ab_channel=Dave2D',
               'small'
             )}
             alt=""
-          />
+          /> */}
         </div>
       </CardContent>
     </Card>

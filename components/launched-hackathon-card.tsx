@@ -30,7 +30,7 @@ export default function LaunchedHackathonCard({ hackathon }: Hackathon | any) {
   const router = useRouter()
 
   return (
-    <Card className="min-w-[420px] max-w-[600px] w-full">
+    <Card className="min-w-[500px] max-w-[600px] w-full">
       <CardHeader className="pb-3 text-center grid grid-rows-2">
         <CardTitle>{hackathon.name}</CardTitle>
         <CardDescription>{hackathon.tagline}</CardDescription>

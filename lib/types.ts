@@ -31,6 +31,7 @@ export const createHackathonSchema = z
     location: z.string().optional(),
     startDate: z.string().optional(),
     endDate: z.string().optional(),
+    description: z.string().optional(),
   })
   .refine(
     (data) => {
@@ -124,6 +125,10 @@ export const userProfileSchema = z.object({
   // description: z.string(),
 })
 
+export const inviteTeammateSchema = z.object({
+  email: z.string().email(),
+})
+
 export type TSignUpSchema = z.infer<typeof signUpSchema>
 export type TSignInSchema = z.infer<typeof signInSchema>
 export type TCreateHackathonSchema = z.infer<typeof createHackathonSchema>
@@ -131,6 +136,7 @@ export type TCreatePrizeSchema = z.infer<typeof createPrizeSchema>
 export type TUserProfileSchema = z.infer<typeof userProfileSchema>
 export type TCreateProjectSchema = z.infer<typeof createProjectSchema>
 export type TEditProjectSchema = z.infer<typeof editProjectSchema>
+export type TInviteTeammateSchema = z.infer<typeof inviteTeammateSchema>
 export type Hackathon = {
   about: null
   company: null
@@ -185,6 +191,22 @@ export type Prize = {
   numberOfWinningTeams: string
   description: string
   isEditing?: boolean
+}
+
+export type Project = {
+  id: string
+  name: string
+  pitch: string
+  hackathon: {
+    id: string
+    name: string
+    startDate: string
+    endDate: string
+    timeZone: string
+  }
+  participants: []
+  creatorId: string
+  isSubmitted: boolean
 }
 
 //todo add number of characters limit to name and tagline

@@ -1,4 +1,5 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { getHackathonByHackathonId } from '@/app/libs/hackathons'
 import EditHackathonForm from '@/components/edit-hackathon-form'
 import { Separator } from '@/components/ui/separator'
 import { getServerSession } from 'next-auth'
@@ -11,12 +12,13 @@ export default async function page({
   searchParams?: { [key: string]: string }
 }) {
   const session = await getServerSession(authOptions)
+  const hackathonId = searchParams?.hid ?? ''
 
   if (!session || !session.user.isAdmin) {
     redirect('/auth/signIn')
   }
 
-  const hackathonId = searchParams?.hid ?? ''
+  const hackathon = await getHackathonByHackathonId(hackathonId)
 
   return (
     <>
@@ -28,7 +30,7 @@ export default async function page({
           </p>
         </div>
         <Separator />
-        <EditHackathonForm hackathonId={hackathonId} />
+        <EditHackathonForm hackathon={hackathon} />
       </div>
     </>
   )

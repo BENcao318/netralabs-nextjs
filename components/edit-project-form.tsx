@@ -23,15 +23,27 @@ import Select from 'react-select'
 import techStackOptions from '@/lib/techStackOptions.json'
 import makeAnimated from 'react-select/animated'
 import { useToast } from './ui/use-toast'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from './ui/dialog'
+import parse from 'html-react-parser'
+import { Separator } from './ui/separator'
 
 type EditProjectFormValues = z.infer<typeof editProjectSchema>
 const defaultValues: Partial<EditProjectFormValues> = {}
 export default function EditProjectForm({
   userId,
-  projectId,
+  project,
+  setProject,
 }: {
   userId: string
-  projectId: string
+  project: any
+  setProject: any
 }) {
   const router = useRouter()
   const form = useForm<TEditProjectSchema>({
@@ -43,33 +55,20 @@ export default function EditProjectForm({
   const { toast } = useToast()
 
   const [storyContent, setStoryContent] = useState<string>('')
-  const [storyEditorText, setStoryEditorText] = useState<string>('')
 
   useEffect(() => {
-    const getProjectByPid = async () => {
-      try {
-        const res = await fetch(`/api/projects/${projectId}`)
-        if (res.ok) {
-          const data = await res.json()
-          form.setValue('name', data.name)
-          form.setValue('pitch', data.pitch)
-          form.setValue('techStack', data.techStack)
-          form.setValue('repositoryUrl', data.repositoryUrl)
-          form.setValue('videoUrl', data.videoUrl)
-          setStoryEditorText(data.story)
-        }
-      } catch (error) {
-        console.log(error)
-      }
+    if (project) {
+      form.setValue('name', project.name)
+      form.setValue('pitch', project.pitch)
+      form.setValue('techStack', project.techStack)
+      form.setValue('repositoryUrl', project.repositoryUrl)
+      form.setValue('videoUrl', project.videoUrl)
+      setStoryContent(project.story)
     }
-
-    if (projectId) {
-      getProjectByPid()
-    }
-  }, [])
+  }, [project])
 
   const onSubmit = async (data: TEditProjectSchema) => {
-    if (!projectId) {
+    if (!project.id) {
       toast({
         variant: 'destructive',
         title: 'No project id found',
@@ -81,16 +80,25 @@ export default function EditProjectForm({
     const projectData = {
       ...data,
       story: storyContent,
-      projectId,
+      projecId: project.id,
       userId,
     }
     try {
-      const res = await fetch(`/api/projects/${projectId}`, {
+      const res = await fetch(`/api/projects/${project.id}`, {
         method: 'PUT',
         body: JSON.stringify(projectData),
       })
-      // console.log(res)
+
       if (res.ok) {
+        setProject({
+          ...project,
+          name: projectData.name,
+          pitch: projectData.pitch,
+          techStack: projectData.techStack,
+          repositoryUrl: projectData.repositoryUrl,
+          videoUrl: projectData.videoUrl,
+          story: projectData.story,
+        })
         toast({
           title: 'Success!',
           description: 'Your project has been updated.',
@@ -109,7 +117,54 @@ export default function EditProjectForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <Dialog>
+        <DialogTrigger asChild>
+          <div className="flex items-center gap-4 -mt-2">
+            <Button className="text-xl font-extrabold w-fit px-6 py-6 hover:bg-slate-100 hover:text-slate-950 font-mono">
+              Preview
+            </Button>
+            <p className="w-40 text-sm">Check the display of your project</p>
+          </div>
+        </DialogTrigger>
+        <DialogContent className="bg-slate-700 container sm:min-w-[500px] md:min-w-[600px] lg:min-w-[800px] xl:min-w-[1000px] h-full overflow-scroll	">
+          <DialogHeader className="text-slate-900">
+            <DialogTitle className="text-3xl font-bold text-slate-100 text-center">
+              {project.name}
+            </DialogTitle>
+            <DialogDescription className="text-md font-normal text-slate-300 text-center">
+              {project.pitch}
+            </DialogDescription>
+          </DialogHeader>
+          <Separator className="mt-2" />
+          <div className="break-all">
+            <h1 className="font-extrabold text-xl">Story:</h1>
+            <div className="mt-3">{parse(project.story)}</div>
+          </div>
+          <Separator className="mt-2" />
+          <div className="break-all">
+            <h1 className="font-extrabold text-xl">Tech stack:</h1>
+            <div className="flex gap-3 mt-2">
+              {project.techStack.map((tech: any) => {
+                return (
+                  <div
+                    className="px-2 py-1 bg-sky-600 rounded-lg text-slate-100 font-medium"
+                    key={tech.label}
+                  >
+                    {tech.value}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <Separator className="mt-2" />
+          <div className="break-all">
+            <h1 className="font-extrabold text-xl">Github repository:</h1>
+            <div className="flex gap-3 mt-2">{project.repositoryUrl}</div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <div className="space-y-8 mt-6">
         <FormField
           control={form.control}
           name="name"
@@ -150,13 +205,13 @@ export default function EditProjectForm({
             </FormItem>
           )}
         />
+
         <div>
           <h1 className="mb-2 text-md font-semibold">Story</h1>
           <Tiptap
             content={storyContent}
             setContent={setStoryContent}
             placeholder="Description of the hackathon. e.g. Introduction, about the company, schedules."
-            editorText={storyEditorText}
           />
           <p className="text-sm text-slate-100 mt-2">
             Please write down the story of the project, what it does, how did
@@ -164,6 +219,7 @@ export default function EditProjectForm({
             accomplishments that you're proud of, what's next for your project.
           </p>
         </div>
+
         <div>
           <h1 className="mb-2 text-md font-semibold">Tech stack</h1>
           <Controller
@@ -237,6 +293,7 @@ export default function EditProjectForm({
             type="submit"
             className="p-6 text-lg"
             disabled={form.formState.isSubmitting}
+            onClick={form.handleSubmit(onSubmit)}
           >
             {form.formState.isSubmitting && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -250,7 +307,7 @@ export default function EditProjectForm({
             Cancel
           </div>
         </div>
-      </form>
+      </div>
     </Form>
   )
 }

@@ -16,7 +16,7 @@ import Text from '@tiptap/extension-text'
 import Highlight from '@tiptap/extension-highlight'
 import TextAlign from '@tiptap/extension-text-align'
 import Placeholder from '@tiptap/extension-placeholder'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { Editor, EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, { useEffect } from 'react'
 import { Icons } from '@/components/ui/icons'
@@ -371,11 +371,10 @@ type TiptapProps = {
   content: string
   setContent: (content: string) => void
   placeholder: string
-  editorText: string | undefined
 }
 
 export default function Tiptap(props: TiptapProps) {
-  const { setContent, content, placeholder, editorText } = props
+  const { setContent, content, placeholder } = props
 
   const editor = useEditor({
     extensions: [
@@ -422,27 +421,15 @@ export default function Tiptap(props: TiptapProps) {
         class: 'm-2 focus:outline-none',
       },
     },
-    content,
+    content: '',
 
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML())
     },
+    onCreate({ editor }) {
+      editor?.chain().focus().insertContent(content).run()
+    },
   })
-
-  useEffect(() => {
-    if (editor && editorText) {
-      editor
-        .chain()
-        .focus()
-        .insertContent(editorText)
-        .insertContent(`<br />`)
-        .run()
-    }
-  }, [editorText, editor])
-
-  // useEffect(() => {
-  //   editor?.chain().focus().insertContent(content).run()
-  // }, [content, editor])
 
   return (
     <div className="w-full border-slate-200 border-2 rounded-2xl">

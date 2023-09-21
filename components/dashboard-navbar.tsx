@@ -33,7 +33,7 @@ export default function DashboardNavbar() {
           />
         </div>
       ) : (
-        <div className="sticky top rounded-lg transition-all px-6 py-6 w-full flex items-center justify-end">
+        <div className="sticky top rounded-lg transition-all px-6 py-6 w-full flex items-center justify-end container">
           <Button onClick={handleSignIn}>Sign in</Button>
         </div>
       )}

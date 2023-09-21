@@ -73,7 +73,7 @@ export function Sidebar() {
   }
 
   const wrapperClasses = classNames(
-    'h-screen px-4 pt-8 pb-4 bg-slate-900 flex justify-between flex-col ',
+    'h-screen px-4 pt-8 pb-4 bg-slate-900 flex justify-between flex-col fixed',
     {
       ['w-80']: !toggleCollapse,
       ['w-20']: toggleCollapse,
@@ -90,7 +90,7 @@ export function Sidebar() {
 
   useEffect(() => {
     const handleResize = () => {
-      setToggleCollapse(window.innerWidth < 800)
+      setToggleCollapse(window.innerWidth < 768)
     }
 
     window.addEventListener('resize', handleResize)

@@ -52,13 +52,6 @@ export default function CreateHackathonForm({
   const [resourcesContent, setResourcesContent] = useState<string>('')
   const [judgesContent, setJudgesContent] = useState<string>('')
   const [partnersContent, setPartnersContent] = useState<string>('')
-  const [descriptionEditorText, setDescriptionEditorText] = useState<string>('')
-  const [requirementEditorText, setRequirementEditorText] = useState<string>('')
-  const [rulesEditorText, setRulesEditorText] = useState<string>('')
-  const [resourcesEditorText, setResourcesEditorText] = useState<string>('')
-  const [judgesEditorText, setJudgesEditorText] = useState<string>('')
-  const [partnersEditorText, setPartnersEditorText] = useState<string>('')
-
   const [prizeList, setPrizeList] = useState<Prize[]>([])
   const [timeZone, setTimeZone] = useState<string>(
     Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -107,7 +100,6 @@ export default function CreateHackathonForm({
         })
       }
     } catch (error) {
-      // Handle the error
       console.error('Error creating hackathon:', error)
       throw new Error('Failed to create hackathon')
     }
@@ -140,7 +132,7 @@ export default function CreateHackathonForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <div className="space-y-8">
         <FormField
           control={form.control}
           name="name"
@@ -228,7 +220,6 @@ export default function CreateHackathonForm({
             content={descriptionContent}
             setContent={setDescriptionContent}
             placeholder="Description of the hackathon. e.g. Introduction, about the company, schedules."
-            editorText={descriptionEditorText}
           />
           <p className="text-sm text-slate-100 mt-2">
             Description of the hackathon. e.g. Introduction, about the company,
@@ -242,7 +233,6 @@ export default function CreateHackathonForm({
             setContent={setRequirementContent}
             placeholder="Requirements for building the hackathon project and what the
             participants needed when submitting."
-            editorText={requirementEditorText}
           />
           <p className="text-sm text-slate-100 mt-2">
             Requirements for building the hackathon project and what the
@@ -256,7 +246,6 @@ export default function CreateHackathonForm({
             setContent={setRulesContent}
             placeholder="Rules of the contest. Inculding legal requirements and code of
             conduct."
-            editorText={rulesEditorText}
           />
           <p className="text-sm text-slate-100 mt-2">
             Rules of the contest. Inculding legal requirements and code of
@@ -270,7 +259,6 @@ export default function CreateHackathonForm({
             setContent={setResourcesContent}
             placeholder="Resources for the hackathon that can be helpful for participants.
             e.g. technical support tools, links, additional documents, etc."
-            editorText={resourcesEditorText}
           />
           <p className="text-sm text-slate-100 mt-2">
             Resources for the hackathon that can be helpful for participants.
@@ -283,7 +271,6 @@ export default function CreateHackathonForm({
             content={judgesContent}
             setContent={setJudgesContent}
             placeholder="Information of judges. e.g. name, title, personal link."
-            editorText={judgesEditorText}
           />
           <p className="text-sm text-slate-100 mt-2">
             Information of judges. e.g. name, title, personal link.
@@ -295,7 +282,6 @@ export default function CreateHackathonForm({
             content={partnersContent}
             setContent={setPartnersContent}
             placeholder="Information of partners. e.g. name, description, link."
-            editorText={partnersEditorText}
           />
           <p className="text-sm text-slate-100 mt-2">
             Information of partners. e.g. name, description, link.
@@ -405,6 +391,7 @@ export default function CreateHackathonForm({
             type="submit"
             className="p-6 text-lg"
             disabled={form.formState.isSubmitting}
+            onClick={form.handleSubmit(onSubmit)}
           >
             {form.formState.isSubmitting && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -418,7 +405,7 @@ export default function CreateHackathonForm({
             Cancel
           </div>
         </div>
-      </form>
+      </div>
     </Form>
   )
   //todo add assertion for the start and end date, end date should be after start date
