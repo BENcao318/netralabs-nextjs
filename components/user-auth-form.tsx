@@ -49,8 +49,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       const session = await getSession()
       if (session?.user.isAdmin === true) {
         router.push('/manager')
+        router.refresh()
       } else {
         router.push('/dashboard/hackathons')
+        router.refresh()
       }
     } else {
       setError('email', {

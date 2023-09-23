@@ -10,6 +10,10 @@ async function main() {
   await prisma.user.deleteMany({})
   await prisma.userPreference.deleteMany({})
 
+  const createdUserPreferences = await prisma.userPreference.createMany({
+    data: [{}, {}, {}],
+  })
+
   const createdUsers = await prisma.user.createMany({
     data: [
       {
@@ -32,6 +36,20 @@ async function main() {
       },
     ],
     skipDuplicates: true,
+  })
+
+  await prisma.user.update({
+    where: { email: 'cby204@gmail.com' },
+    data: {
+      userPreference: {
+        create: {
+          role: { key: 'developer', value: 'Developer' },
+          skills: ['React', 'Node.js'],
+          avatar: null,
+          company: 'ABC Inc.',
+        },
+      },
+    },
   })
 
   console.log(createdUsers)

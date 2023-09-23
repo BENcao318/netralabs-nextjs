@@ -32,6 +32,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-inter)'],
+        mono: ['var(--font-titillium-web)'],
       },
     },
   },

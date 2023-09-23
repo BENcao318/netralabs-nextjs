@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma'
 
-export async function getProjects(userId: string) {
+export async function getProjectsByUserId(userId: string) {
   try {
     const projects = await prisma.project.findMany({
       where: {
@@ -68,6 +68,40 @@ export async function getProjectByPid(projectId: string) {
       },
     })
     return project
+  } catch (error) {
+    console.error('Error retrieving managed hackathons:', error)
+    throw new Error('Failed to retrieve managed hackathons')
+  }
+}
+
+export async function getProjectsByHackathonId(hid: string) {
+  try {
+    const projects = await prisma.project.findMany({
+      where: {
+        hackathonId: hid,
+        isSubmitted: true,
+      },
+      include: {
+        hackathon: true,
+        participants: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            userPreference: true,
+          },
+        },
+        creator: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            userPreference: true,
+          },
+        },
+      },
+    })
+    return projects
   } catch (error) {
     console.error('Error retrieving managed hackathons:', error)
     throw new Error('Failed to retrieve managed hackathons')

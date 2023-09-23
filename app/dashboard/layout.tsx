@@ -24,3 +24,5 @@ export default async function RootLayout({
     </>
   )
 }
+
+//todo add sidebar collapse interaction with section. When sidebar is collapsed, section should margin to left.

@@ -371,10 +371,11 @@ type TiptapProps = {
   content: string
   setContent: (content: string) => void
   placeholder: string
+  isCreator: boolean
 }
 
 export default function Tiptap(props: TiptapProps) {
-  const { setContent, content, placeholder } = props
+  const { setContent, content, placeholder, isCreator } = props
 
   const editor = useEditor({
     extensions: [
@@ -422,6 +423,7 @@ export default function Tiptap(props: TiptapProps) {
       },
     },
     content: '',
+    editable: isCreator,
 
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML())
@@ -432,10 +434,16 @@ export default function Tiptap(props: TiptapProps) {
   })
 
   return (
-    <div className="w-full border-slate-200 border-2 rounded-2xl">
+    <div
+      className={`w-full  border-2 rounded-2xl ${
+        isCreator ? 'border-slate-200' : 'border-slate-400'
+      }`}
+    >
       <MenuBar editor={editor} />
       <EditorContent
-        className="w-full p-3 max-h-[600px] overflow-auto min-h-[100px] bg-slate-200 rounded-b-xl text-black"
+        className={`w-full p-3 max-h-[600px] overflow-auto min-h-[100px] rounded-b-xl text-black ${
+          isCreator ? 'bg-slate-200' : 'bg-slate-400'
+        }`}
         editor={editor}
       />
     </div>

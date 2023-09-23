@@ -62,6 +62,7 @@ export async function PUT(request: Request) {
         update: {
           role: body.role,
           skills: body.skills,
+          avatar: body.avatar,
         },
       },
     },

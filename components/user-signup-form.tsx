@@ -36,7 +36,7 @@ export function UserSignUpForm({ className, ...props }: UserSignUpFormProps) {
   })
 
   const onSubmit = async (data: TSignUpSchema) => {
-    const response = await fetch('/api/auth/signup', {
+    const res = await fetch('/api/auth/signup', {
       method: 'POST',
       body: JSON.stringify({
         name: data.name,
@@ -49,9 +49,8 @@ export function UserSignUpForm({ className, ...props }: UserSignUpFormProps) {
       },
     })
 
-    const responseData = await response.json()
-    if (!response.ok) {
-      // response status is not 2xx
+    const responseData = await res.json()
+    if (!res.ok) {
       alert('Submitting form failed!')
       return
     }
@@ -80,7 +79,7 @@ export function UserSignUpForm({ className, ...props }: UserSignUpFormProps) {
       return
     }
 
-    if (response.ok) {
+    if (res.ok) {
       const res = await signIn('credentials', {
         redirect: false,
         email: data.email,
@@ -90,8 +89,10 @@ export function UserSignUpForm({ className, ...props }: UserSignUpFormProps) {
 
       if (!res?.error) {
         router.push('/dashboard/hackathons/')
+        router.refresh()
       } else {
         router.push('/')
+        router.refresh()
       }
     }
   }

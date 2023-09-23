@@ -19,7 +19,9 @@ import { Button } from './ui/button'
 import { useRouter } from 'next/navigation'
 import { Hackathon } from '@/lib/types'
 
-export default function LaunchedHackathonCard({ hackathon }: Hackathon | any) {
+export default function HackathonCardForSubmittedProjects({
+  hackathon,
+}: Hackathon | any) {
   const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
   const progress = calculateTimeForHackathon(
     hackathon.startDate,
@@ -86,14 +88,15 @@ export default function LaunchedHackathonCard({ hackathon }: Hackathon | any) {
         >
           <span className="w-full text-center text-lg">{progress.status}</span>
         </Badge>
-        {progress.isRunning && (
-          <Button
-            className="text-lg border-2 bg-slate-100 text-slate-950 border-slate-950 hover:text-slate-100 mr-10 font-extrabold"
-            onClick={() => router.push(`/dashboard/hackathons/${hackathon.id}`)}
-          >
-            Click to View
-          </Button>
-        )}
+
+        <Button
+          className="text-xl border-2 bg-slate-100 text-slate-950 border-slate-950 hover:text-slate-100  font-extrabold"
+          onClick={() =>
+            router.push(`/dashboard/submissions/hackathons/${hackathon.id}`)
+          }
+        >
+          Click to view submissions
+        </Button>
       </CardFooter>
     </Card>
   )

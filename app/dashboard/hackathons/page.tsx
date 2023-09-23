@@ -1,5 +1,4 @@
 import { getLaunchedHackathons } from '@/app/libs/hackathons'
-import { Button } from '@/components/ui/button'
 import LaunchedHackathonCard from '@/components/launched-hackathon-card'
 import { Separator } from '@/components/ui/separator'
 import React from 'react'

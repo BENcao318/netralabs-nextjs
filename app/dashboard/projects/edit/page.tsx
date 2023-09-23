@@ -1,13 +1,8 @@
 'use client'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { getProjectByPid } from '@/app/libs/projects'
 import EditProjectForm from '@/components/edit-project-form'
 import ProjectTeamCard from '@/components/project-team-card'
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { getServerSession } from 'next-auth'
 import { useSession } from 'next-auth/react'
-import { redirect } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 export default function page({
@@ -37,9 +32,7 @@ export default function page({
 
   return (
     <>
-      {!session ? (
-        <div>Not signed in</div>
-      ) : (
+      {session && (
         // <div className="space-y-6 mt-16 pb-36 ml-24 md:ml-96 container">
         <div className="space-y-6 mt-16 pb-36">
           <div className="flex">

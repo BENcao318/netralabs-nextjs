@@ -96,6 +96,28 @@ export const editProjectSchema = z.object({
     .or(z.literal('')),
 })
 
+export const submitProjectSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  pitch: z.string(),
+  techStack: z.array(
+    z.object({
+      value: z.string(),
+      label: z.string(),
+    })
+  ),
+  repositoryUrl: z.string().url(),
+  videoUrl: z
+    .string()
+    .url()
+    .refine(
+      (value) =>
+        /^(?:(?:https?:\/\/)?(?:www\.)?(?:vimeo\.com\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?feature=player_embedded&v=|youtu.be\/|user\/\S+|playlist\?list=\S+)))([^\s\/?#]+)/.test(
+          value
+        ),
+      { message: 'Only Vimeo or Youtube video links are acceptable.' }
+    ),
+})
+
 export const createPrizeSchema = z.object({
   name: z.string(),
   value: z.string(),
@@ -136,6 +158,7 @@ export type TCreatePrizeSchema = z.infer<typeof createPrizeSchema>
 export type TUserProfileSchema = z.infer<typeof userProfileSchema>
 export type TCreateProjectSchema = z.infer<typeof createProjectSchema>
 export type TEditProjectSchema = z.infer<typeof editProjectSchema>
+export type TSubmitProjectSchema = z.infer<typeof submitProjectSchema>
 export type TInviteTeammateSchema = z.infer<typeof inviteTeammateSchema>
 export type Hackathon = {
   about: null
@@ -207,6 +230,7 @@ export type Project = {
   participants: []
   creatorId: string
   isSubmitted: boolean
+  videoUrl: string
 }
 
 //todo add number of characters limit to name and tagline

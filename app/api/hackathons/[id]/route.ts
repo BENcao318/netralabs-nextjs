@@ -55,7 +55,7 @@ export async function GET(
       hackathon?.endDate ?? '',
       hackathon?.timeZone ?? '',
       localTimeZone ?? ''
-    ).progress.running
+    ).progress.isRunning
   }
 
   if (isRunning) {

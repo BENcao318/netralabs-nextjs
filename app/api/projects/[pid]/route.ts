@@ -2,6 +2,7 @@ import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
 import { authOptions } from '../../auth/[...nextauth]/route'
+import { checkIsEndDatePassed } from '@/helpers/utils'
 export async function GET(
   request: Request,
   { params: { pid } }: { params: { pid: string } }
@@ -112,7 +113,7 @@ export async function PUT(
       )
     } else if (session.user.email !== user.email) {
       return NextResponse.json(
-        {},
+        { error: 'You are not allowed to update this project' },
         {
           statusText: 'unauthorized',
           status: 401,
@@ -124,7 +125,33 @@ export async function PUT(
       where: {
         id: pid,
       },
+      include: {
+        hackathon: {
+          select: {
+            id: true,
+            name: true,
+            startDate: true,
+            endDate: true,
+            timeZone: true,
+          },
+        },
+      },
     })
+
+    if (project?.hackathon.endDate && project?.hackathon.timeZone) {
+      const isEndDatePassed: boolean = checkIsEndDatePassed(
+        project.hackathon.endDate,
+        project.hackathon.timeZone
+      )
+      if (isEndDatePassed) {
+        return NextResponse.json(
+          { error: 'Hackathon has ended' },
+          {
+            status: 401,
+          }
+        )
+      }
+    }
 
     if (!project) {
       throw new Error('Project not found')
@@ -150,7 +177,7 @@ export async function PUT(
   } catch (error) {
     console.log(error)
     return NextResponse.json(
-      {},
+      { error: 'internal server error' },
       {
         statusText: 'internal server error',
         status: 500,

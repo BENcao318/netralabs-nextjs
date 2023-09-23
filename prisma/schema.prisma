@@ -37,7 +37,7 @@ model UserPreference {
   id      String  @id @default(uuid())
   role    Json?
   skills  Json?
-  avatar  Bytes?
+  avatar  String? @db.LongText
   company String?
 
   user User?

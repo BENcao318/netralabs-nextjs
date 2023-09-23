@@ -1,19 +1,16 @@
-'use client'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { Separator } from '@/components/ui/separator'
 import UserProfileForm from '@/components/user-profile-form'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import React, { useEffect } from 'react'
+import { getServerSession } from 'next-auth'
+import { redirect } from 'next/navigation'
+import React from 'react'
 
-export default function ProfilePage() {
-  const router = useRouter()
-  const { data: session } = useSession()
+export default async function ProfilePage() {
+  const session = await getServerSession(authOptions)
 
-  useEffect(() => {
-    if (!session) {
-      router.push('/auth/signIn')
-    }
-  }, [session])
+  // if (!session) {
+  //   redirect('/auth/signIn')
+  // }
 
   return (
     <>
@@ -22,7 +19,7 @@ export default function ProfilePage() {
           <h3 className="text-3xl font-bold">Edit your profile</h3>
         </div>
         <Separator />
-        {session?.user && <UserProfileForm userId={session?.user.id} />}
+        {session && <UserProfileForm userId={session?.user.id} />}
       </div>
     </>
   )

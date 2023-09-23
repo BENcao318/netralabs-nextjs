@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from './ui/button'
-import { Prize } from './create-hackathon-form'
+import { Prize } from '@/lib/types'
 
 type PrizeCardProps = {
   prize?: any

@@ -140,7 +140,7 @@ export default function HackathonPage({ params }: { params: { id: string } }) {
                 </div>
                 <Badge
                   className={`py-2  w-fit ${
-                    progress.running ? 'bg-green-600' : 'bg-sky-600'
+                    progress.isRunning ? 'bg-green-600' : 'bg-sky-600'
                   }`}
                 >
                   <span className="w-full text-center text-lg">
@@ -150,7 +150,7 @@ export default function HackathonPage({ params }: { params: { id: string } }) {
               </div>
 
               <div className="flex w-full justify-center mt-6">
-                {progress.running &&
+                {progress.isRunning &&
                   (!session ? (
                     <Button
                       className="w-fit text-xl py-8 bg-sky-600"

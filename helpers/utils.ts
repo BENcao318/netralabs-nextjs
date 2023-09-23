@@ -50,7 +50,7 @@ export const calculateTimeForHackathon = (
   ).days
 
   let progress = {
-    running: true,
+    isRunning: true,
     status: '',
   }
   let formattedString = ''
@@ -73,7 +73,7 @@ export const calculateTimeForHackathon = (
           : `starting in ${roundedTime} hours`
     }
     progress = {
-      running: false,
+      isRunning: false,
       status: formattedString,
     }
   } else if (deadlineDaysDifference > 0) {
@@ -91,13 +91,13 @@ export const calculateTimeForHackathon = (
         roundedTime === 1 ? 'about 1 hour left' : `${roundedTime} hours left`
     }
     progress = {
-      running: true,
+      isRunning: true,
       status: formattedString,
     }
   } else {
     formattedString = 'hackathon has ended'
     progress = {
-      running: false,
+      isRunning: false,
       status: formattedString,
     }
   }
@@ -209,11 +209,26 @@ export const Youtube = (function () {
 })()
 
 export const getVimeoThumbnailUrl = async (url: string) => {
-  let result
+  let result: string = ''
   const res = await fetch(`https://vimeo.com/api/oembed.json?url=${url}`)
   if (res.ok) {
     const data = await res.json()
     result = data.thumbnail_url
   }
   return result
+}
+
+export const checkIsEndDatePassed = (
+  hackathonEndDate: string,
+  hackathonTimeZone: string
+) => {
+  const endDate = DateTime.fromISO(hackathonEndDate, {
+    zone: hackathonTimeZone,
+  })
+  const currentDate = DateTime.now().setZone(hackathonTimeZone)
+
+  if (currentDate > endDate) {
+    return true
+  }
+  return false
 }

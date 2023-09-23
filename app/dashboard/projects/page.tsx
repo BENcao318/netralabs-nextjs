@@ -2,7 +2,7 @@ import React from 'react'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '../../api/auth/[...nextauth]/route'
 import { Separator } from '@/components/ui/separator'
-import { getProjects } from '@/app/libs/projects'
+import { getProjectsByUserId } from '@/app/libs/projects'
 import ProjectInformationCard from '@/components/project-information-card'
 const ProjectsPage = async () => {
   const session = await getServerSession(authOptions)
@@ -11,7 +11,7 @@ const ProjectsPage = async () => {
   if (!session) {
     console.log('not loggedin')
   } else {
-    projects = await getProjects(session.user.id)
+    projects = await getProjectsByUserId(session.user.id)
     // projects[1] = { ...projects[0] } //todo
   }
 
@@ -19,9 +19,7 @@ const ProjectsPage = async () => {
 
   return (
     <>
-      {!session ? (
-        'Not signed in'
-      ) : (
+      {session && (
         <div className="container">
           <div className="flex items-center justify-between">
             <div className="space-y-1 mt-6 ">
