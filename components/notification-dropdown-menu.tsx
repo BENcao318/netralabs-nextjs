@@ -145,7 +145,7 @@ export default function NotificationDropdownMenu({
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-[300px] mt-2" align="end" forceMount>
           <DropdownMenuGroup>
-            {projectInvitations.length !== 0 &&
+            {projectInvitations.length !== 0 ? (
               projectInvitations.map((invitation) => {
                 return (
                   <div key={invitation.id}>
@@ -181,7 +181,12 @@ export default function NotificationDropdownMenu({
                     <DropdownMenuSeparator />
                   </div>
                 )
-              })}
+              })
+            ) : (
+              <DropdownMenuLabel className="text-slate-500 font-medium">
+                No messages yet
+              </DropdownMenuLabel>
+            )}
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

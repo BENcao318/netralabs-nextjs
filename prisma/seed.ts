@@ -1,7 +1,67 @@
 import { PrismaClient } from '@prisma/client'
 import { hash } from 'bcrypt'
+import { faker } from '@faker-js/faker'
 
 const prisma = new PrismaClient()
+
+const roles = [
+  { label: 'Full-stack developer', value: 'Full-stack developer' },
+  { label: 'Front-end developer', value: 'Front-end developer' },
+  { label: 'Back-end developer', value: 'Back-end developer' },
+  { label: 'UI Designer', value: 'UI Designer' },
+  { label: 'Data Scientist', value: 'Data Scientist' },
+  { label: 'Product Manager', value: 'Product Manager' },
+  { label: 'Business Manager', value: 'Business Manager' },
+]
+
+const skills = [
+  { value: 'javascript', label: 'JavaScript' },
+  { value: 'python', label: 'Python' },
+  { value: 'java', label: 'Java' },
+  { value: 'csharp', label: 'C#' },
+  { value: 'typescript', label: 'TypeScript' },
+  { value: 'go', label: 'Go' },
+  { value: 'ruby', label: 'Ruby' },
+  { value: 'php', label: 'PHP' },
+  { value: 'swift', label: 'Swift' },
+  { value: 'kotlin', label: 'Kotlin' },
+  { value: 'react', label: 'React' },
+  { value: 'angular', label: 'Angular' },
+  { value: 'vue', label: 'Vue.js' },
+  { value: 'django', label: 'Django' },
+  { value: 'spring', label: 'Spring Boot' },
+  { value: 'express', label: 'Express.js' },
+  { value: 'laravel', label: 'Laravel' },
+  { value: 'nodejs', label: 'Node.js' },
+  { value: 'dotnet', label: '.NET' },
+  { value: 'php', label: 'PHP' },
+  { value: 'android', label: 'Android' },
+  { value: 'ios', label: 'iOS' },
+  { value: 'firebase', label: 'Firebase' },
+  { value: 'aws', label: 'Amazon Web Services' },
+  { value: 'azure', label: 'Microsoft Azure' },
+  { value: 'aws', label: 'Amazon Web Services' },
+  { value: 'azure', label: 'Microsoft Azure' },
+  { value: 'gcp', label: 'Google Cloud Platform' },
+  { value: 'heroku', label: 'Heroku' },
+  { value: 'digitalocean', label: 'DigitalOcean' },
+  { value: 'netlify', label: 'Netlify' },
+  { value: 'mysql', label: 'MySQL' },
+  { value: 'mongodb', label: 'MongoDB' },
+  { value: 'postgresql', label: 'PostgreSQL' },
+  { value: 'sqlite', label: 'SQLite' },
+  { value: 'redis', label: 'Redis' },
+  { value: 'dynamodb', label: 'Amazon DynamoDB' },
+  { value: 'firebase', label: 'Firebase Realtime Database' },
+  { value: 'rest', label: 'RESTful API' },
+  { value: 'graphql', label: 'GraphQL' },
+  { value: 'soap', label: 'SOAP' },
+  { value: 'jsonrpc', label: 'JSON-RPC' },
+  { value: 'grpc', label: 'gRPC' },
+  { value: 'oauth', label: 'OAuth' },
+  { value: 'jwt', label: 'JSON Web Tokens (JWT)' },
+  { value: 'openapi', label: 'OpenAPI' },
+]
 
 async function main() {
   // Perform seeding operations using Prisma
@@ -10,6 +70,10 @@ async function main() {
   await prisma.hackathon.deleteMany({})
   await prisma.user.deleteMany({})
   await prisma.userPreference.deleteMany({})
+
+  for (let i = 0; i < 20; i++) {
+    await generateUsers()
+  }
 
   const createdUserPreferences = await prisma.userPreference.createMany({
     data: [{}, {}, {}],
@@ -44,8 +108,14 @@ async function main() {
     data: {
       userPreference: {
         create: {
-          role: { key: 'developer', value: 'Developer' },
-          skills: ['React', 'Node.js'],
+          role: {
+            label: 'Full-stack developer',
+            value: 'Full-stack developer',
+          },
+          skills: [
+            { label: 'Python', value: 'python' },
+            { label: 'JavaScript', value: 'javascript' },
+          ],
           avatar: null,
           company: 'ABC Inc.',
         },
@@ -101,6 +171,38 @@ async function main() {
   })
 
   console.log('Seeding completed successfully.')
+}
+
+const generateUsers = async () => {
+  const firstName = faker.person.firstName()
+  const lastName = faker.person.lastName()
+  const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.com`
+  const role = roles[Math.floor(Math.random() * roles.length)]
+  const numberOfSkills = faker.number.int({ min: 1, max: 10 })
+  const selectedSkills = faker.helpers.shuffle(skills).slice(0, numberOfSkills)
+
+  const userData = {
+    name: `${firstName} ${lastName}`,
+    password: await hash('test1234', 10),
+    email: email,
+    isAdmin: false,
+  }
+
+  const userPreferences = {
+    role: role,
+    skills: selectedSkills,
+  }
+
+  const user = await prisma.user.create({
+    data: {
+      ...userData,
+      userPreference: {
+        create: userPreferences,
+      },
+    },
+  })
+
+  console.log(`Created user with preference: ${user.name}`)
 }
 
 main()

@@ -99,7 +99,6 @@ export default function ProjectTeamCard({
         },
         body: JSON.stringify({
           projectId: project.id,
-          userId: userId,
           email: data.email,
         }),
       })

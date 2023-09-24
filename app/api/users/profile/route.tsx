@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
 import { NextResponse } from 'next/server'
+import { authOptions } from '../../auth/[...nextauth]/route'
 
 export async function GET(request: Request) {
   const hackathons = await prisma.hackathon.findMany()
@@ -35,12 +36,12 @@ export async function POST(request: Request) {
     return new NextResponse(null, { status: 401 })
   }
 
-  return NextResponse.json(userProfile, { status: 201 })
+  return NextResponse.json(userProfile)
 }
 
 export async function PUT(request: Request) {
   const body = await request.json()
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
 
   const user = await prisma.user.findUnique({
     where: {

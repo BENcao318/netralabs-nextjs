@@ -1,8 +1,7 @@
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
-import { authOptions } from '../../auth/[...nextauth]/route'
-import { inviteTeammateSchema } from '@/lib/types'
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions)
@@ -17,23 +16,6 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json()
-
-  const validationResult = inviteTeammateSchema.safeParse({ email: body.email })
-
-  if (!validationResult.success) {
-    let zodErrors = {}
-    validationResult.error.issues.forEach((issue) => {
-      zodErrors = { ...zodErrors, [issue.path[0]]: issue.message }
-    })
-    console.log('validation failed')
-    return NextResponse.json(
-      { errors: zodErrors },
-      {
-        status: 401,
-        statusText: 'Failed to pass email format validation',
-      }
-    )
-  }
 
   try {
     if (!body.projectId) {
@@ -74,9 +56,25 @@ export async function POST(request: Request) {
       )
     }
 
+    const participant = await prisma.user.findUnique({
+      where: {
+        id: body.participantId,
+      },
+    })
+
+    if (!participant) {
+      return NextResponse.json(
+        { error: 'Participant not found' },
+        {
+          statusText: 'Participant not found',
+          status: 401,
+        }
+      )
+    }
+
     const notifications = await prisma.notification.findMany({
       where: {
-        receiverEmail: body.email,
+        receiverEmail: participant.email,
         senderId: session.user.id,
         category: 'project invitation',
         contentId: project.id,
@@ -100,7 +98,7 @@ export async function POST(request: Request) {
         category: 'project invitation',
         contentId: project.id,
         contentName: project.name,
-        receiverEmail: body.email,
+        receiverEmail: participant.email,
         sender: {
           connect: {
             id: session.user.id,

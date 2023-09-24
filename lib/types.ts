@@ -229,6 +229,13 @@ export type Project = {
   }
   participants: []
   creatorId: string
+  creator?: {
+    id: string
+    name: string
+    userPreference: {
+      avatar: string
+    }
+  }
   isSubmitted: boolean
   videoUrl: string
 }
@@ -256,6 +263,22 @@ export type Notification = {
     id: string
     name: string
   }
+}
+
+export type Participant = {
+  id: string
+  name: string
+  userPreference: {
+    role:
+      | {
+          value: string
+          label: string
+        }
+      | any
+    skills: any | null
+    avatar: string | null
+    company: string | null
+  } | null
 }
 
 //todo add number of characters limit to name and tagline
