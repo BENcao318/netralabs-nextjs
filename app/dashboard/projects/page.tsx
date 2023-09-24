@@ -12,7 +12,6 @@ const ProjectsPage = async () => {
     console.log('not loggedin')
   } else {
     projects = await getProjectsByUserId(session.user.id)
-    // projects[1] = { ...projects[0] } //todo
   }
 
   //todo get projects with user as participants
@@ -32,7 +31,7 @@ const ProjectsPage = async () => {
             </div>
           </div>
           <Separator className="my-4 mb-12" />
-          <div className="grid xl:grid-cols-2 gap-6 justify-items-center ">
+          <div className="grid 2xl:grid-cols-2 gap-6 justify-items-center">
             {projects &&
               (projects.length === 0 ? (
                 <div className="text-muted-foreground w-full text-2xl font-bold mt-8">

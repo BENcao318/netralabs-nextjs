@@ -12,7 +12,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/ui/use-toast'
 
-export default function HackathonPage({ params }: { params: { id: string } }) {
+export default function HackathonPage({ params }: { params: { hid: string } }) {
   const [hackathon, setHackathon] = useState<Hackathon | undefined | null>()
   const [progress, setProgress] = useState<any>(null)
   const [isJoined, setIsJoined] = useState<boolean>(false)
@@ -23,7 +23,7 @@ export default function HackathonPage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     const getHackathonByHid = async () => {
-      const res = await fetch(`/api/hackathons/${params.id}`)
+      const res = await fetch(`/api/hackathons/${params.hid}`)
       const data = await res.json()
       setHackathon(data)
       setIsJoined(data.isJoined)
@@ -39,7 +39,7 @@ export default function HackathonPage({ params }: { params: { id: string } }) {
       )
     }
     getHackathonByHid()
-  }, [setHackathon, setProgress, params.id])
+  }, [setHackathon, setProgress, params.hid])
 
   useEffect(() => {
     if (session) {
@@ -57,7 +57,7 @@ export default function HackathonPage({ params }: { params: { id: string } }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        hackathonId: params.id,
+        hackathonId: params.hid,
         userId: session?.user.id,
       }),
     })

@@ -58,3 +58,4 @@ export default function page({
     </>
   )
 }
+//todo change to [id] folder structure

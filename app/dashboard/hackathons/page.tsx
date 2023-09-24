@@ -18,7 +18,7 @@ export default async function HackathonPage() {
           </div>
         </div>
         <Separator className="my-4 mb-12" />
-        <div className="grid xl:grid-cols-2 gap-6 justify-items-center">
+        <div className="grid 2xl:grid-cols-2 gap-6 justify-items-center">
           {hackathons &&
             hackathons.map((hackathon) => (
               <LaunchedHackathonCard key={hackathon.id} hackathon={hackathon} />

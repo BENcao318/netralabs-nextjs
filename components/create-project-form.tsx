@@ -133,6 +133,7 @@ export default function CreateProjectForm({
             content={storyContent}
             setContent={setStoryContent}
             placeholder="Description of the hackathon. e.g. Introduction, about the company, schedules."
+            isCreator={true}
           />
           <p className="text-sm text-slate-100 mt-2">
             Please write down the story of the project, what it does, how did

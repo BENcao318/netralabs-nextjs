@@ -30,7 +30,7 @@ export default function LaunchedHackathonCard({ hackathon }: Hackathon | any) {
   const router = useRouter()
 
   return (
-    <Card className="min-w-[500px] max-w-[600px] w-full">
+    <Card className="min-w-[500px] max-w-[600px]">
       <CardHeader className="pb-3 text-center grid grid-rows-2">
         <CardTitle>{hackathon.name}</CardTitle>
         <CardDescription>{hackathon.tagline}</CardDescription>
@@ -78,9 +78,9 @@ export default function LaunchedHackathonCard({ hackathon }: Hackathon | any) {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between mx-10">
+      <CardFooter className="flex justify-between">
         <Badge
-          className={`py-2  w-fit ${
+          className={`py-2  w-fit ml-10 ${
             progress.isRunning ? 'bg-green-600' : 'bg-sky-600'
           }`}
         >
@@ -91,7 +91,7 @@ export default function LaunchedHackathonCard({ hackathon }: Hackathon | any) {
             className="text-lg border-2 bg-slate-100 text-slate-950 border-slate-950 hover:text-slate-100 mr-10 font-extrabold"
             onClick={() => router.push(`/dashboard/hackathons/${hackathon.id}`)}
           >
-            Click to View
+            View hackathon
           </Button>
         )}
       </CardFooter>

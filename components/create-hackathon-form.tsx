@@ -220,6 +220,7 @@ export default function CreateHackathonForm({
             content={descriptionContent}
             setContent={setDescriptionContent}
             placeholder="Description of the hackathon. e.g. Introduction, about the company, schedules."
+            isCreator={true}
           />
           <p className="text-sm text-slate-100 mt-2">
             Description of the hackathon. e.g. Introduction, about the company,
@@ -233,6 +234,7 @@ export default function CreateHackathonForm({
             setContent={setRequirementContent}
             placeholder="Requirements for building the hackathon project and what the
             participants needed when submitting."
+            isCreator={true}
           />
           <p className="text-sm text-slate-100 mt-2">
             Requirements for building the hackathon project and what the
@@ -246,6 +248,7 @@ export default function CreateHackathonForm({
             setContent={setRulesContent}
             placeholder="Rules of the contest. Inculding legal requirements and code of
             conduct."
+            isCreator={true}
           />
           <p className="text-sm text-slate-100 mt-2">
             Rules of the contest. Inculding legal requirements and code of
@@ -259,6 +262,7 @@ export default function CreateHackathonForm({
             setContent={setResourcesContent}
             placeholder="Resources for the hackathon that can be helpful for participants.
             e.g. technical support tools, links, additional documents, etc."
+            isCreator={true}
           />
           <p className="text-sm text-slate-100 mt-2">
             Resources for the hackathon that can be helpful for participants.
@@ -271,6 +275,7 @@ export default function CreateHackathonForm({
             content={judgesContent}
             setContent={setJudgesContent}
             placeholder="Information of judges. e.g. name, title, personal link."
+            isCreator={true}
           />
           <p className="text-sm text-slate-100 mt-2">
             Information of judges. e.g. name, title, personal link.
@@ -282,6 +287,7 @@ export default function CreateHackathonForm({
             content={partnersContent}
             setContent={setPartnersContent}
             placeholder="Information of partners. e.g. name, description, link."
+            isCreator={true}
           />
           <p className="text-sm text-slate-100 mt-2">
             Information of partners. e.g. name, description, link.

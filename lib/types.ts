@@ -233,4 +233,29 @@ export type Project = {
   videoUrl: string
 }
 
+export type Notification = {
+  id: string
+  category: string
+  contentId: string
+  contentName: string
+  content?: string
+  createdAt: string
+  isAccepted: boolean
+  isViewed: boolean
+  recevierEmail: string
+  senderId: string
+  sender: {
+    id: string
+    name: string
+    userPreference: {
+      avatar: string
+    }
+  }
+  updatedAt: string
+  hackathon?: {
+    id: string
+    name: string
+  }
+}
+
 //todo add number of characters limit to name and tagline

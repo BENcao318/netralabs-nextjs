@@ -18,8 +18,6 @@ import {
 } from '@/helpers/utils'
 import { useRouter } from 'next/navigation'
 import { Project } from '@/lib/types'
-// import { is } from 'date-fns/locale'
-// import { Youtube, getVimeoThumbnailUrl } from '@/lib/utils'
 
 type ProjectInformationCardProps = {
   project: Project
@@ -58,7 +56,7 @@ export default function ProjectInformationCard({
 
   return (
     // <Card className="min-w-[420px] max-w-[600px] w-full">
-    <Card className="w-[600px]">
+    <Card className="w-[500px]">
       <CardHeader className="grid grid-cols-2 text-center">
         <div className="flex flex-col justify-center gap-2">
           <CardTitle>{project.name}</CardTitle>
@@ -106,14 +104,14 @@ export default function ProjectInformationCard({
           {project.isSubmitted ? (
             <Badge
               variant="outline"
-              className="rounded-lg px-4 font-boldnormal text-xl  text-slate-900 w-fit mx-auto border-4 border-slate-900 uppercase"
+              className="rounded-lg px-4 font-boldnormal text-xl text-slate-100 bg-slate-800 w-fit mx-auto uppercase"
             >
               submitted
             </Badge>
           ) : (
             <Badge
               variant="outline"
-              className="rounded-lg px-4 font-bold text-md bg-slate-600 text-slate-100 w-fit mx-auto uppercase"
+              className="rounded-lg px-4 font-boldnormal text-xl text-slate-100 bg-slate-800 w-fit mx-auto uppercase"
             >
               Not submitted
             </Badge>
@@ -126,7 +124,7 @@ export default function ProjectInformationCard({
                 router.push(`/dashboard/projects/edit?pid=${project.id}`)
               }
             >
-              Click to edit project
+              Edit project
             </Button>
           ) : (
             <Button
@@ -135,7 +133,7 @@ export default function ProjectInformationCard({
                 router.push(`/dashboard/projects/view?pid=${project.id}`)
               }
             >
-              Click to view project
+              View project
             </Button>
           )}
         </div>

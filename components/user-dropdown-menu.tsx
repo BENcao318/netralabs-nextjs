@@ -39,7 +39,6 @@ export default function UserDropdownMenu({
       })
       if (res.ok) {
         const data = await res.json()
-        console.log('data', data)
         setAvatar(data.userPreference.avatar)
       }
     }

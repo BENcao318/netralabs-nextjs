@@ -57,10 +57,6 @@ export async function GET(
 
     if (!project) {
       throw new Error('Project not found')
-    } else {
-      if (project.creatorId !== session.user.id) {
-        throw new Error('You are not allowed to view this project')
-      }
     }
 
     return NextResponse.json(project)

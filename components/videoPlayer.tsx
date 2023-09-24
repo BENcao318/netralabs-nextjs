@@ -28,12 +28,14 @@ export const VideoPlayer = ({
 
   return (
     <>
-      {website === 'youtube' && (
-        <YoutubeVideo videoId={videoId} width={width} height={height} />
-      )}
-      {website === 'vimeo' && (
-        <VimeoVideo videoId={videoId} width={width} height={height} />
-      )}
+      <div className="flex justify-center">
+        {website === 'youtube' && (
+          <YoutubeVideo videoId={videoId} width={width} height={height} />
+        )}
+        {website === 'vimeo' && (
+          <VimeoVideo videoId={videoId} width={width} height={height} />
+        )}
+      </div>
     </>
   )
 }
