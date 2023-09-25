@@ -124,7 +124,7 @@ export default function NotificationDropdownMenu({
   useEffect(() => {
     const arr = filteringNotifications()
     setProjectInvitations(arr)
-  }, [notifications])
+  }, [notifications, filteringNotifications])
 
   return (
     <>

@@ -25,7 +25,7 @@ export default function SubmittedProjectInformationCard({ project }: any) {
           <CardTitle>
             {users.map((user: any) => {
               return (
-                <Avatar className="h-12 w-12">
+                <Avatar className="h-12 w-12" key={user.id}>
                   <AvatarImage
                     src={user.userPreference.avatar}
                     alt={user.name}

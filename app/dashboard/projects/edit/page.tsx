@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 
-export default function page({
+export default function EditProjectPage({
   searchParams,
 }: {
   searchParams: { pid: string }
@@ -28,7 +28,7 @@ export default function page({
       }
     }
     getProjectByPid()
-  }, [setProject])
+  }, [setProject, projectId])
 
   return (
     <>

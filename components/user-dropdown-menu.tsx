@@ -43,7 +43,7 @@ export default function UserDropdownMenu({
       }
     }
     getUserProfile()
-  }, [setAvatar])
+  }, [setAvatar, user.id])
 
   return (
     <DropdownMenu>

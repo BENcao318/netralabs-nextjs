@@ -20,7 +20,7 @@ import { Participant, Project } from '@/lib/types'
 import { GraduationCap, Wrench } from 'lucide-react'
 import React, { useCallback, useEffect, useState } from 'react'
 
-export default function page() {
+export default function ParticipantPage() {
   const [participants, setParticipants] = useState<Participant[]>([])
   const [selectedRoles, setSelectedRoles] = useState<String[]>([])
   const [selectedSkills, setSelectedSkills] = useState<String[]>([])
@@ -299,8 +299,8 @@ export default function page() {
                 ))
               ) : (
                 <div>
-                  You don't have unsubmitted projects or your project team is
-                  full.
+                  You don`&apos;t have unsubmitted projects or your project team
+                  is full.
                 </div>
               )}
             </div>

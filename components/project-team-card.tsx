@@ -89,7 +89,7 @@ export default function ProjectTeamCard({
     const arr = [project.creator, ...project.participants]
     const filteredArr = arr.filter((member) => member.id !== userId)
     return filteredArr
-  }, [])
+  }, [project.creator, project.participants, userId])
   const onSubmit = async (data: TInviteTeammateSchema) => {
     try {
       const res = await fetch('/api/projects/invite', {
