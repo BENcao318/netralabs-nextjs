@@ -33,13 +33,15 @@ export const YoutubeVideo = ({
 
   return (
     <>
-      {errorMessage && <div className="">{errorMessage}</div>}
-      <YouTube
-        videoId={videoId}
-        opts={opts}
-        onReady={onPlayerReady}
-        onError={onPlayerError}
-      />
+      <div>
+        {errorMessage && <div>{errorMessage}</div>}
+        <YouTube
+          videoId={videoId}
+          opts={opts}
+          onReady={onPlayerReady}
+          onError={onPlayerError}
+        />
+      </div>
     </>
   )
 }

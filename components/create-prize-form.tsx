@@ -1,10 +1,8 @@
-import { TCreatePrizeSchema, createPrizeSchema } from '@/lib/types'
+import { Prize, TCreatePrizeSchema, createPrizeSchema } from '@/lib/types'
 import { zodResolver } from '@hookform/resolvers/zod'
-
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from './ui/button'
-import { Prize } from './create-hackathon-form'
 
 type CreatePrizeFormProps = {
   prize: any

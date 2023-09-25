@@ -133,11 +133,13 @@ export default function CreateProjectForm({
             content={storyContent}
             setContent={setStoryContent}
             placeholder="Description of the hackathon. e.g. Introduction, about the company, schedules."
+            isCreator={true}
           />
           <p className="text-sm text-slate-100 mt-2">
             Please write down the story of the project, what it does, how did
             you build your project, what challenges you faced, what you learned,
-            accomplishments that you're proud of, what's next for your project.
+            accomplishments that you&apos;re proud of, what&apos;s next for your
+            project.
           </p>
         </div>
         <div>

@@ -229,8 +229,56 @@ export type Project = {
   }
   participants: []
   creatorId: string
+  creator?: {
+    id: string
+    name: string
+    userPreference: {
+      avatar: string
+    }
+  }
   isSubmitted: boolean
   videoUrl: string
+}
+
+export type Notification = {
+  id: string
+  category: string
+  contentId: string
+  contentName: string
+  content?: string
+  createdAt: string
+  isAccepted: boolean
+  isViewed: boolean
+  recevierEmail: string
+  senderId: string
+  sender: {
+    id: string
+    name: string
+    userPreference: {
+      avatar: string
+    }
+  }
+  updatedAt: string
+  hackathon?: {
+    id: string
+    name: string
+  }
+}
+
+export type Participant = {
+  id: string
+  name: string
+  userPreference: {
+    role:
+      | {
+          value: string
+          label: string
+        }
+      | any
+    skills: any | null
+    avatar: string | null
+    company: string | null
+  } | null
 }
 
 //todo add number of characters limit to name and tagline

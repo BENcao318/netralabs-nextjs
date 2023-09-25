@@ -28,7 +28,6 @@ model User {
   createdProjects        Project[]       @relation("ProjectCreator")
   participatedProjects   Project[]       @relation("ProjectParticipant")
   createdNotifications   Notification[]  @relation("NotificationSender")
-  receivedNotifications  Notification[]  @relation("NotificationReceiver")
 
   @@index([email])
 }
@@ -96,16 +95,19 @@ model Project {
 }
 
 model Notification {
-  id         String    @id @default(uuid())
-  category   String
-  isViewed   Boolean   @default(false)
-  isAccepted Boolean   @default(false)
-  content    String    @db.Text
-  createdAt  DateTime? @default(now())
-  updatedAt  DateTime? @updatedAt
+  id            String    @id @default(uuid())
+  category      String
+  isViewed      Boolean   @default(false)
+  isAccepted    Boolean   @default(false)
+  contentId     String
+  contentName   String    @db.Text
+  content       String?   @db.LongText
+  createdAt     DateTime? @default(now())
+  updatedAt     DateTime? @updatedAt
+  receiverEmail String
 
-  sender     User   @relation("NotificationSender", fields: [senderId], references: [id])
-  senderId   String @unique
-  receiver   User   @relation("NotificationReceiver", fields: [receiverId], references: [id])
-  receiverId String @unique
+  sender   User   @relation("NotificationSender", fields: [senderId], references: [id])
+  senderId String
+
+  @@index([senderId])
 }

@@ -1,25 +1,22 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from './ui/card'
-import { Badge } from './ui/badge'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card'
 import { Button } from './ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { VideoPlayer } from './videoPlayer'
 import { Github } from 'lucide-react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export default function SubmittedProjectInformationCard({ project }: any) {
+  const router = useRouter()
   const users = [project.creator]
   project.participants?.forEach((participant: any) => {
     users.push(participant)
   })
+
+  const handleClick = () => {
+    router.push(`/dashboard/projects/view/${project.id}`)
+  }
 
   return (
     <Card className="w-[400px]">
@@ -28,7 +25,7 @@ export default function SubmittedProjectInformationCard({ project }: any) {
           <CardTitle>
             {users.map((user: any) => {
               return (
-                <Avatar className="h-12 w-12">
+                <Avatar className="h-12 w-12" key={user.id}>
                   <AvatarImage
                     src={user.userPreference.avatar}
                     alt={user.name}
@@ -48,19 +45,19 @@ export default function SubmittedProjectInformationCard({ project }: any) {
       <CardContent className="w-full flex justify-center py-2">
         <VideoPlayer videoUrl={project.videoUrl} width={'390'} height={'219'} />
       </CardContent>
-      <CardContent className="flex w-full gap-2 px-3 py-3">
+      <CardContent className="flex w-full gap-2 px-3 py-3 justify-center">
         <Github />
         <a href={project.repositoryUrl} target="_blank">
           <span className="break-all">{project.repositoryUrl}</span>
         </a>
       </CardContent>
       <CardFooter className="pt-0 flex flex-col mx-4">
-        <Link
-          href={`/dashboard/projects/view/${project.id}`}
-          className="w-fit px-4 text-xl mt-2 font-bold mx-auto border-2 border-slate-950 bg-slate-100 text-slate-950 hover:text-slate-100"
+        <Button
+          className="w-fit text-xl mt-2 font-bold mx-auto border-2 border-slate-950 bg-slate-100 text-slate-950 hover:text-slate-100 rounded-lg"
+          onClick={handleClick}
         >
-          Click to view project
-        </Link>
+          View story
+        </Button>
       </CardFooter>
     </Card>
   )

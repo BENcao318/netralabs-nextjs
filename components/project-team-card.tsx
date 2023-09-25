@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import {
   Card,
   CardContent,
@@ -28,6 +28,9 @@ import { Input } from './ui/input'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Icons } from './ui/ui-icons'
+import { calculateTimeForHackathon } from '@/helpers/utils'
+import { useToast } from './ui/use-toast'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
 const TEAMSIZE = 5
 const getTitleAndDescription = (project: Project, userId: string) => {
@@ -63,17 +66,65 @@ export default function ProjectTeamCard({
   userId: string
   project: Project | any
 }) {
+  const { toast } = useToast()
   const header = getTitleAndDescription(project, userId)
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<TInviteTeammateSchema>({
     resolver: zodResolver(inviteTeammateSchema),
   })
+  const [openSendEmailDialog, setOpenSendEmailDialog] = useState(false)
+  const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const progress = calculateTimeForHackathon(
+    project.hackathon.startDate,
+    project.hackathon.endDate,
+    project.hackathon.timeZone,
+    localTimeZone
+  ).progress
 
+  const teamMembers = useMemo(() => {
+    const arr = [project.creator, ...project.participants]
+    const filteredArr = arr.filter((member) => member.id !== userId)
+    return filteredArr
+  }, [project.creator, project.participants, userId])
   const onSubmit = async (data: TInviteTeammateSchema) => {
-    console.log(data)
+    try {
+      const res = await fetch('/api/projects/invite', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          projectId: project.id,
+          email: data.email,
+        }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        toast({
+          title: 'Success!',
+          description: 'You joined the hackathon.',
+        })
+        reset()
+        setOpenSendEmailDialog(false)
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Failed 😓',
+          description: res.statusText,
+        })
+      }
+    } catch (error) {
+      console.error(error)
+      toast({
+        variant: 'destructive',
+        title: 'Failed 😓',
+        description: 'Something went wrong. Please try again.',
+      })
+    }
   }
 
   return (
@@ -85,11 +136,35 @@ export default function ProjectTeamCard({
         </CardDescription>
       </CardHeader>
       <Separator />
-      <CardContent className="grid grid-cols-2"></CardContent>
+      <CardContent className="w-full mt-3 flex justify-center">
+        {teamMembers.map((member) => {
+          return (
+            <div
+              className="text-slate-100 text-xl font-bold grid grid-cols-2 items-center"
+              key={member.id}
+            >
+              <Avatar className="h-11 w-11 mr-3">
+                <AvatarImage
+                  src={member.userPreference.avatar}
+                  alt={member.name}
+                />
+                <AvatarFallback className="text-slate-100 font-bold text-2xl bg-slate-800">
+                  {member.name[0].toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              {member.name}
+            </div>
+          )
+        })}
+      </CardContent>
       <CardFooter className="flex justify-center w-full">
         {project.participants.length < TEAMSIZE - 1 &&
-          project.creatorId === userId && (
-            <Dialog>
+          project.creatorId === userId &&
+          progress.isRunning && (
+            <Dialog
+              open={openSendEmailDialog}
+              onOpenChange={setOpenSendEmailDialog}
+            >
               <DialogTrigger asChild>
                 <Button className="text-xl border-2 bg-slate-200 text-slate-900 border-slate-900 hover:text-slate-200 font-bold font-mono">
                   Invite teammate
@@ -129,6 +204,7 @@ export default function ProjectTeamCard({
                 </DialogFooter>
               </DialogContent>
             </Dialog>
+            //todo add dialog close interaction on send email button when email is sent.  Add interaction on dialog for when email is failed to send. Show error message.
           )}
       </CardFooter>
     </Card>

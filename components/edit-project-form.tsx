@@ -96,7 +96,7 @@ export default function EditProjectForm({
       setIsSubmitted(project.isSubmitted)
       setIsCreator(project.creatorId === userId)
     }
-  }, [project])
+  }, [project, form, userId])
 
   const onUpdate = async (data: TEditProjectSchema) => {
     if (!project.id) {
@@ -267,7 +267,7 @@ export default function EditProjectForm({
               </Tooltip>
             </TooltipProvider>
           </div>
-          <DialogContent className="bg-slate-700 container sm:min-w-[500px] md:min-w-[600px] lg:min-w-[800px] xl:min-w-[1000px] h-full overflow-scroll	">
+          <DialogContent className="bg-slate-700 container sm:min-w-[500px] md:min-w-[600px] lg:min-w-[800px] xl:min-w-[1000px] h-full overflow-y-scroll	">
             <DialogHeader className="text-slate-900">
               <DialogTitle className="text-3xl font-bold text-slate-100 text-center">
                 {project.name}
@@ -279,7 +279,11 @@ export default function EditProjectForm({
             <Separator className="mt-2" />
             <div className="break-all">
               <h1 className="font-semibold text-2xl font-mono">Video:</h1>
-              <VideoPlayer videoUrl={project.videoUrl} />
+              <VideoPlayer
+                videoUrl={project.videoUrl}
+                width={'640'}
+                height={'380'}
+              />
             </div>
             <Separator className="mt-2" />
             <div className="break-all">
@@ -343,32 +347,34 @@ export default function EditProjectForm({
             </TooltipProvider>
           </div>
         ) : (
-          <div className="flex gap-2 items-center">
-            <Button
-              className="text-xl font-extrabold w-fit px-4 py-6 bg-green-600 hover:bg-slate-100 hover:text-slate-950 font-mono"
-              onClick={() => {
-                setOpenSubmitDialog((prev) => !prev)
-                setErrorMessage('')
-              }}
-            >
-              <Send className="w-5 h-5 mr-2" /> Submit
-            </Button>
-            <TooltipProvider>
-              <Tooltip delayDuration={30}>
-                <TooltipTrigger asChild>
-                  <Button className="rounded-full w-5 h-5 -px-2 -py-2 font-extrabold text-lg text-slate-700 bg-slate-300 hover:text-slate-100 hover:bg-slate-400">
-                    ?
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="w-52 text-md font-medium">
-                    Submit your project. <br />
-                    Only submitted projects are visible to reviewers.
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
+          project.creatorId === userId && (
+            <div className="flex gap-2 items-center">
+              <Button
+                className="text-xl font-extrabold w-fit px-4 py-6 bg-green-600 hover:bg-slate-100 hover:text-slate-950 font-mono"
+                onClick={() => {
+                  setOpenSubmitDialog((prev) => !prev)
+                  setErrorMessage('')
+                }}
+              >
+                <Send className="w-5 h-5 mr-2" /> Submit
+              </Button>
+              <TooltipProvider>
+                <Tooltip delayDuration={30}>
+                  <TooltipTrigger asChild>
+                    <Button className="rounded-full w-5 h-5 -px-2 -py-2 font-extrabold text-lg text-slate-700 bg-slate-300 hover:text-slate-100 hover:bg-slate-400">
+                      ?
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="w-52 text-md font-medium">
+                      Submit your project. <br />
+                      Only submitted projects are visible to reviewers.
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          )
         )}
         <Dialog open={openSubmitDialog} onOpenChange={setOpenSubmitDialog}>
           <DialogContent className="bg-slate-100 min-w-[550px]	">
@@ -483,7 +489,8 @@ export default function EditProjectForm({
           <p className="text-sm text-slate-100 mt-2">
             Please write down the story of the project, what it does, how did
             you build your project, what challenges you faced, what you learned,
-            accomplishments that you're proud of, what's next for your project.
+            accomplishments that you&apos;re proud of, what&apos;s next for your
+            project.
           </p>
         </div>
 

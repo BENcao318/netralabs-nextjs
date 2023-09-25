@@ -32,7 +32,7 @@ export default function HackathonCardForSubmittedProjects({
   const router = useRouter()
 
   return (
-    <Card className="min-w-[500px] max-w-[600px] w-full">
+    <Card className="min-w-[500px] max-w-[600px]">
       <CardHeader className="pb-3 text-center grid grid-rows-2">
         <CardTitle>{hackathon.name}</CardTitle>
         <CardDescription>{hackathon.tagline}</CardDescription>
@@ -80,9 +80,9 @@ export default function HackathonCardForSubmittedProjects({
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between mx-10">
+      <CardFooter className="flex justify-between">
         <Badge
-          className={`py-2  w-fit ${
+          className={`py-2  w-fit ml-10 ${
             progress.isRunning ? 'bg-green-600' : 'bg-sky-600'
           }`}
         >
@@ -90,12 +90,12 @@ export default function HackathonCardForSubmittedProjects({
         </Badge>
 
         <Button
-          className="text-xl border-2 bg-slate-100 text-slate-950 border-slate-950 hover:text-slate-100  font-extrabold"
+          className="text-xl border-2 bg-slate-100 text-slate-950 border-slate-950 hover:text-slate-100  font-extrabold mr-2"
           onClick={() =>
             router.push(`/dashboard/submissions/hackathons/${hackathon.id}`)
           }
         >
-          Click to view submissions
+          View submissions
         </Button>
       </CardFooter>
     </Card>

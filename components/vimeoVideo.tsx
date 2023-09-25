@@ -20,14 +20,16 @@ export const VimeoVideo = ({
 
   return (
     <>
-      {errorMessage && <div className="">{errorMessage}</div>}
-      <Vimeo
-        video={videoId}
-        height={height}
-        width={width}
-        autoplay={false}
-        onError={onPlayerError}
-      />
+      <div>
+        {errorMessage && <div>{errorMessage}</div>}
+        <Vimeo
+          video={videoId}
+          height={height}
+          width={width}
+          autoplay={false}
+          onError={onPlayerError}
+        />
+      </div>
     </>
   )
 }
