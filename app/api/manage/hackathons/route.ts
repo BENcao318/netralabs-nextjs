@@ -4,8 +4,6 @@ import { NextResponse } from 'next/server'
 
 export async function GET(request: Request) {
   try {
-    const session = await getServerSession()
-
     const hackathons = await prisma.hackathon.findMany()
 
     return NextResponse.json(hackathons)
