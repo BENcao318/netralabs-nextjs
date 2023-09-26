@@ -34,6 +34,7 @@ import { useToast } from './ui/use-toast'
 import { Label } from '@radix-ui/react-label'
 import { Card, CardContent } from './ui/card'
 import { PlusCircle } from 'lucide-react'
+import classNames from 'classnames'
 
 type CreateHackathonFormValues = z.infer<typeof createHackathonSchema>
 
@@ -53,11 +54,9 @@ export default function CreateHackathonForm({
   const [judgesContent, setJudgesContent] = useState<string>('')
   const [partnersContent, setPartnersContent] = useState<string>('')
   const [prizeList, setPrizeList] = useState<Prize[]>([])
-  const [timeZone, setTimeZone] = useState<string>(
-    Intl.DateTimeFormat().resolvedOptions().timeZone
-  )
+  const [timeZone, setTimeZone] = useState<string>('')
 
-  const [timeZoneSelect, setTimeZoneSelect] = useState<any>(timeZone)
+  const [timeZoneSelect, setTimeZoneSelect] = useState<any>('')
 
   useEffect(() => {
     setTimeZoneSelect({ value: timeZone })
@@ -329,64 +328,60 @@ export default function CreateHackathonForm({
 
         <Card className="w-fit">
           <CardContent className="pt-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-6">
-                <div className="flex flex-col">
-                  <Label htmlFor="date" className="shrink-0">
-                    Pick start and end dates
-                  </Label>
-                  <div className="flex gap-3">
-                    <div className="flex flex-col gap-2">
-                      <FormField
-                        control={form.control}
-                        name="startDate"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-md">
-                              Start date
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                type="date"
-                                {...field}
-                                className="text-black font-bold text-lg"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <FormField
-                        control={form.control}
-                        name="endDate"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-md">End date</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="date"
-                                {...field}
-                                className="text-black font-bold text-lg"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+            <div className="flex flex-col md:flex-row items-center gap-6 ">
+              <div className="flex flex-col">
+                <Label htmlFor="date" className="shrink-0">
+                  Pick start and end dates
+                </Label>
+                <div className="flex gap-3">
+                  <div className="flex flex-col gap-2">
+                    <FormField
+                      control={form.control}
+                      name="startDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-md">Start date</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="date"
+                              {...field}
+                              className="text-black font-bold text-lg"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <FormField
+                      control={form.control}
+                      name="endDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-md">End date</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="date"
+                              {...field}
+                              className="text-black font-bold text-lg"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <Label htmlFor="date" className="shrink-0">
-                    Pick a time zone
-                  </Label>
-                  <TimezoneSelect
-                    value={timeZoneSelect}
-                    onChange={(obj) => setTimeZone(obj.value)}
-                  />
-                </div>
+              </div>
+              <div className="flex flex-col gap-2 min-w-[240px] ">
+                <Label htmlFor="date" className="shrink-0">
+                  Pick a time zone
+                </Label>
+                <TimezoneSelect
+                  value={timeZoneSelect}
+                  onChange={(obj) => setTimeZone(obj.value)}
+                />
               </div>
             </div>
           </CardContent>
@@ -402,7 +397,7 @@ export default function CreateHackathonForm({
             {form.formState.isSubmitting && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Submit
+            Create
           </Button>
           <div
             className="font-bold text-red-500 underline cursor-pointer text-center ml-6 text-lg"

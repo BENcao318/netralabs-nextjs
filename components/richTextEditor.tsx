@@ -435,7 +435,7 @@ export default function Tiptap(props: TiptapProps) {
 
   return (
     <div
-      className={`w-full  border-2 rounded-2xl ${
+      className={`min-w-[700px]  border-2 rounded-2xl ${
         isCreator ? 'border-slate-200' : 'border-slate-400'
       }`}
     >

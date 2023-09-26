@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardContent,
@@ -11,9 +11,7 @@ import {
 } from './ui/card'
 import { convertDateString } from '@/helpers/utils'
 import { Button } from './ui/button'
-import Link from 'next/link'
-import { launchHackathon } from '@/app/libs/hackathons'
-import LaunchConfirm from './launch-confirm'
+import { useRouter } from 'next/navigation'
 
 type Hackathon = {
   id: string
@@ -31,7 +29,8 @@ export default function HackathonManageCard({
 }: {
   hackathon: Hackathon
 }) {
-  const [launched, setLaunched] = useState(hackathon.launched)
+  const [launched, setLaunched] = useState(false)
+  const router = useRouter()
 
   const options = {
     year: 'numeric',
@@ -61,21 +60,13 @@ export default function HackathonManageCard({
     },
   ]
 
-  const handleClick = async () => {
-    const res = await fetch('/api/manage/hackathons/launch', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        hackathonId: hackathon.id,
-      }),
-    })
-
-    if (res.ok) {
-      setLaunched(true)
-    }
+  const handleClickEdit = () => {
+    router.push(`/manager/edit-hackathon?hid=${hackathon.id}`)
   }
+
+  useEffect(() => {
+    setLaunched(hackathon.launched || false)
+  }, [hackathon, setLaunched])
 
   return (
     <Card className="w-[500px]">
@@ -111,30 +102,21 @@ export default function HackathonManageCard({
         </table>
       </CardContent>
       <CardFooter className="pt-0 flex justify-between mx-4">
-        <div className="flex gap-6 items-center">
-          <Button>Preview</Button>
-          <Link
-            className="font-medium text-blue-600 hover:underline cursor-pointer text-center"
-            href={{
-              pathname: '/manager/edit-hackathon',
-              query: { hid: hackathon.id },
-            }}
-          >
-            Edit
-          </Link>
-        </div>
+        <Button
+          className="font-bold hover:underline text-lg"
+          onClick={handleClickEdit}
+        >
+          Edit
+        </Button>
+
         {launched ? (
           <p className="flex uppercase items-center font-bold text-green-600">
             launched
           </p>
         ) : (
-          // <Button
-          //   className="bg-orange-600 hover:bg-orange-400"
-          //   onClick={handleClick}
-          // >
-          //   Launch
-          // </Button>
-          <LaunchConfirm confirm={handleClick} />
+          <p className="flex uppercase items-center font-bold text-red-600">
+            Not launched yet
+          </p>
         )}
       </CardFooter>
     </Card>

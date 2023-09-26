@@ -299,7 +299,7 @@ export default function ParticipantPage() {
                 ))
               ) : (
                 <div>
-                  You don`&apos;t have unsubmitted projects or your project team
+                  You don&apos;t have unsubmitted projects or your project team
                   is full.
                 </div>
               )}
