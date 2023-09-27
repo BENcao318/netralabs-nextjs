@@ -123,8 +123,6 @@ async function main() {
     },
   })
 
-  console.log(createdUsers)
-
   const users = await prisma.user.findMany({
     where: {
       isAdmin: true,

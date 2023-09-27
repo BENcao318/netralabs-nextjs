@@ -9,7 +9,7 @@ const ProjectsPage = async () => {
   let projects: any[] = []
 
   if (!session) {
-    console.log('not loggedin')
+    console.log('not logged in')
   } else {
     projects = await getProjectsByUserId(session.user.id)
   }

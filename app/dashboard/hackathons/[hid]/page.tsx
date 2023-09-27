@@ -239,3 +239,4 @@ export default function HackathonPage({ params }: { params: { hid: string } }) {
     </div>
   )
 }
+//todo fix hackathon description title color mixed into background issue
