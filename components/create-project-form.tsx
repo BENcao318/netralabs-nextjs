@@ -65,7 +65,6 @@ export default function CreateProjectForm({
         method: 'POST',
         body: JSON.stringify(projectData),
       })
-      // console.log(res)
       if (res.ok) {
         toast({
           title: 'Success!',

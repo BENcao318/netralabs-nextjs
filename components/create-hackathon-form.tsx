@@ -19,22 +19,18 @@ import {
   FormLabel,
   FormMessage,
 } from './ui/form'
-// import { addDays } from 'date-fns'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import Tiptap from './richTextEditor'
 import { useRouter } from 'next/navigation'
 import { PrizeCard } from './prizeCard'
 import CreatePrizeForm from './create-prize-form'
-// import DateAndTimeZonePicker from './date-and-time-zone-picker'
 import TimezoneSelect from 'react-timezone-select'
-// import { DateRange } from 'react-day-picker'
 import { Icons } from './ui/ui-icons'
 import { useToast } from './ui/use-toast'
 import { Label } from '@radix-ui/react-label'
 import { Card, CardContent } from './ui/card'
 import { PlusCircle } from 'lucide-react'
-import classNames from 'classnames'
 
 type CreateHackathonFormValues = z.infer<typeof createHackathonSchema>
 
@@ -409,5 +405,4 @@ export default function CreateHackathonForm({
       </div>
     </Form>
   )
-  //todo add assertion for the start and end date, end date should be after start date
 }

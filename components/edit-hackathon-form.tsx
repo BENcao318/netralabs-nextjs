@@ -15,16 +15,13 @@ import {
   FormLabel,
   FormMessage,
 } from './ui/form'
-// import { addDays } from 'date-fns'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import Tiptap from './richTextEditor'
 import { useRouter } from 'next/navigation'
 import { PrizeCard } from './prizeCard'
 import CreatePrizeForm from './create-prize-form'
-// import DateAndTimeZonePicker from './date-and-time-zone-picker'
 import TimezoneSelect from 'react-timezone-select'
-// import { DateRange } from 'react-day-picker'
 import { Icons } from './ui/ui-icons'
 import { useToast } from './ui/use-toast'
 import { Label } from '@radix-ui/react-label'
@@ -71,21 +68,12 @@ export default function EditHackathonForm({ hackathon }: { hackathon: any }) {
   const [openPreviewDialog, setOpenPreviewDialog] = useState(false)
   const [openLaunchDialog, setOpenLaunchDialog] = useState(false)
   const [isLaunched, setIsLaunched] = useState(false)
-  // const currentDate = new Date()
-  // const year = currentDate.getFullYear()
-  // const month = currentDate.getMonth()
-  // const day = currentDate.getDate()
 
   const [timeZoneSelect, setTimeZoneSelect] = useState<any>(timeZone)
 
   useEffect(() => {
     setTimeZoneSelect({ value: timeZone })
   }, [timeZone])
-
-  // const [dateRange, setDateRange] = useState<DateRange | undefined>({
-  //   from: new Date(year, month, day),
-  //   to: addDays(new Date(year, month, day), 20),
-  // })
 
   const form = useForm<TCreateHackathonSchema>({
     resolver: zodResolver(createHackathonSchema),
@@ -508,13 +496,6 @@ export default function EditHackathonForm({ hackathon }: { hackathon: any }) {
               </div>
             </CardContent>
           </Card>
-
-          {/* <DateAndTimeZonePicker
-          timeZone={timeZone}
-          setTimeZone={setTimeZone}
-          date={dateRange}
-          setDate={setDateRange}
-        /> */}
 
           <div className="flex items-center justify-center">
             <Button

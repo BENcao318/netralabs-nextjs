@@ -1,7 +1,7 @@
-import { User } from './user'
-import { redirect } from 'next/navigation'
-import { getServerSession } from 'next-auth/next'
+import { getServerSession } from 'next-auth'
+import Link from 'next/link'
 import { authOptions } from './api/auth/[...nextauth]/route'
+import { redirect } from 'next/navigation'
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
@@ -18,22 +18,19 @@ export default async function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <section className="w-full flex-center flex-col text-xl">
         <h1 className="head_text text-center">
-          Discover & Share
+          Netralabs
           <br className="max-md:hidden" />
-          <span className="orange_gradient text-center">
-            {' '}
-            AI-Powered Prompts1
-          </span>
+          <span className="orange_gradient text-center">Landing Page</span>
         </h1>
-        <p className="desc text-center">
-          Promptopia is an open-source AI prompting tool for modern world to
-          discover, create and share creative prompts
-        </p>
 
-        {/* <Button className="bg-orange-300">Get Started</Button>
-        <Link href={'/dashboard'}>dashboard</Link> */}
-        <pre>{JSON.stringify(session)}</pre>
-        <User />
+        <div className="w-full mx-auto flex justify-center">
+          <Link
+            className="mt-8 p-3 bg-slate-100 rounded-lg text-slate-900 cursor-pointer font-bold "
+            href={'/auth/signIn'}
+          >
+            sign in
+          </Link>
+        </div>
       </section>
     </main>
   )

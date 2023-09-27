@@ -58,7 +58,7 @@ export async function GET(request: Request) {
         }
       })
     )
-    console.log(notificationsWithHackathons)
+
     return NextResponse.json(notificationsWithHackathons)
   } catch (error) {
     console.log(error)
