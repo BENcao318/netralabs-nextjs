@@ -214,8 +214,8 @@ export default function NotificationDropdownMenu({
                 <p>Project:</p>
               </div>
               <div className="mt-2 text-lg font-bold col-span-2">
-                <p>{dialogContent.projectName}</p>
                 <p>{dialogContent.hackathonName}</p>
+                <p>{dialogContent.projectName}</p>
               </div>
             </div>
           </div>

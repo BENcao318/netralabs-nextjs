@@ -16,9 +16,9 @@ import Text from '@tiptap/extension-text'
 import Highlight from '@tiptap/extension-highlight'
 import TextAlign from '@tiptap/extension-text-align'
 import Placeholder from '@tiptap/extension-placeholder'
-import { Editor, EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Icons } from '@/components/ui/icons'
 import {
   Menubar,
@@ -423,12 +423,12 @@ export default function Tiptap(props: TiptapProps) {
       },
     },
     content: '',
-    editable: isCreator,
 
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML())
     },
     onCreate({ editor }) {
+      editor.setEditable(isCreator)
       editor?.chain().focus().insertContent(content).run()
     },
   })
