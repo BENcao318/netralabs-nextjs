@@ -1,6 +1,7 @@
 'use client'
 
 import { TCreateHackathonSchema, createHackathonSchema } from '@/lib/types'
+import styles from './edit-hackathon-form.module.css'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useEffect, useState, useMemo } from 'react'
@@ -147,6 +148,8 @@ export default function EditHackathonForm({ hackathon }: { hackathon: any }) {
     }
   }
 
+  console.log(hackathon?.description)
+
   const addPrize = () => {
     const prize = {
       id: uuid(),
@@ -183,7 +186,7 @@ export default function EditHackathonForm({ hackathon }: { hackathon: any }) {
   return (
     <>
       <div className="flex justify-between items-center">
-        <div className="flex gap-3 items-center1">
+        <div className="flex gap-3 items-center">
           <Button
             className="text-xl font-extrabold w-fit px-6 py-6 hover:bg-slate-100 hover:text-slate-950 font-mono"
             onClick={handleClickPreview}

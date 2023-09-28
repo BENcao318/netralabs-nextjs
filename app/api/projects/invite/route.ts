@@ -60,6 +60,10 @@ export async function POST(request: Request) {
       where: {
         id: body.projectId,
       },
+      include: {
+        creator: true,
+        participants: true,
+      },
     })
 
     if (!project) {
@@ -70,6 +74,23 @@ export async function POST(request: Request) {
         {
           status: 401,
           statusText: 'Unauthorized user',
+        }
+      )
+    }
+
+    const teammateEmails = [
+      project.creator.email,
+      ...project.participants.map((participant) => participant.email),
+    ]
+
+    const isEmailAlreadyInProject = teammateEmails.includes(body.email)
+
+    if (isEmailAlreadyInProject) {
+      return NextResponse.json(
+        { error: 'Already in the team' },
+        {
+          statusText: 'This person is already in the team',
+          status: 401,
         }
       )
     }

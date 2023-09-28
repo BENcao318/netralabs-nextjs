@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   Card,
   CardContent,
@@ -106,7 +106,7 @@ export default function ProjectTeamCard({
         const data = await res.json()
         toast({
           title: 'Success!',
-          description: 'You joined the hackathon.',
+          description: 'You have sent the invitation.',
         })
         reset()
         setOpenSendEmailDialog(false)
@@ -126,6 +126,10 @@ export default function ProjectTeamCard({
       })
     }
   }
+
+  useEffect(() => {
+    if (!openSendEmailDialog) reset()
+  }, [openSendEmailDialog, reset])
 
   return (
     <Card className="w-[360px] bg-slate-700 border-none">

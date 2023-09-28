@@ -578,7 +578,7 @@ export default function EditProjectForm({
             Update
           </Button>
           <div
-            className="font-bold text-red-500 underline cursor-pointer text-center ml-6 text-lg"
+            className="font-bold text-slate-300 hover:underline cursor-pointer text-center ml-6 text-lg"
             onClick={() => router.push('/dashboard/projects')}
           >
             Cancel
