@@ -57,7 +57,7 @@ type ValidationData = {
   pitch: string | null
   techStack: TechStackItem[] | []
   repositoryUrl: string | null
-  videoUrl: string | null
+  videoUrl?: string | null
   story: string | null
 }
 export default function EditProjectForm({
@@ -188,7 +188,7 @@ export default function EditProjectForm({
           pitch: data.pitch,
           techStack: data.techStack,
           repositoryUrl: data.repositoryUrl,
-          videoUrl: data.videoUrl,
+          // videoUrl: data.videoUrl,
           story: data.story,
         }
         const isValid = validateProjectData(validationData)
@@ -268,7 +268,7 @@ export default function EditProjectForm({
             </TooltipProvider>
           </div>
           <DialogContent className="bg-slate-700 container sm:min-w-[500px] md:min-w-[600px] lg:min-w-[800px] xl:min-w-[1000px] h-full overflow-y-scroll	">
-            <DialogHeader className="text-slate-900">
+            <DialogHeader className="text-slate-900 -mb-16 mt-5">
               <DialogTitle className="text-3xl font-bold text-slate-100 text-center">
                 {project.name}
               </DialogTitle>
@@ -276,15 +276,19 @@ export default function EditProjectForm({
                 {project.pitch}
               </DialogDescription>
             </DialogHeader>
-            <Separator className="mt-2" />
-            <div className="break-all">
-              <h1 className="font-semibold text-2xl font-mono">Video:</h1>
-              <VideoPlayer
-                videoUrl={project.videoUrl}
-                width={'640'}
-                height={'380'}
-              />
-            </div>
+            {project.videoUrl && (
+              <>
+                <Separator className="mt-2" />
+                <div className="break-all">
+                  <h1 className="font-semibold text-2xl font-mono">Video:</h1>
+                  <VideoPlayer
+                    videoUrl={project.videoUrl}
+                    width={'640'}
+                    height={'380'}
+                  />
+                </div>
+              </>
+            )}
             <Separator className="mt-2" />
             <div className="break-all">
               <h1 className="font-semibold text-2xl font-mono">Story:</h1>

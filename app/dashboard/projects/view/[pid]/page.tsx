@@ -38,15 +38,19 @@ export default function ViewProjectPage({
             <p className="text-xl">{project.pitch}</p>
           </div>
           <Separator className="mt-2" />
-          <div className="break-all">
-            <h1 className="font-semibold text-2xl font-mono">Video:</h1>
-            <VideoPlayer
-              videoUrl={project.videoUrl}
-              width={'640'}
-              height={'380'}
-            />
-          </div>
-          <Separator className="mt-2" />
+          {project.videoUrl && (
+            <>
+              <div className="break-all">
+                <h1 className="font-semibold text-2xl font-mono">Video:</h1>
+                <VideoPlayer
+                  videoUrl={project.videoUrl}
+                  width={'640'}
+                  height={'380'}
+                />
+              </div>
+              <Separator className="mt-2" />
+            </>
+          )}
           <div className="break-all">
             <h1 className="font-semibold text-2xl font-mono">Story:</h1>
             <div className="mt-3">{parse(project.story)}</div>

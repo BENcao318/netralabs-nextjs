@@ -1,11 +1,13 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card'
 import { Button } from './ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { VideoPlayer } from './videoPlayer'
 import { Github } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import blueprintImage from '@/components/images/blueprintImage_wvzx3c.jpg'
+import Image from 'next/image'
 
 export default function SubmittedProjectInformationCard({ project }: any) {
   const router = useRouter()
@@ -43,6 +45,22 @@ export default function SubmittedProjectInformationCard({ project }: any) {
         </CardTitle>
       </CardHeader>
       <CardContent className="w-full flex justify-center py-2">
+        {project.videoUrl ? (
+          <VideoPlayer
+            videoUrl={project.videoUrl}
+            width={'390'}
+            height={'219'}
+          />
+        ) : (
+          <Image
+            src={blueprintImage}
+            width={200}
+            height={200}
+            priority={true}
+            alt="Thumbnail"
+            className="w-[330px] h-[180px] rounded-lg"
+          />
+        )}
         <VideoPlayer videoUrl={project.videoUrl} width={'390'} height={'219'} />
       </CardContent>
       <CardContent className="flex w-full gap-2 px-3 py-3 justify-center">
