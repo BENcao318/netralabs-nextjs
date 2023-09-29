@@ -144,7 +144,7 @@ export default function ProjectTeamCard({
         {teamMembers.map((member) => {
           return (
             <div
-              className="text-slate-100 text-xl font-bold grid grid-cols-2 items-center"
+              className="text-slate-100 text-xl font-bold flex flex-col items-center"
               key={member.id}
             >
               <Avatar className="h-11 w-11 mr-3">
