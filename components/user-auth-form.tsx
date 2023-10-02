@@ -134,8 +134,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 }}
               >
                 Admin Sign in
-              </Button>
-            </form> */}
+              </Button> */}
+            </form>
 
             {/* <div className="relative">
             <div className="absolute inset-0 flex items-center ">
