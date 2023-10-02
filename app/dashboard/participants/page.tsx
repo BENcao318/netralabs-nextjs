@@ -259,6 +259,7 @@ export default function ParticipantPage() {
               </div>
             </div>
           </div>
+
           <div className="flex flex-wrap gap-6 justify-start">
             {filteredParticipants && filteredParticipants.length !== 0 ? (
               filteredParticipants.map((participant) => (
@@ -284,7 +285,7 @@ export default function ParticipantPage() {
             <DialogTitle className="text-xl font-bold">
               Invite a teammate
             </DialogTitle>
-            <DialogDescription>Select avability to invite</DialogDescription>
+            <DialogDescription>Select a project to invite</DialogDescription>
           </DialogHeader>
           <ScrollArea className="border h-full w-full px-2 py-2 rounded-md">
             <div className="text-slate-900 flex gap-3">
@@ -322,7 +323,7 @@ export default function ParticipantPage() {
               {isSubmitting && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Send Invite
+              Send Invitation
             </Button>
           </DialogFooter>
         </DialogContent>

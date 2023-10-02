@@ -27,6 +27,8 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from '@/components/ui/menubar'
+import Heading from '@tiptap/extension-heading'
+import { mergeAttributes } from '@tiptap/core'
 
 const TableMenu = ({ editor }: any) => [
   {
@@ -374,6 +376,14 @@ type TiptapProps = {
   isCreator: boolean
 }
 
+const classes: Record<number, string> = {
+  1: 'text-4xl',
+  2: 'text-3xl',
+  3: 'text-2xl',
+  4: 'text-xl',
+  5: 'text-lg',
+}
+
 export default function Tiptap(props: TiptapProps) {
   const { setContent, content, placeholder, isCreator } = props
 
@@ -390,11 +400,12 @@ export default function Tiptap(props: TiptapProps) {
           keepMarks: true,
           keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
         },
-        heading: {
-          HTMLAttributes: {
-            class: 'text-xl text-gray-700',
-          },
-        },
+        // heading: {
+        //   HTMLAttributes: {
+        //     class: 'text-xl',
+        //   },
+        // },
+        heading: false,
       }),
       TextAlign.configure({
         types: ['heading', 'paragraph'],
@@ -402,6 +413,21 @@ export default function Tiptap(props: TiptapProps) {
       Underline.configure({
         HTMLAttributes: {
           class: 'my-custom-class',
+        },
+      }),
+      Heading.configure({ levels: [1, 2, 3, 4, 5] }).extend({
+        levels: [1, 2, 3, 4, 5],
+        renderHTML({ node, HTMLAttributes }) {
+          const level = this.options.levels.includes(node.attrs.level)
+            ? node.attrs.level
+            : this.options.levels[0]
+          return [
+            `h${level}`,
+            mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
+              class: `${classes[level]}`,
+            }),
+            0,
+          ]
         },
       }),
       Highlight,

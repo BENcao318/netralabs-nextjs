@@ -172,7 +172,20 @@ export async function PUT(request: Request) {
         },
       })
 
-      if (joinProject && acceptNotification) {
+      const joinHackathon = await prisma.hackathon.update({
+        where: {
+          id: project.hackathonId,
+        },
+        data: {
+          participants: {
+            connect: {
+              id: session.user.id,
+            },
+          },
+        },
+      })
+
+      if (joinProject && acceptNotification && joinHackathon) {
         return NextResponse.json({ message: 'ok', status: 200 })
       }
       return NextResponse.json(

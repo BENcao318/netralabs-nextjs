@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
 import { NextResponse } from 'next/server'
+import { authOptions } from '../auth/[...nextauth]/route'
 
 type Session = {
   user: Partial<{
@@ -14,7 +15,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const session: Session | null = await getServerSession()
+  const session: Session | null = await getServerSession(authOptions)
 
   if (session?.user && session?.user?.isAdmin === false) {
     return new NextResponse(null, { status: 401 })

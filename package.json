@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npx prisma db push --accept-data-loss && npx prisma db seed && npx prisma generate && next build",
+    "build": "npx prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -32,6 +32,7 @@
     "@radix-ui/react-tooltip": "^1.0.6",
     "@tiptap/extension-bullet-list": "^2.0.4",
     "@tiptap/extension-color": "^2.0.4",
+    "@tiptap/extension-heading": "^2.1.11",
     "@tiptap/extension-highlight": "^2.0.4",
     "@tiptap/extension-link": "^2.0.4",
     "@tiptap/extension-list-item": "^2.0.4",

@@ -25,6 +25,7 @@ export default function HackathonPage({ params }: { params: { hid: string } }) {
     const getHackathonByHid = async () => {
       const res = await fetch(`/api/hackathons/${params.hid}`)
       const data = await res.json()
+      console.log('data', data)
       setHackathon(data)
       setIsJoined(data.isJoined)
       setHasProject(data.hasProject)

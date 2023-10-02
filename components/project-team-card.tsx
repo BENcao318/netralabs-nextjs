@@ -140,11 +140,11 @@ export default function ProjectTeamCard({
         </CardDescription>
       </CardHeader>
       <Separator />
-      <CardContent className="w-full mt-3 flex justify-center">
+      <CardContent className="w-full mt-3 flex flex-col gap-3">
         {teamMembers.map((member) => {
           return (
             <div
-              className="text-slate-100 text-xl font-bold flex flex-col items-center"
+              className="text-slate-100 text-xl font-bold flex items-center"
               key={member.id}
             >
               <Avatar className="h-11 w-11 mr-3">

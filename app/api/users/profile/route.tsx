@@ -10,7 +10,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const body = await request.json()
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
 
   const userProfile = await prisma.user.findUnique({
     where: {

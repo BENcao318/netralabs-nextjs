@@ -37,7 +37,18 @@ export async function GET(
       const project = await prisma.project.findMany({
         where: {
           hackathonId: hackathonId,
-          creatorId: session.user.id,
+          OR: [
+            {
+              creatorId: session.user.id,
+            },
+            {
+              participants: {
+                some: {
+                  id: session.user.id,
+                },
+              },
+            },
+          ],
         },
       })
       if (project.length !== 0) {

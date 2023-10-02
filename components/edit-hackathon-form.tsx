@@ -147,9 +147,6 @@ export default function EditHackathonForm({ hackathon }: { hackathon: any }) {
       throw new Error('Failed to create hackathon')
     }
   }
-
-  console.log(hackathon?.description)
-
   const addPrize = () => {
     const prize = {
       id: uuid(),

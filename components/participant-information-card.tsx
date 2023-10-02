@@ -1,13 +1,6 @@
 import { Participant } from '@/lib/types'
 import React from 'react'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from './ui/card'
+import { Card, CardContent, CardHeader } from './ui/card'
 import { Button } from './ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { GraduationCap, UserPlus2, Wrench } from 'lucide-react'
@@ -48,10 +41,10 @@ export default function ParticipantInformationCard({
             </span>
           </div>
           <Button
-            className="bg-white py-0 px-2 rounded-full hover:bg-slate-700 group"
+            className="bg-white py-0 px-3 rounded-full hover:bg-slate-700 group"
             onClick={handleClick}
           >
-            <UserPlus2 className="h-6 w-6 text-slate-800 group-hover:text-white" />
+            <UserPlus2 className="h-9 w-9 text-slate-800 group-hover:text-white" />
           </Button>
         </div>
       </CardHeader>
