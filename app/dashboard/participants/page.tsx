@@ -20,7 +20,7 @@ import { Participant, Project } from '@/lib/types'
 import { GraduationCap, Wrench } from 'lucide-react'
 import React, { useCallback, useEffect, useState } from 'react'
 
-export default function ParticipantPage() {
+export default function Page() {
   const [participants, setParticipants] = useState<Participant[]>([])
   const [selectedRoles, setSelectedRoles] = useState<String[]>([])
   const [selectedSkills, setSelectedSkills] = useState<String[]>([])

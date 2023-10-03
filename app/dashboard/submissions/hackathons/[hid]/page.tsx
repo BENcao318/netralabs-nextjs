@@ -4,7 +4,7 @@ import SubmittedProjectInformationCard from '@/components/submitted-project-info
 import { Separator } from '@/components/ui/separator'
 import React from 'react'
 
-export default async function page({ params }: { params: { hid: string } }) {
+export default async function Page({ params }: { params: { hid: string } }) {
   const projects = await getProjectsByHackathonId(params.hid)
   const hackathon = await getHackathonByHackathonId(params.hid)
 

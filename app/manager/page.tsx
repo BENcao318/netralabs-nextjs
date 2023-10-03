@@ -6,7 +6,7 @@ import { getManagedHackathons } from '../libs/hackathons'
 import HackathonManageCard from '@/components/hackathon-manage-card'
 import CreateNewHackathonCard from '@/components/create-new-hackathon-card'
 
-export default async function page() {
+export default async function Page() {
   const session = await getServerSession(authOptions)
   if (!session) {
     redirect('/auth/signIn')

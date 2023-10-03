@@ -3,7 +3,7 @@ import HackathonCardForSubmittedProjects from '@/components/hackathon-card-for-s
 import { Separator } from '@/components/ui/separator'
 import React from 'react'
 
-export default async function page() {
+export default async function Page() {
   const hackathons = await getLaunchedHackathons()
 
   return (

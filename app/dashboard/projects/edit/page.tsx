@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 
-export default function page({
+export default function Page({
   searchParams,
 }: {
   searchParams: { pid: string }
