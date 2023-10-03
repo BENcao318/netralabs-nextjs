@@ -108,7 +108,7 @@ export function Sidebar() {
     >
       <div className="flex flex-col">
         <div className="flex items-center justify-between relative">
-          <div className="flex items-center pl-1 gap-4 mt-6">
+          <div className="flex items-center pl-1 gap-4 mt-3">
             <Image src={BrandImg} className="mx-auto" alt="img" />
             <span
               className={classNames('text-2xl font-bold', {
@@ -127,8 +127,7 @@ export function Sidebar() {
             </button>
           )}
         </div>
-
-        <div className="flex flex-col items-start mt-24">
+        <div className="flex flex-col items-start mt-10">
           {routes.map(({ icon: Icon, ...route }) => {
             const classes = getNavItemClasses(route)
             return (
@@ -150,32 +149,32 @@ export function Sidebar() {
       </div>
 
       {!toggleCollapse && (
-        <div>
-          <Card className="mt-auto mb-4 py-2">
-            <CardContent className="flex flex-col -mx-2">
-              <a href="https://www.netrascale.com/">
-                <Image
-                  src={NetraChainImage}
-                  className="w-3/4 h-3/4 mx-auto"
-                  alt="netrachainimage"
-                />
+        <Card className="mt-auto py-2">
+          <CardContent className="flex flex-col -mx-2">
+            <a href="https://www.netrascale.com/" target="_blank">
+              <Image
+                src={NetraChainImage}
+                className="w-3/4 h-3/4 mx-auto"
+                alt="netrachainimage"
+              />
+            </a>
+            <h1 className="mt-3 text-center">Join NetraChain for more</h1>
+            <p className="font-normal opacity-80 mt-2">
+              We empower you with game-changing R&D projects, hackathons, and
+              design thinking labs, while genuinely acknowledging and addressing
+              the challenges you encounter.
+            </p>
+            <div className="mt-4 flex mx-auto -mb-6 hover:underline">
+              <a
+                href="https://www.netrascale.com/"
+                className="font-medium font-mono"
+                target="_blank"
+              >
+                Go to NetraChain
               </a>
-              <h1 className="mb-1 mt-2 text-center">
-                Join NetraChain for more
-              </h1>
-              <p className="font-normal opacity-80 mt-2">
-                We empower you with game-changing R&D projects, hackathons, and
-                design thinking labs, while genuinely acknowledging and
-                addressing the challenges you encounter.
-              </p>
-              <div className="mt-4 flex mx-auto">
-                <a href="https://www.netrascale.com/" className="font-medium">
-                  Go to NetraChain
-                </a>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
       )}
     </div>
   )

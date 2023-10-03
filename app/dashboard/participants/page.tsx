@@ -195,7 +195,7 @@ export default function ParticipantPage() {
         </div>
         <Separator className="my-4 mb-12" />
 
-        <div className="flex">
+        <div className="flex w-full">
           <div className="flex-col mr-10">
             <h1 className="mb-3 font-bold ">FILTERS: </h1>
             <SelectSeparator />
@@ -260,7 +260,7 @@ export default function ParticipantPage() {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-6 justify-start">
+          <div className="flex flex-wrap gap-6 justify-start h-full">
             {filteredParticipants && filteredParticipants.length !== 0 ? (
               filteredParticipants.map((participant) => (
                 <ParticipantInformationCard
@@ -271,7 +271,7 @@ export default function ParticipantPage() {
                 />
               ))
             ) : (
-              <div className="text-xl font-bold">
+              <div className="text-xl font-bold ">
                 No participants yet. Please check later.
               </div>
             )}
