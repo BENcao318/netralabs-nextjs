@@ -5,7 +5,7 @@ import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
-export default async function page({
+export default async function Page({
   searchParams,
 }: {
   searchParams: { hid: string }

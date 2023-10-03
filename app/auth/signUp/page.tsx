@@ -4,7 +4,7 @@ import React from 'react'
 import NetraScaleLogo from '@/components/images/logo-white-whiteText.png'
 import NetraLabsLogo from '@/components/images/BrandImage.png'
 
-const page = () => {
+export default async function Page() {
   return (
     <>
       <img
@@ -40,5 +40,3 @@ const page = () => {
     </>
   )
 }
-
-export default page

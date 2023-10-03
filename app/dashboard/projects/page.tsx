@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator'
 import { getProjectsByUserId } from '@/app/libs/projects'
 import ProjectInformationCard from '@/components/project-information-card'
 
-export default async function page() {
+export default async function Page() {
   const session = await getServerSession(authOptions)
   let projects: any[] = []
 

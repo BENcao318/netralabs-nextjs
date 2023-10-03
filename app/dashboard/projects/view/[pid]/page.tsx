@@ -5,7 +5,7 @@ import { VideoPlayer } from '@/components/videoPlayer'
 import React, { useEffect, useState } from 'react'
 import parse from 'html-react-parser'
 
-export default function page({ params }: { params: { pid: string } }) {
+export default function Page({ params }: { params: { pid: string } }) {
   const [project, setProject] = useState<any>(null)
 
   useEffect(() => {
