@@ -4,7 +4,8 @@ import { authOptions } from '../../api/auth/[...nextauth]/route'
 import { Separator } from '@/components/ui/separator'
 import { getProjectsByUserId } from '@/app/libs/projects'
 import ProjectInformationCard from '@/components/project-information-card'
-const ProjectsPage = async () => {
+
+export default async function page() {
   const session = await getServerSession(authOptions)
   let projects: any[] = []
 
@@ -13,8 +14,6 @@ const ProjectsPage = async () => {
   } else {
     projects = await getProjectsByUserId(session.user.id)
   }
-
-  //todo get projects with user as participants
 
   return (
     <>
@@ -53,5 +52,3 @@ const ProjectsPage = async () => {
     </>
   )
 }
-
-export default ProjectsPage

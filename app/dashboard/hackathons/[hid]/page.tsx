@@ -12,7 +12,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/ui/use-toast'
 
-export default function HackathonPage({ params }: { params: { hid: string } }) {
+export default function page({ params }: { params: { hid: string } }) {
   const [hackathon, setHackathon] = useState<Hackathon | undefined | null>()
   const [progress, setProgress] = useState<any>(null)
   const [isJoined, setIsJoined] = useState<boolean>(false)
