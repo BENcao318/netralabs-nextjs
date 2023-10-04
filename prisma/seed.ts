@@ -146,7 +146,7 @@ async function main() {
         judges: '',
         company: '',
         resources: '',
-        timeZone: 'America/Toronto',
+        timeZone: '',
         creatorId: users[0].id,
       },
       {
@@ -162,7 +162,7 @@ async function main() {
         judges: '',
         company: '',
         resources: '',
-        timeZone: 'America/Toronto',
+        timeZone: '',
         creatorId: users[1].id,
       },
     ],

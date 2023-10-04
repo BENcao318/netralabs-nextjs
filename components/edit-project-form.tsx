@@ -162,7 +162,9 @@ export default function EditProjectForm({
       propertyValue: any
     ) => {
       if (propertyValue === null || propertyValue === undefined) {
-        errorMessage = errorMessage + `${propertyName}` + '  '
+        errorMessage = errorMessage
+          ? errorMessage + ',  ' + errorNames[propertyName]
+          : errorNames[propertyName]
       } else if (
         (typeof propertyValue === 'string' &&
           (propertyValue.trim() === '' ||

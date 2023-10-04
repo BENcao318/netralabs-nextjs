@@ -5,7 +5,6 @@ import { Button } from './ui/button'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -59,7 +58,9 @@ export default function LaunchHackathonDialog({
       propertyValue: any
     ) => {
       if (propertyValue === null || propertyValue === undefined) {
-        errorMessage = errorMessage + `${propertyName}` + '  '
+        errorMessage = errorMessage
+          ? errorMessage + ',  ' + errorNames[propertyName]
+          : errorNames[propertyName]
       } else if (
         (typeof propertyValue === 'string' &&
           (propertyValue.trim() === '' ||
