@@ -5,6 +5,7 @@ import React from 'react'
 
 export default async function Page() {
   const hackathons = await getLaunchedHackathons()
+  console.log('hackathons', hackathons)
 
   return (
     <>

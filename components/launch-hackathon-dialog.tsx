@@ -25,6 +25,7 @@ type ValidationData = {
   requirements: string | null
   rules: string | null
   description: string | null
+  judges: string | null
 }
 
 export default function LaunchHackathonDialog({
@@ -50,6 +51,7 @@ export default function LaunchHackathonDialog({
       requirements: 'Requirements',
       rules: 'Rules',
       description: 'Description',
+      judges: 'Judges',
     }
 
     const validateProperty = (
@@ -104,7 +106,6 @@ export default function LaunchHackathonDialog({
           endDate: data.endDate,
           timeZone: data.timeZone,
         }
-        console.log('validationDAta', validationData)
         const isValid = validateProjectData(validationData)
         if (!isValid) {
           setIsSubmitting(false)
