@@ -3,7 +3,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { calculateTimeForHackathon, convertDateString } from '@/helpers/utils'
+import { calculateTimeForHackathon } from '@/helpers/utils'
 import { Hackathon } from '@/lib/types'
 import { Separator } from '@radix-ui/react-separator'
 import React, { useEffect, useState } from 'react'
@@ -240,4 +240,3 @@ export default function Page({ params }: { params: { hid: string } }) {
     </div>
   )
 }
-//todo fix hackathon description title color mixed into background issue

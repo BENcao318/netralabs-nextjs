@@ -1,11 +1,25 @@
-import { getLaunchedHackathons } from '@/app/libs/hackathons'
+'use client'
 import LaunchedHackathonCard from '@/components/launched-hackathon-card'
 import { Separator } from '@/components/ui/separator'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-export default async function Page() {
-  const hackathons = await getLaunchedHackathons()
-  console.log('hackathons', hackathons)
+export default function Page() {
+  const [hackathons, setHackathons] = useState<any>([])
+
+  useEffect(() => {
+    const getLaunchedHackathon = async () => {
+      try {
+        const res = await fetch('/api/hackathons')
+        if (res.ok) {
+          const data = await res.json()
+          setHackathons(data)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getLaunchedHackathon()
+  }, [setHackathons])
 
   return (
     <>
@@ -21,7 +35,7 @@ export default async function Page() {
         <Separator className="my-4 mb-12" />
         <div className="grid 2xl:grid-cols-2 gap-6 justify-items-center">
           {hackathons &&
-            hackathons.map((hackathon) => (
+            hackathons.map((hackathon: any) => (
               <LaunchedHackathonCard key={hackathon.id} hackathon={hackathon} />
             ))}
         </div>

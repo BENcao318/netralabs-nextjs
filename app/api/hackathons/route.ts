@@ -10,8 +10,18 @@ type Session = {
 }
 
 export async function GET(request: Request) {
-  const hackathons = await prisma.hackathon.findMany()
-  return NextResponse.json(hackathons)
+  try {
+    const hackathons = await prisma.hackathon.findMany({
+      where: {
+        launched: true,
+      },
+    })
+
+    return NextResponse.json(hackathons)
+  } catch (error) {
+    console.error('Error retrieving launched hackathons:', error)
+    return NextResponse.error()
+  }
 }
 
 export async function POST(request: Request) {
