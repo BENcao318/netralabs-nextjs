@@ -400,11 +400,6 @@ export default function Tiptap(props: TiptapProps) {
           keepMarks: true,
           keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
         },
-        // heading: {
-        //   HTMLAttributes: {
-        //     class: 'text-xl',
-        //   },
-        // },
         heading: false,
       }),
       TextAlign.configure({

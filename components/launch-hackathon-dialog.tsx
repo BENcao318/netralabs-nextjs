@@ -39,6 +39,18 @@ export default function LaunchHackathonDialog({
   const { toast } = useToast()
   const validateProjectData = (validationData: ValidationData) => {
     let errorMessage = ''
+    const errorNames = {
+      name: 'Name',
+      tagline: 'Tagline',
+      managerEmail: 'Email',
+      timeZone: 'Time-zone',
+      location: 'Location',
+      startDate: 'Start Date',
+      endDate: 'End Date',
+      requirements: 'Requirements',
+      rules: 'Rules',
+      description: 'Description',
+    }
 
     const validateProperty = (
       propertyName: keyof ValidationData,
@@ -47,10 +59,14 @@ export default function LaunchHackathonDialog({
       if (propertyValue === null || propertyValue === undefined) {
         errorMessage = errorMessage + `${propertyName}` + '  '
       } else if (
-        (typeof propertyValue === 'string' && propertyValue.trim() === '') ||
+        (typeof propertyValue === 'string' &&
+          (propertyValue.trim() === '' ||
+            propertyValue.trim() === '<p></p>')) ||
         (Array.isArray(propertyValue) && propertyValue.length === 0)
       ) {
-        errorMessage = errorMessage + `${propertyName}` + '  '
+        errorMessage = errorMessage
+          ? errorMessage + ',  ' + errorNames[propertyName]
+          : errorNames[propertyName]
       }
     }
 
@@ -88,6 +104,7 @@ export default function LaunchHackathonDialog({
           endDate: data.endDate,
           timeZone: data.timeZone,
         }
+        console.log('validationDAta', validationData)
         const isValid = validateProjectData(validationData)
         if (!isValid) {
           setIsSubmitting(false)

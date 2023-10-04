@@ -51,7 +51,6 @@ export default function CreateHackathonForm({
   const [partnersContent, setPartnersContent] = useState<string>('')
   const [prizeList, setPrizeList] = useState<Prize[]>([])
   const [timeZone, setTimeZone] = useState<string>('')
-
   const [timeZoneSelect, setTimeZoneSelect] = useState<any>('')
 
   useEffect(() => {

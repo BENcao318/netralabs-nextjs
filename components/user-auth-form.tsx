@@ -111,7 +111,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 Sign In with Email
               </Button>
 
-              {/* <Button
+              <Button
                 onClick={async () => {
                   setValue('email', 'cby204@gmail.com')
                   setValue('password', '1234567890s!')
@@ -134,7 +134,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 }}
               >
                 Admin Sign in
-              </Button> */}
+              </Button>
             </form>
 
             {/* <div className="relative">

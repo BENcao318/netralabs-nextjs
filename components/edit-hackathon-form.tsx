@@ -63,13 +63,10 @@ export default function EditHackathonForm({ hackathon }: { hackathon: any }) {
   const [judgesContent, setJudgesContent] = useState<string>('')
   const [partnersContent, setPartnersContent] = useState<string>('')
   const [prizeList, setPrizeList] = useState<Prize[]>([])
-  const [timeZone, setTimeZone] = useState<string>(
-    Intl.DateTimeFormat().resolvedOptions().timeZone
-  )
+  const [timeZone, setTimeZone] = useState<string>('')
   const [openPreviewDialog, setOpenPreviewDialog] = useState(false)
   const [openLaunchDialog, setOpenLaunchDialog] = useState(false)
   const [isLaunched, setIsLaunched] = useState(false)
-
   const [timeZoneSelect, setTimeZoneSelect] = useState<any>(timeZone)
 
   useEffect(() => {

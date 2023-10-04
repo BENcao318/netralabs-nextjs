@@ -148,6 +148,14 @@ export default function EditProjectForm({
 
   const validateProjectData = (validationData: ValidationData) => {
     let errorMessage = ''
+    const errorNames = {
+      name: 'Name',
+      pitch: 'Pitch',
+      techStack: 'Tech Stack',
+      repositoryUrl: 'Github Link',
+      videoUrl: 'Video Link',
+      story: 'Story',
+    }
 
     const validateProperty = (
       propertyName: keyof ValidationData,
@@ -156,10 +164,14 @@ export default function EditProjectForm({
       if (propertyValue === null || propertyValue === undefined) {
         errorMessage = errorMessage + `${propertyName}` + '  '
       } else if (
-        (typeof propertyValue === 'string' && propertyValue.trim() === '') ||
+        (typeof propertyValue === 'string' &&
+          (propertyValue.trim() === '' ||
+            propertyValue.trim() === '<p></p>')) ||
         (Array.isArray(propertyValue) && propertyValue.length === 0)
       ) {
-        errorMessage = errorMessage + `${propertyName}` + '  '
+        errorMessage = errorMessage
+          ? errorMessage + ',  ' + errorNames[propertyName]
+          : errorNames[propertyName]
       }
     }
 
