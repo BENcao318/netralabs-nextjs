@@ -35,47 +35,29 @@ export default function LaunchedHackathonCard({ hackathon }: Hackathon | any) {
         <CardTitle>{hackathon.name}</CardTitle>
         <CardDescription>{hackathon.tagline}</CardDescription>
       </CardHeader>
-      <CardContent className="grid grid-cols-2">
-        <div className="grid max-w-[240px] min-w-break-words md:mx-4">
-          <div className="-mx-2 rounded-md p-2 transition-all">
-            <div className="flex items-center">
-              <Clock className="mr-2 h-5 w-5" />
-              <p className="text-md text-muted-foreground">
-                {`$${calculateTotalPrize(hackathon.prizes)} in prizes`}
-              </p>
-            </div>
-          </div>
-          <div className="-mx-2 rounded-md p-2 transition-all">
-            <div className="flex items-center">
-              <Globe className="mr-2 h-5 w-5" />
-              <p className="text-md text-muted-foreground">
-                {hackathon.timeZone}
-              </p>
-            </div>
-          </div>
+      <CardContent className="grid grid-cols-2  -mt-3 break-all  grid-flow-row-dense">
+        <div className="flex items-center  rounded-md p-2 transition-all">
+          <Clock className="mr-2 h-5 w-5" />
+          <p className="text-md text-muted-foreground">
+            {`$${calculateTotalPrize(hackathon.prizes)} in prizes`}
+          </p>
         </div>
-
-        <div className="grid max-w-[240px] break-words">
-          <div className="-mx-2 rounded-md p-2 transition-all">
-            <div className="flex items-center">
-              <Map className="mr-2 h-5" />
-              <p className="text-md text-muted-foreground">
-                {hackathon.location}
-              </p>
-            </div>
-          </div>
-
-          <div className="-mx-2 rounded-md p-2 transition-all">
-            <div className="flex items-center">
-              <CalendarCheck className="mr-2 h-5 w-5" />
-              <p className="text-md text-muted-foreground">
-                {convertDateStringToFormattedString(
-                  hackathon.startDate,
-                  hackathon.endDate
-                )}
-              </p>
-            </div>
-          </div>
+        <div className="flex items-center  rounded-md p-2 transition-all">
+          <Map className="mr-2 h-8 w-8" />
+          <p className="text-md text-muted-foreground">{hackathon.location}</p>
+        </div>
+        <div className="flex items-center rounded-md p-2 transition-all">
+          <Globe className="mr-2 h-5 w-5" />
+          <p className="text-md text-muted-foreground">{hackathon.timeZone}</p>
+        </div>
+        <div className="flex items-center  rounded-md p-2 transition-all">
+          <CalendarCheck className="mr-2 h-5 w-5" />
+          <p className="text-md text-muted-foreground">
+            {convertDateStringToFormattedString(
+              hackathon.startDate,
+              hackathon.endDate
+            )}
+          </p>
         </div>
       </CardContent>
       <CardFooter className="flex justify-between">
