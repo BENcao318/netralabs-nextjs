@@ -132,12 +132,18 @@ export default function CreateHackathonForm({
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-md">Name</FormLabel>
+              <FormLabel className="text-md flex justify-between">
+                <p>Name</p>
+                <p className="text-slate-400">
+                  {60 - (form.watch('name')?.length || 0)} characters left
+                </p>
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Hackathon name"
                   {...field}
                   className="text-black font-bold text-lg"
+                  maxLength={60}
                 />
               </FormControl>
               <FormDescription className="text-slate-100">
@@ -152,12 +158,18 @@ export default function CreateHackathonForm({
           name="tagline"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-md">Tagline</FormLabel>
+              <FormLabel className="text-md flex justify-between">
+                <p>Tagline</p>
+                <p className="text-slate-400">
+                  {80 - (form.watch('tagline')?.length || 0)} characters left
+                </p>
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Tagline"
                   {...field}
                   className="text-black font-bold text-lg"
+                  maxLength={80}
                 />
               </FormControl>
               <FormDescription className="text-slate-100">
@@ -193,12 +205,18 @@ export default function CreateHackathonForm({
           name="location"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-md">Location</FormLabel>
+              <FormLabel className="text-md flex justify-between">
+                <p>Location</p>
+                <p className="text-slate-400">
+                  {40 - (form.watch('location')?.length || 0)} characters left
+                </p>
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Virtual or in-person, e.g.(Toronto, Canada, campus)"
                   {...field}
                   className="text-black font-bold text-lg"
+                  maxLength={40}
                 />
               </FormControl>
               <FormDescription className="text-slate-100">

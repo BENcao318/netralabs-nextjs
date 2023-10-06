@@ -25,10 +25,19 @@ export const signInSchema = z.object({
 
 export const createHackathonSchema = z
   .object({
-    name: z.string().min(2, 'Name must be at least 2 characters'),
-    tagline: z.string().optional(),
+    name: z
+      .string()
+      .min(2, 'Name must be at least 2 characters')
+      .max(60, 'Name must be at most 60 characters'),
+    tagline: z
+      .string()
+      .max(80, 'Tagline must be at most 80 characters')
+      .optional(),
     email: z.string().email().optional(),
-    location: z.string().optional(),
+    location: z
+      .string()
+      .max(40, 'Location must be at most 40 characters')
+      .optional(),
     startDate: z.string().optional(),
     endDate: z.string().optional(),
     description: z.string().optional(),

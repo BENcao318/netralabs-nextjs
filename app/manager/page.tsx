@@ -17,7 +17,7 @@ export default async function Page() {
 
   return (
     <>
-      <div className="mt-36 flex flex-wrap  gap-12 items-stretch container">
+      <div className="mt-36 flex flex-wrap  gap-12 items-stretch container justify-center">
         {createdHackathons.length === 0 && (
           <div>
             <h3 className="text-center text-2xl">

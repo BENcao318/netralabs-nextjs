@@ -69,7 +69,7 @@ export default function HackathonManageCard({
   }, [hackathon, setLaunched])
 
   return (
-    <Card className="w-[500px]">
+    <Card className="w-[500px]  break-all">
       <CardHeader>
         <CardTitle className="text-center text-xl">{hackathon.name}</CardTitle>
         <CardDescription className="text-center text-lg">
