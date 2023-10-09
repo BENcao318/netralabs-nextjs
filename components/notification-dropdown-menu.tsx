@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,13 +9,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu'
-import { Button } from './ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { Notification, User } from '@/lib/types'
-import { Bell, Clock7 } from 'lucide-react'
-import { Separator } from './ui/separator'
-import { timeAgo } from '@/helpers/utils'
+} from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Notification, User } from "@/lib/types";
+import { Bell, Clock7 } from "lucide-react";
+import { Separator } from "./ui/separator";
+import { timeAgo } from "@/helpers/utils";
 import {
   Dialog,
   DialogContent,
@@ -23,29 +23,29 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from './ui/dialog'
-import { Icons } from './ui/ui-icons'
-import { useToast } from './ui/use-toast'
+} from "./ui/dialog";
+import { Icons } from "./ui/ui-icons";
+import { useToast } from "./ui/use-toast";
 
 type NotificationDropdownMenuProps = {
-  notifications: Notification[]
-}
+  notifications: Notification[];
+};
 
 export default function NotificationDropdownMenu({
   notifications,
 }: NotificationDropdownMenuProps) {
-  const [openInvitationDialog, setOpenInvitationDialog] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [openInvitationDialog, setOpenInvitationDialog] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [projectInvitations, setProjectInvitations] = useState<Notification[]>(
-    []
-  )
-  const { toast } = useToast()
+    [],
+  );
+  const { toast } = useToast();
   const [dialogContent, setDialogContent] = useState<any>({
-    senderName: '',
-    hackathonName: '',
-    projectName: '',
-    invitationId: '',
-  })
+    senderName: "",
+    hackathonName: "",
+    projectName: "",
+    invitationId: "",
+  });
   // projectInvitations.push(projectInvitations[0])
 
   const onClickNotificationTab = (invitation: Notification) => {
@@ -54,77 +54,77 @@ export default function NotificationDropdownMenu({
         return {
           ...notification,
           isViewed: true,
-        }
+        };
       }
-      return notification
-    })
-    setProjectInvitations(arr)
+      return notification;
+    });
+    setProjectInvitations(arr);
     const content = {
       senderName: invitation.sender.name,
       hackathonName: invitation.hackathon?.name,
       projectName: invitation.contentName,
       invitationId: invitation.id,
-    }
-    setDialogContent(content)
-    setOpenInvitationDialog(true)
-  }
+    };
+    setDialogContent(content);
+    setOpenInvitationDialog(true);
+  };
 
   const onClickIgnoreInvitation = async () => {
     try {
-      await fetch('/api/users/notifications/', {
-        method: 'PUT',
+      await fetch("/api/users/notifications/", {
+        method: "PUT",
         body: JSON.stringify({
           notificationId: dialogContent.invitationId,
-          action: 'ignore',
+          action: "ignore",
         }),
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    setOpenInvitationDialog(false)
-  }
+    setOpenInvitationDialog(false);
+  };
 
   const onClickAcceptInvitation = async () => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     try {
-      const res = await fetch('/api/users/notifications/', {
-        method: 'PUT',
+      const res = await fetch("/api/users/notifications/", {
+        method: "PUT",
         body: JSON.stringify({
           notificationId: dialogContent.invitationId,
-          action: 'accept',
+          action: "accept",
         }),
-      })
+      });
       if (res.ok) {
         toast({
-          title: 'Success!',
+          title: "Success!",
           description:
             'You have joined the project. You can now view the project under the "Projects" tab. Have fun with your team! 😊',
-        })
-        setIsSubmitting(false)
+        });
+        setIsSubmitting(false);
       } else {
         toast({
-          variant: 'destructive',
-          title: 'Failed 😓',
+          variant: "destructive",
+          title: "Failed 😓",
           description: res.statusText,
-        })
-        setIsSubmitting(false)
+        });
+        setIsSubmitting(false);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    setOpenInvitationDialog(false)
-  }
+    setOpenInvitationDialog(false);
+  };
 
   const filteringNotifications = useCallback(() => {
     return notifications.filter((notification) => {
-      return notification.category === 'project invitation'
-    })
-  }, [notifications])
+      return notification.category === "project invitation";
+    });
+  }, [notifications]);
 
   useEffect(() => {
-    const arr = filteringNotifications()
-    setProjectInvitations(arr)
-  }, [notifications, filteringNotifications])
+    const arr = filteringNotifications();
+    setProjectInvitations(arr);
+  }, [notifications, filteringNotifications]);
 
   return (
     <>
@@ -133,17 +133,17 @@ export default function NotificationDropdownMenu({
           <div>
             {projectInvitations.length !== 0 &&
               projectInvitations.find(
-                (invitation) => invitation.isViewed === false
+                (invitation) => invitation.isViewed === false,
               ) && (
                 <span className="relative flex h-2 w-2  translate-x-9 translate-y-1">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500"></span>
                 </span>
               )}
-            <Bell className="h-7 w-7 ml-4 text-slate-200 cursor-pointer hover:text-slate-500 hover:scale-110" />
+            <Bell className="ml-4 h-6 w-6 cursor-pointer text-slate-200 hover:scale-110 hover:text-slate-500" />
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[300px] mt-2" align="end" forceMount>
+        <DropdownMenuContent className="mt-2 w-[300px]" align="end" forceMount>
           <DropdownMenuGroup>
             {projectInvitations.length !== 0 ? (
               projectInvitations.map((invitation) => {
@@ -151,14 +151,14 @@ export default function NotificationDropdownMenu({
                   <div key={invitation.id}>
                     <DropdownMenuItem
                       onClick={() => onClickNotificationTab(invitation)}
-                      className="cursor-pointer focus:bg-slate-600 focus:text-white rounded-md flex items-center"
+                      className="flex cursor-pointer items-center rounded-md focus:bg-slate-600 focus:text-white"
                     >
-                      <Avatar className="h-11 w-11 mr-3">
+                      <Avatar className="mr-3 h-11 w-11">
                         <AvatarImage
                           src={invitation.sender.userPreference.avatar}
                           alt={invitation.sender.name}
                         />
-                        <AvatarFallback className="text-slate-100 font-bold text-2xl bg-slate-800">
+                        <AvatarFallback className="bg-slate-800 text-2xl font-bold text-slate-100">
                           {invitation.sender.name[0].toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
@@ -169,7 +169,7 @@ export default function NotificationDropdownMenu({
                           </span>
                           <span> sent you an invitation</span>
                         </p>
-                        <div className="flex items-center gap-3 text-slate-500 text-sm">
+                        <div className="flex items-center gap-3 text-sm text-slate-500">
                           <Clock7 className="h-4 w-4" />
                           {timeAgo(invitation.createdAt)}
                           {!invitation.isViewed && (
@@ -180,10 +180,10 @@ export default function NotificationDropdownMenu({
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                   </div>
-                )
+                );
               })
             ) : (
-              <DropdownMenuLabel className="text-slate-500 font-medium">
+              <DropdownMenuLabel className="font-medium text-slate-500">
                 No messages yet
               </DropdownMenuLabel>
             )}
@@ -196,31 +196,31 @@ export default function NotificationDropdownMenu({
       >
         <DialogContent className="w-[600px]">
           <DialogHeader className="text-slate-900">
-            <DialogTitle className="text-xl font-bold text-center">
+            <DialogTitle className="text-center text-xl font-bold">
               Project invitation
             </DialogTitle>
           </DialogHeader>
           <div className="text-slate-900">
             <p className="text-lg font-medium">
-              You are invited by{' '}
+              You are invited by{" "}
               <span className="font-bold text-emerald-600">
                 {dialogContent?.senderName}
-              </span>{' '}
+              </span>{" "}
               to join:
             </p>
-            <div className="grid grid-cols-3 w-full gap-2 ">
+            <div className="grid w-full grid-cols-3 gap-2 ">
               <div className="mt-2 text-lg font-medium">
                 <p>Hackathon:</p>
                 <p>Project:</p>
               </div>
-              <div className="mt-2 text-lg font-bold col-span-2">
+              <div className="col-span-2 mt-2 text-lg font-bold">
                 <p>{dialogContent.hackathonName}</p>
                 <p>{dialogContent.projectName}</p>
               </div>
             </div>
           </div>
-          <DialogFooter className="flex gap-6 mt-6">
-            <Button onClick={onClickIgnoreInvitation} variant={'destructive'}>
+          <DialogFooter className="mt-6 flex gap-6">
+            <Button onClick={onClickIgnoreInvitation} variant={"destructive"}>
               Ignore
             </Button>
             <Button
@@ -237,5 +237,5 @@ export default function NotificationDropdownMenu({
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }

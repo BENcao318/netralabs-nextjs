@@ -1,15 +1,15 @@
-'use client'
+"use client";
 
 import {
   Prize,
   TCreateHackathonSchema,
   createHackathonSchema,
-} from '@/lib/types'
-import * as z from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import React, { useEffect, useState, useMemo } from 'react'
-import { useForm } from 'react-hook-form'
-import uuid from 'react-uuid'
+} from "@/lib/types";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect, useState, useMemo } from "react";
+import { useForm } from "react-hook-form";
+import uuid from "react-uuid";
 import {
   Form,
   FormControl,
@@ -18,52 +18,52 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from './ui/form'
-import { Button } from './ui/button'
-import { Input } from './ui/input'
-import Tiptap from './richTextEditor'
-import { useRouter } from 'next/navigation'
-import { PrizeCard } from './prizeCard'
-import CreatePrizeForm from './create-prize-form'
-import TimezoneSelect from 'react-timezone-select'
-import { Icons } from './ui/ui-icons'
-import { useToast } from './ui/use-toast'
-import { Label } from '@radix-ui/react-label'
-import { Card, CardContent } from './ui/card'
-import { PlusCircle } from 'lucide-react'
+} from "./ui/form";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import Tiptap from "./richTextEditor";
+import { useRouter } from "next/navigation";
+import { PrizeCard } from "./prizeCard";
+import CreatePrizeForm from "./create-prize-form";
+import TimezoneSelect from "react-timezone-select";
+import { Icons } from "./ui/ui-icons";
+import { useToast } from "./ui/use-toast";
+import { Label } from "@radix-ui/react-label";
+import { Card, CardContent } from "./ui/card";
+import { PlusCircle } from "lucide-react";
 
-type CreateHackathonFormValues = z.infer<typeof createHackathonSchema>
+type CreateHackathonFormValues = z.infer<typeof createHackathonSchema>;
 
-const defaultValues: Partial<CreateHackathonFormValues> = {}
+const defaultValues: Partial<CreateHackathonFormValues> = {};
 
 export default function CreateHackathonForm({
   creatorId,
 }: {
-  creatorId: string
+  creatorId: string;
 }) {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [descriptionContent, setDescriptionContent] = useState<string>('')
-  const [requirementContent, setRequirementContent] = useState<string>('')
-  const [rulesContent, setRulesContent] = useState<string>('')
-  const [resourcesContent, setResourcesContent] = useState<string>('')
-  const [judgesContent, setJudgesContent] = useState<string>('')
-  const [partnersContent, setPartnersContent] = useState<string>('')
-  const [prizeList, setPrizeList] = useState<Prize[]>([])
-  const [timeZone, setTimeZone] = useState<string>('')
-  const [timeZoneSelect, setTimeZoneSelect] = useState<any>('')
+  const [descriptionContent, setDescriptionContent] = useState<string>("");
+  const [requirementContent, setRequirementContent] = useState<string>("");
+  const [rulesContent, setRulesContent] = useState<string>("");
+  const [resourcesContent, setResourcesContent] = useState<string>("");
+  const [judgesContent, setJudgesContent] = useState<string>("");
+  const [partnersContent, setPartnersContent] = useState<string>("");
+  const [prizeList, setPrizeList] = useState<Prize[]>([]);
+  const [timeZone, setTimeZone] = useState<string>("");
+  const [timeZoneSelect, setTimeZoneSelect] = useState<any>("");
 
   useEffect(() => {
-    setTimeZoneSelect({ value: timeZone })
-  }, [timeZone])
+    setTimeZoneSelect({ value: timeZone });
+  }, [timeZone]);
 
   const form = useForm<TCreateHackathonSchema>({
     resolver: zodResolver(createHackathonSchema),
     defaultValues,
-    mode: 'onChange',
-  })
+    mode: "onChange",
+  });
 
-  const { toast } = useToast()
+  const { toast } = useToast();
 
   const onSubmit = async (data: TCreateHackathonSchema) => {
     const formData = {
@@ -77,52 +77,52 @@ export default function CreateHackathonForm({
       partnersContent,
       prizes: prizeList,
       creatorId,
-    }
+    };
 
     try {
-      const res = await fetch('/api/manage/hackathons/create', {
-        method: 'POST',
+      const res = await fetch("/api/manage/hackathons/create", {
+        method: "POST",
         body: JSON.stringify(formData),
-      })
+      });
 
       if (res.ok) {
-        router.refresh()
-        router.push('/manager')
+        router.refresh();
+        router.push("/manager");
         toast({
-          title: 'Success!',
-          description: 'A new hackathon has been created.',
-        })
+          title: "Success!",
+          description: "A new hackathon has been created.",
+        });
       }
     } catch (error) {
-      console.error('Error creating hackathon:', error)
-      throw new Error('Failed to create hackathon')
+      console.error("Error creating hackathon:", error);
+      throw new Error("Failed to create hackathon");
     }
-  }
+  };
 
   const addPrize = () => {
     const prize = {
       id: uuid(),
-      name: '',
-      value: '0',
-      numberOfWinningTeams: '1',
-      description: '',
+      name: "",
+      value: "0",
+      numberOfWinningTeams: "1",
+      description: "",
       idEditing: true,
-    }
+    };
 
     const updatedPrizeList = Array.isArray(prizeList)
       ? [...prizeList, prize]
-      : [prize]
-    setPrizeList(updatedPrizeList)
-  }
+      : [prize];
+    setPrizeList(updatedPrizeList);
+  };
 
   const removeElement = (
     prize: Prize,
     prizeList: Prize[],
-    setPrizeList: any
+    setPrizeList: any,
   ) => {
-    const newPrizeList = prizeList.filter((elm) => elm.id !== prize.id)
-    setPrizeList(newPrizeList)
-  }
+    const newPrizeList = prizeList.filter((elm) => elm.id !== prize.id);
+    setPrizeList(newPrizeList);
+  };
 
   return (
     <Form {...form}>
@@ -135,14 +135,14 @@ export default function CreateHackathonForm({
               <FormLabel className="text-md flex justify-between">
                 <p>Name</p>
                 <p className="text-slate-400">
-                  {60 - (form.watch('name')?.length || 0)} characters left
+                  {60 - (form.watch("name")?.length || 0)} characters left
                 </p>
               </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Hackathon name"
                   {...field}
-                  className="text-black font-bold text-lg"
+                  className="text-lg font-bold text-black"
                   maxLength={60}
                 />
               </FormControl>
@@ -161,14 +161,14 @@ export default function CreateHackathonForm({
               <FormLabel className="text-md flex justify-between">
                 <p>Tagline</p>
                 <p className="text-slate-400">
-                  {80 - (form.watch('tagline')?.length || 0)} characters left
+                  {80 - (form.watch("tagline")?.length || 0)} characters left
                 </p>
               </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Tagline"
                   {...field}
-                  className="text-black font-bold text-lg"
+                  className="text-lg font-bold text-black"
                   maxLength={80}
                 />
               </FormControl>
@@ -189,7 +189,7 @@ export default function CreateHackathonForm({
                 <Input
                   placeholder="name@example.com"
                   {...field}
-                  className="text-black font-bold text-lg"
+                  className="text-lg font-bold text-black"
                 />
               </FormControl>
               <FormDescription className="text-slate-100">
@@ -208,14 +208,14 @@ export default function CreateHackathonForm({
               <FormLabel className="text-md flex justify-between">
                 <p>Location</p>
                 <p className="text-slate-400">
-                  {40 - (form.watch('location')?.length || 0)} characters left
+                  {40 - (form.watch("location")?.length || 0)} characters left
                 </p>
               </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Virtual or in-person, e.g.(Toronto, Canada, campus)"
                   {...field}
-                  className="text-black font-bold text-lg"
+                  className="text-lg font-bold text-black"
                   maxLength={40}
                 />
               </FormControl>
@@ -227,20 +227,20 @@ export default function CreateHackathonForm({
           )}
         />
         <div>
-          <h1 className="mb-2 text-md font-semibold">Description</h1>
+          <h1 className="text-md mb-2 font-semibold">Description</h1>
           <Tiptap
             content={descriptionContent}
             setContent={setDescriptionContent}
             placeholder="Description of the hackathon. e.g. Introduction, about the company, schedules."
             isCreator={true}
           />
-          <p className="text-sm text-slate-100 mt-2">
+          <p className="mt-2 text-sm text-slate-100">
             Description of the hackathon. e.g. Introduction, about the company,
             schedules.
           </p>
         </div>
         <div>
-          <h1 className="mb-2 text-md font-semibold">Requirements</h1>
+          <h1 className="text-md mb-2 font-semibold">Requirements</h1>
           <Tiptap
             content={requirementContent}
             setContent={setRequirementContent}
@@ -248,13 +248,13 @@ export default function CreateHackathonForm({
             participants needed when submitting."
             isCreator={true}
           />
-          <p className="text-sm text-slate-100 mt-2">
+          <p className="mt-2 text-sm text-slate-100">
             Requirements for building the hackathon project and what the
             participants needed when submitting.
           </p>
         </div>
         <div>
-          <h1 className="mb-2 text-md font-semibold">Rules</h1>
+          <h1 className="text-md mb-2 font-semibold">Rules</h1>
           <Tiptap
             content={rulesContent}
             setContent={setRulesContent}
@@ -262,13 +262,13 @@ export default function CreateHackathonForm({
             conduct."
             isCreator={true}
           />
-          <p className="text-sm text-slate-100 mt-2">
+          <p className="mt-2 text-sm text-slate-100">
             Rules of the contest. Inculding legal requirements and code of
             conduct.
           </p>
         </div>
         <div>
-          <h1 className="mb-2 text-md font-semibold">Resources</h1>
+          <h1 className="text-md mb-2 font-semibold">Resources</h1>
           <Tiptap
             content={resourcesContent}
             setContent={setResourcesContent}
@@ -276,32 +276,32 @@ export default function CreateHackathonForm({
             e.g. technical support tools, links, additional documents, etc."
             isCreator={true}
           />
-          <p className="text-sm text-slate-100 mt-2">
+          <p className="mt-2 text-sm text-slate-100">
             Resources for the hackathon that can be helpful for participants.
             e.g. technical support tools, links, additional documents, etc.
           </p>
         </div>
         <div>
-          <h1 className="mb-2 text-md font-semibold">Judges</h1>
+          <h1 className="text-md mb-2 font-semibold">Judges</h1>
           <Tiptap
             content={judgesContent}
             setContent={setJudgesContent}
             placeholder="Information of judges. e.g. name, title, personal link."
             isCreator={true}
           />
-          <p className="text-sm text-slate-100 mt-2">
+          <p className="mt-2 text-sm text-slate-100">
             Information of judges. e.g. name, title, personal link.
           </p>
         </div>
         <div>
-          <h1 className="mb-2 text-md font-semibold">Partners</h1>
+          <h1 className="text-md mb-2 font-semibold">Partners</h1>
           <Tiptap
             content={partnersContent}
             setContent={setPartnersContent}
             placeholder="Information of partners. e.g. name, description, link."
             isCreator={true}
           />
-          <p className="text-sm text-slate-100 mt-2">
+          <p className="mt-2 text-sm text-slate-100">
             Information of partners. e.g. name, description, link.
           </p>
         </div>
@@ -326,13 +326,13 @@ export default function CreateHackathonForm({
                     prizeList={prizeList}
                     setPrizeList={setPrizeList}
                   />
-                )
+                );
               })}
           </div>
           <Button
             type="submit"
             onClick={addPrize}
-            className="flex items-center gap-2 mt-2"
+            className="mt-2 flex items-center gap-2"
           >
             <PlusCircle className=" h-4 w-4" />
             Create prize
@@ -341,7 +341,7 @@ export default function CreateHackathonForm({
 
         <Card className="w-fit">
           <CardContent className="pt-6">
-            <div className="flex flex-col md:flex-row items-center gap-6 ">
+            <div className="flex flex-col items-center gap-6 md:flex-row ">
               <div className="flex flex-col">
                 <Label htmlFor="date" className="shrink-0">
                   Pick start and end dates
@@ -358,7 +358,7 @@ export default function CreateHackathonForm({
                             <Input
                               type="date"
                               {...field}
-                              className="text-black font-bold text-lg"
+                              className="text-lg font-bold text-black"
                             />
                           </FormControl>
                           <FormMessage />
@@ -377,7 +377,7 @@ export default function CreateHackathonForm({
                             <Input
                               type="date"
                               {...field}
-                              className="text-black font-bold text-lg"
+                              className="text-lg font-bold text-black"
                             />
                           </FormControl>
                           <FormMessage />
@@ -387,7 +387,7 @@ export default function CreateHackathonForm({
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col gap-2 min-w-[240px] ">
+              <div className="flex min-w-[240px] flex-col gap-2 ">
                 <Label htmlFor="date" className="shrink-0">
                   Pick a time zone
                 </Label>
@@ -403,7 +403,7 @@ export default function CreateHackathonForm({
         <div className="flex items-center justify-center">
           <Button
             type="submit"
-            className="p-6 text-lg"
+            className="bg-slate-200 p-6 text-lg text-slate-900 hover:bg-slate-300"
             disabled={form.formState.isSubmitting}
             onClick={form.handleSubmit(onSubmit)}
           >
@@ -413,13 +413,13 @@ export default function CreateHackathonForm({
             Create
           </Button>
           <div
-            className="font-bold text-red-500 underline cursor-pointer text-center ml-6 text-lg"
-            onClick={() => router.push('/manager')}
+            className="ml-6 cursor-pointer text-center text-lg font-bold text-red-500 underline"
+            onClick={() => router.push("/manager")}
           >
             Cancel
           </div>
         </div>
       </div>
     </Form>
-  )
+  );
 }

@@ -1,48 +1,48 @@
-import { Participant } from '@/lib/types'
-import React from 'react'
-import { Card, CardContent, CardHeader } from './ui/card'
-import { Button } from './ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { GraduationCap, UserPlus2, Wrench } from 'lucide-react'
+import { Participant } from "@/lib/types";
+import React from "react";
+import { Card, CardContent, CardHeader } from "./ui/card";
+import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { GraduationCap, UserPlus2, Wrench } from "lucide-react";
 
 export default function ParticipantInformationCard({
   participant,
   setOpenInviteDialog,
   setSelectedUserId,
 }: {
-  participant: Participant
-  setOpenInviteDialog: React.Dispatch<React.SetStateAction<boolean>>
-  setSelectedUserId: React.Dispatch<React.SetStateAction<string>>
+  participant: Participant;
+  setOpenInviteDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedUserId: React.Dispatch<React.SetStateAction<string>>;
 }) {
-  const maxTotalCharacterCount = 36
-  let totalCharacterCount = 0
+  const maxTotalCharacterCount = 36;
+  let totalCharacterCount = 0;
 
   const handleClick = () => {
-    setOpenInviteDialog((prev) => !prev)
-    setSelectedUserId(participant.id)
-  }
+    setOpenInviteDialog((prev) => !prev);
+    setSelectedUserId(participant.id);
+  };
 
   return (
     <>
-      <Card className="w-[330px] h-[160px]">
+      <Card className="h-[160px] w-[330px]">
         <CardHeader className="py-2">
           <div className="flex justify-between">
             <div className="flex items-center px-2">
-              <Avatar className="h-7 w-7 mr-3">
+              <Avatar className="mr-3 h-7 w-7">
                 <AvatarImage
-                  src={participant?.userPreference?.avatar || ''}
+                  src={participant?.userPreference?.avatar || ""}
                   alt={participant.name}
                 />
-                <AvatarFallback className="text-slate-100 font-semibold text-xl bg-slate-700">
+                <AvatarFallback className="bg-slate-700 text-xl font-semibold text-slate-100">
                   {participant.name[0].toUpperCase()}
                 </AvatarFallback>
               </Avatar>
-              <span className="text-xl font-bold flex items-center">
+              <span className="flex items-center text-xl font-bold">
                 {participant.name}
               </span>
             </div>
             <Button
-              className="bg-white py-0 px-3 rounded-full hover:bg-slate-700 group"
+              className="group rounded-full bg-white px-3 py-0 hover:bg-slate-700"
               onClick={handleClick}
             >
               <UserPlus2 className="h-9 w-9 text-slate-800 group-hover:text-white" />
@@ -52,59 +52,59 @@ export default function ParticipantInformationCard({
         <CardContent className="flex flex-col">
           <div className="flex w-full items-center">
             <div>
-              <GraduationCap className="h-6 w-6 text-gray-600 mr-3" />
+              <GraduationCap className="mr-3 h-6 w-6 text-gray-600" />
             </div>
-            <p className="font-medium text-lg">
+            <p className="text-lg font-medium">
               {participant?.userPreference?.role !== null
                 ? participant?.userPreference?.role.label
-                : 'Not specified'}
+                : "Not specified"}
             </p>
           </div>
-          <div className="flex w-full items-start mt-2">
+          <div className="mt-2 flex w-full items-start">
             <div>
-              <Wrench className="h-6 w-6 text-gray-600 mr-3 self-start" />
+              <Wrench className="mr-3 h-6 w-6 self-start text-gray-600" />
             </div>
-            <div className="flex flex-wrap gap-1 items-center">
+            <div className="flex flex-wrap items-center gap-1">
               {participant?.userPreference?.skills !== null ? (
                 participant?.userPreference?.skills.map(
                   (skill: any, index: number) => {
-                    const skillLabel = skill.label
+                    const skillLabel = skill.label;
 
                     if (skillLabel) {
-                      const skillCharacterCount = skillLabel.length
+                      const skillCharacterCount = skillLabel.length;
 
                       if (
                         totalCharacterCount + skillCharacterCount <=
                         maxTotalCharacterCount
                       ) {
-                        totalCharacterCount += skillCharacterCount
+                        totalCharacterCount += skillCharacterCount;
                         return (
                           <div key={skillLabel}>
-                            <span className="bg-slate-700 py-1 px-2 rounded-xl text-sm font-medium text-slate-100">
+                            <span className="rounded-xl bg-slate-700 px-2 py-1 text-sm font-medium text-slate-100">
                               {skillLabel}
                             </span>
                           </div>
-                        )
+                        );
                       } else if (
                         index ===
                         participant?.userPreference?.skills.length - 1
                       ) {
                         return (
                           <span
-                            className="text-slate-900 font-bold text-lg ml-2"
+                            className="ml-2 text-lg font-bold text-slate-900"
                             key="spread"
                           >
                             ...
                           </span>
-                        )
+                        );
                       }
                     }
 
-                    return null
-                  }
+                    return null;
+                  },
                 )
               ) : (
-                <span className="font-medium text-lg text-slate-900">
+                <span className="text-lg font-medium text-slate-900">
                   Not specified
                 </span>
               )}
@@ -113,5 +113,5 @@ export default function ParticipantInformationCard({
         </CardContent>
       </Card>
     </>
-  )
+  );
 }

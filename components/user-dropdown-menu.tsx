@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,52 +9,52 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu'
-import { Button } from './ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { User } from '@/lib/types'
+} from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { User } from "@/lib/types";
 
 type UserDropdownMenuProps = {
-  handleSignOut: () => void
-  user: User
-  goToUserProfile: () => void
-}
+  handleSignOut: () => void;
+  user: User;
+  goToUserProfile: () => void;
+};
 
 export default function UserDropdownMenu({
   handleSignOut,
   user,
   goToUserProfile,
 }: UserDropdownMenuProps) {
-  const [avatar, setAvatar] = useState<string>('')
+  const [avatar, setAvatar] = useState<string>("");
   useEffect(() => {
     const getUserProfile = async () => {
-      const res = await fetch('/api/users/profile', {
-        method: 'POST',
+      const res = await fetch("/api/users/profile", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId: user.id,
         }),
-      })
+      });
       if (res.ok) {
-        const data = await res.json()
-        setAvatar(data.userPreference.avatar)
+        const data = await res.json();
+        setAvatar(data.userPreference.avatar);
       }
-    }
-    getUserProfile()
-  }, [setAvatar, user.id])
+    };
+    getUserProfile();
+  }, [setAvatar, user.id]);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="relative h-12 w-12 rounded-full hover:ring-2 hover:ring-teal-200"
+          className="relative h-10 w-10 rounded-full hover:ring-2 hover:ring-teal-200"
         >
-          <Avatar className="h-12 w-12">
+          <Avatar className="h-10 w-10">
             <AvatarImage src={avatar} alt={user.name} />
-            <AvatarFallback className="text-slate-950 font-bold text-2xl">
+            <AvatarFallback className="text-xl font-bold text-slate-950">
               {user.name[0].toUpperCase()}
             </AvatarFallback>
           </Avatar>
@@ -64,7 +64,7 @@ export default function UserDropdownMenu({
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{user.name}</p>
-            <p className="text-xs leading-none text-muted-foreground">
+            <p className="text-muted-foreground text-xs leading-none">
               {user.email}
             </p>
           </div>
@@ -73,19 +73,19 @@ export default function UserDropdownMenu({
         <DropdownMenuGroup>
           <DropdownMenuItem
             onClick={goToUserProfile}
-            className="cursor-pointer focus:bg-slate-600 focus:text-white rounded-md"
+            className="cursor-pointer rounded-md focus:bg-slate-600 focus:text-white"
           >
             Edit Profile
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          className="cursor-pointer focus:bg-slate-600 focus:text-white rounded-md"
+          className="cursor-pointer rounded-md focus:bg-slate-600 focus:text-white"
           onClick={handleSignOut}
         >
           Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
