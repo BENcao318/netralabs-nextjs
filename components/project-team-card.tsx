@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Card,
   CardContent,
@@ -8,66 +8,66 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from './ui/card'
-import { Button } from './ui/button'
+} from "./ui/card";
+import { Button } from "./ui/button";
 import {
   Project,
   TInviteTeammateSchema,
   inviteTeammateSchema,
-} from '@/lib/types'
-import { Separator } from './ui/separator'
+} from "@/lib/types";
+import { Separator } from "./ui/separator";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTrigger,
-} from './ui/dialog'
-import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
-import { Input } from './ui/input'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Icons } from './ui/ui-icons'
-import { calculateTimeForHackathon } from '@/helpers/utils'
-import { useToast } from './ui/use-toast'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+} from "./ui/dialog";
+import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
+import { Input } from "./ui/input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Icons } from "./ui/ui-icons";
+import { calculateTimeForHackathon } from "@/helpers/utils";
+import { useToast } from "./ui/use-toast";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
-const TEAMSIZE = 5
+const TEAMSIZE = 5;
 const getTitleAndDescription = (project: Project, userId: string) => {
-  let title = ''
-  let description = ''
+  let title = "";
+  let description = "";
   if (project.participants.length === 0) {
-    title = 'You are soloing'
-    description = 'Invite people to join. Team size limit: 5'
+    title = "You are soloing";
+    description = "Invite people to join. Team size limit: 5";
   } else {
     if (project.creatorId === userId) {
-      title = 'You are project lead'
+      title = "You are project lead";
       if (project.participants.length < TEAMSIZE - 1) {
-        description = 'Invite people to join. Team size limit: 5'
+        description = "Invite people to join. Team size limit: 5";
       } else {
-        description = 'Your team is full.'
+        description = "Your team is full.";
       }
     } else {
-      title = 'You are part of the team'
-      description = 'Ask project lead to edit'
+      title = "You are part of the team";
+      description = "Ask project lead to edit";
     }
   }
 
   return {
     title,
     description,
-  }
-}
+  };
+};
 
 export default function ProjectTeamCard({
   userId,
   project,
 }: {
-  userId: string
-  project: Project | any
+  userId: string;
+  project: Project | any;
 }) {
-  const { toast } = useToast()
-  const header = getTitleAndDescription(project, userId)
+  const { toast } = useToast();
+  const header = getTitleAndDescription(project, userId);
   const {
     register,
     handleSubmit,
@@ -75,93 +75,93 @@ export default function ProjectTeamCard({
     reset,
   } = useForm<TInviteTeammateSchema>({
     resolver: zodResolver(inviteTeammateSchema),
-  })
-  const [openSendEmailDialog, setOpenSendEmailDialog] = useState(false)
-  const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  });
+  const [openSendEmailDialog, setOpenSendEmailDialog] = useState(false);
+  const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const progress = calculateTimeForHackathon(
     project.hackathon.startDate,
     project.hackathon.endDate,
     project.hackathon.timeZone,
-    localTimeZone
-  ).progress
+    localTimeZone,
+  ).progress;
 
   const teamMembers = useMemo(() => {
-    const arr = [project.creator, ...project.participants]
-    const filteredArr = arr.filter((member) => member.id !== userId)
-    return filteredArr
-  }, [project.creator, project.participants, userId])
+    const arr = [project.creator, ...project.participants];
+    const filteredArr = arr.filter((member) => member.id !== userId);
+    return filteredArr;
+  }, [project.creator, project.participants, userId]);
   const onSubmit = async (data: TInviteTeammateSchema) => {
     try {
-      const res = await fetch('/api/projects/invite', {
-        method: 'POST',
+      const res = await fetch("/api/projects/invite", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           projectId: project.id,
           email: data.email,
         }),
-      })
+      });
       if (res.ok) {
-        const data = await res.json()
+        const data = await res.json();
         toast({
-          title: 'Success!',
-          description: 'You have sent the invitation.',
-        })
-        reset()
-        setOpenSendEmailDialog(false)
+          title: "Success!",
+          description: "You have sent the invitation.",
+        });
+        reset();
+        setOpenSendEmailDialog(false);
       } else {
         toast({
-          variant: 'destructive',
-          title: 'Failed 😓',
+          variant: "destructive",
+          title: "Failed 😓",
           description: res.statusText,
-        })
+        });
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
       toast({
-        variant: 'destructive',
-        title: 'Failed 😓',
-        description: 'Something went wrong. Please try again.',
-      })
+        variant: "destructive",
+        title: "Failed 😓",
+        description: "Something went wrong. Please try again.",
+      });
     }
-  }
+  };
 
   useEffect(() => {
-    if (!openSendEmailDialog) reset()
-  }, [openSendEmailDialog, reset])
+    if (!openSendEmailDialog) reset();
+  }, [openSendEmailDialog, reset]);
 
   return (
-    <Card className="w-[360px] bg-slate-700 border-none">
-      <CardHeader className="pb-3 text-center grid grid-rows-2">
+    <Card className="ml-2 w-[360px] border-none bg-slate-900">
+      <CardHeader className="grid grid-rows-2 pb-3 text-center">
         <CardTitle className="text-slate-100">{header.title}</CardTitle>
-        <CardDescription className="text-slate-100 text-md">
+        <CardDescription className="text-md text-slate-100">
           {header.description}
         </CardDescription>
       </CardHeader>
       <Separator />
-      <CardContent className="w-full mt-3 flex flex-col gap-3">
+      <CardContent className="mt-3 flex w-full flex-col gap-3">
         {teamMembers.map((member) => {
           return (
             <div
-              className="text-slate-100 text-xl font-bold flex items-center"
+              className="flex items-center text-xl font-bold text-slate-100"
               key={member.id}
             >
-              <Avatar className="h-11 w-11 mr-3">
+              <Avatar className="mr-3 h-11 w-11">
                 <AvatarImage
                   src={member.userPreference.avatar}
                   alt={member.name}
                 />
-                <AvatarFallback className="text-slate-100 font-bold text-2xl bg-slate-800">
+                <AvatarFallback className="bg-slate-800 text-2xl font-bold text-slate-100">
                   {member.name[0].toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               {member.name}
             </div>
-          )
+          );
         })}
       </CardContent>
-      <CardFooter className="flex justify-center w-full">
+      <CardFooter className="flex w-full justify-center">
         {project.participants.length < TEAMSIZE - 1 &&
           project.creatorId === userId &&
           progress.isRunning && (
@@ -170,7 +170,7 @@ export default function ProjectTeamCard({
               onOpenChange={setOpenSendEmailDialog}
             >
               <DialogTrigger asChild>
-                <Button className="text-xl border-2 bg-slate-200 text-slate-900 border-slate-900 hover:text-slate-200 font-bold font-mono">
+                <Button className="border-2 border-slate-900 bg-slate-200 font-mono text-xl font-bold text-slate-900 hover:text-slate-200">
                   Invite teammate
                 </Button>
               </DialogTrigger>
@@ -185,7 +185,7 @@ export default function ProjectTeamCard({
                 </DialogHeader>
                 <form className="text-slate-900">
                   <Input
-                    {...register('email')}
+                    {...register("email")}
                     id="name"
                     placeholder="Email"
                     className="col-span-3"
@@ -212,5 +212,5 @@ export default function ProjectTeamCard({
           )}
       </CardFooter>
     </Card>
-  )
+  );
 }

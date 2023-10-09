@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import React from 'react'
-import { TSignUpSchema, signUpSchema } from '@/lib/types'
-import { zodResolver } from '@hookform/resolvers/zod'
+import React from "react";
+import { TSignUpSchema, signUpSchema } from "@/lib/types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Card,
   CardContent,
@@ -10,21 +10,21 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from './ui/card'
-import { cn } from '@/lib/utils'
-import { Input } from './ui/input'
-import { Label } from './ui/label'
-import { Button } from './ui/button'
-import Link from 'next/link'
-import { Icons } from './ui/ui-icons'
-import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
+} from "./ui/card";
+import { cn } from "@/lib/utils";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Button } from "./ui/button";
+import Link from "next/link";
+import { Icons } from "./ui/ui-icons";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
-type UserSignUpFormProps = React.HTMLAttributes<HTMLDivElement>
+type UserSignUpFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function UserSignUpForm({ className, ...props }: UserSignUpFormProps) {
-  const router = useRouter()
+  const router = useRouter();
 
   const {
     register,
@@ -33,11 +33,11 @@ export function UserSignUpForm({ className, ...props }: UserSignUpFormProps) {
     setError,
   } = useForm<TSignUpSchema>({
     resolver: zodResolver(signUpSchema),
-  })
+  });
 
   const onSubmit = async (data: TSignUpSchema) => {
-    const res = await fetch('/api/auth/signup', {
-      method: 'POST',
+    const res = await fetch("/api/auth/signup", {
+      method: "POST",
       body: JSON.stringify({
         name: data.name,
         email: data.email,
@@ -45,61 +45,61 @@ export function UserSignUpForm({ className, ...props }: UserSignUpFormProps) {
         confirmPassword: data.password,
       }),
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-    })
+    });
 
-    const responseData = await res.json()
+    const responseData = await res.json();
     if (!res.ok) {
-      alert('Submitting form failed!')
-      return
+      alert("Submitting form failed!");
+      return;
     }
 
     if (responseData.errors) {
-      const errors = responseData.errors
+      const errors = responseData.errors;
 
       if (errors.email) {
-        setError('email', {
-          type: 'server',
+        setError("email", {
+          type: "server",
           message: errors.email,
-        })
+        });
       } else if (errors.password) {
-        setError('password', {
-          type: 'server',
+        setError("password", {
+          type: "server",
           message: errors.password,
-        })
+        });
       } else if (errors.confirmPassword) {
-        setError('confirmPassword', {
-          type: 'server',
+        setError("confirmPassword", {
+          type: "server",
           message: errors.confirmPassword,
-        })
+        });
       } else {
-        alert('Something went wrong!')
+        alert("Something went wrong!");
       }
-      return
+      return;
     }
 
     if (res.ok) {
-      const res = await signIn('credentials', {
+      const res = await signIn("credentials", {
         redirect: false,
         email: data.email,
         password: data.password,
-        callbackUrl: '/',
-      })
+        callbackUrl: "/",
+      });
 
       if (!res?.error) {
-        router.push('/dashboard/hackathons/')
-        router.refresh()
+        router.push("/dashboard/hackathons/");
+        router.refresh();
       } else {
-        router.push('/')
-        router.refresh()
+        router.push("/");
+        router.refresh();
       }
     }
-  }
+  };
 
   return (
     <>
-      <div className={cn('grid gap-6', className)} {...props}>
+      <div className={cn("grid gap-6", className)} {...props}>
         <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl"> Sign up</CardTitle>
@@ -113,7 +113,7 @@ export function UserSignUpForm({ className, ...props }: UserSignUpFormProps) {
               <div className="grid gap-2">
                 <Label htmlFor="name">Name</Label>
                 <Input
-                  {...register('name')}
+                  {...register("name")}
                   placeholder="your name"
                   type="name"
                   autoCapitalize="none"
@@ -128,7 +128,7 @@ export function UserSignUpForm({ className, ...props }: UserSignUpFormProps) {
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
-                  {...register('email')}
+                  {...register("email")}
                   placeholder="name@example.com"
                   type="email"
                   autoCapitalize="none"
@@ -143,7 +143,7 @@ export function UserSignUpForm({ className, ...props }: UserSignUpFormProps) {
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
-                  {...register('password')}
+                  {...register("password")}
                   placeholder="**********"
                   type="password"
                   autoCapitalize="none"
@@ -158,7 +158,7 @@ export function UserSignUpForm({ className, ...props }: UserSignUpFormProps) {
               <div className="grid gap-2">
                 <Label htmlFor="password">Confirm password</Label>
                 <Input
-                  {...register('confirmPassword')}
+                  {...register("confirmPassword")}
                   placeholder="**********"
                   type="password"
                   autoCapitalize="none"
@@ -178,19 +178,39 @@ export function UserSignUpForm({ className, ...props }: UserSignUpFormProps) {
               </Button>
             </form>
           </CardContent>
-          <CardFooter>
-            <div className=" flex justify-center">
+          <CardFooter className="flex flex-col gap-3">
+            <div className="flex justify-center">
               Already have an account?
               <Link
                 href="/auth/signIn"
-                className="underline underline-offset-4 hover:text-primary"
+                className="hover:text-primary underline underline-offset-4"
               >
                 <span className="ml-2 font-bold">Sign in</span>
               </Link>
             </div>
+
+            <p className="text-muted-foreground mt-8 px-1 text-center text-sm">
+              By clicking Sign up, you agree to our
+            </p>
+            <p className="text-muted-foreground -mt-3 px-1 text-center text-sm">
+              <Link
+                href="/terms"
+                className="hover:text-brand underline underline-offset-4"
+              >
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/privacy"
+                className="hover:text-brand underline underline-offset-4"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
           </CardFooter>
         </Card>
       </div>
     </>
-  )
+  );
 }

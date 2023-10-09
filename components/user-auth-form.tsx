@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import * as React from 'react'
-import { cn } from '@/lib/utils'
-import { Label } from './ui/label'
-import { Input } from './ui/input'
-import { Button } from './ui/button'
-import { Icons } from './ui/ui-icons'
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { Icons } from "./ui/ui-icons";
 import {
   Card,
   CardContent,
@@ -13,19 +13,19 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from './ui/card'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { TSignInSchema, signInSchema } from '@/lib/types'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { getSession, signIn } from 'next-auth/react'
-import { set } from 'date-fns'
+} from "./ui/card";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { TSignInSchema, signInSchema } from "@/lib/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { getSession, signIn } from "next-auth/react";
+import { set } from "date-fns";
 
-type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>
+type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const router = useRouter()
+  const router = useRouter();
 
   const {
     register,
@@ -35,36 +35,36 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     setValue,
   } = useForm<TSignInSchema>({
     resolver: zodResolver(signInSchema),
-  })
+  });
 
   const onSubmit = async (data: TSignInSchema) => {
-    const res = await signIn('credentials', {
+    const res = await signIn("credentials", {
       redirect: false,
       email: data.email,
       password: data.password,
-      callbackUrl: '/',
-    })
+      callbackUrl: "/",
+    });
 
     if (!res?.error) {
-      const session = await getSession()
+      const session = await getSession();
       if (session?.user.isAdmin === true) {
-        router.push('/manager')
-        router.refresh()
+        router.push("/manager");
+        router.refresh();
       } else {
-        router.push('/dashboard/hackathons')
-        router.refresh()
+        router.push("/dashboard/hackathons");
+        router.refresh();
       }
     } else {
-      setError('email', {
-        type: 'server',
-        message: 'Invalid email or password',
-      })
+      setError("email", {
+        type: "server",
+        message: "Invalid email or password",
+      });
     }
-  }
+  };
 
   return (
     <>
-      <div className={cn('grid gap-6', className)} {...props}>
+      <div className={cn("grid gap-6", className)} {...props}>
         <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl"> Sign in</CardTitle>
@@ -77,7 +77,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
-                  {...register('email')}
+                  {...register("email")}
                   placeholder="name@example.com"
                   type="email"
                   autoCapitalize="none"
@@ -92,7 +92,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
-                  {...register('password')}
+                  {...register("password")}
                   placeholder="**********"
                   type="password"
                   autoCapitalize="none"
@@ -156,19 +156,36 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             Github
           </Button> */}
           </CardContent>
-          <CardFooter>
-            <div className=" flex justify-center">
+          <CardFooter className="flex flex-col">
+            <div className="flex justify-center">
               Don&apos;t have an account?
               <Link
                 href="/auth/signUp"
-                className="underline underline-offset-4 hover:text-primary"
+                className="hover:text-primary underline underline-offset-4"
               >
                 <span className="ml-2 font-bold">Sign up</span>
               </Link>
             </div>
+            <p className="text-muted-foreground mt-8 px-2 text-center text-sm">
+              By clicking Sign In, you agree to our{" "}
+              <Link
+                href="/terms"
+                className="hover:text-primary underline underline-offset-4"
+              >
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/privacy"
+                className="hover:text-primary underline underline-offset-4"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
           </CardFooter>
         </Card>
       </div>
     </>
-  )
+  );
 }

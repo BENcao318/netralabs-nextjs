@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,21 +9,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { TUserProfileSchema, userProfileSchema } from '@/lib/types'
-import { zodResolver } from '@hookform/resolvers/zod'
-import React, { useEffect, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import { useToast } from './ui/use-toast'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import Select from 'react-select'
-import makeAnimated from 'react-select/animated'
-import techStackOptions from '@/lib/techStackOptions.json'
-import { roleOptions } from '@/lib/roleOptions.js'
-import { Icons } from './ui/ui-icons'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { TUserProfileSchema, userProfileSchema } from "@/lib/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useToast } from "./ui/use-toast";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+import techStackOptions from "@/lib/techStackOptions.json";
+import { roleOptions } from "@/lib/roleOptions.js";
+import { Icons } from "./ui/ui-icons";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
   Dialog,
   DialogClose,
@@ -31,67 +31,67 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTrigger,
-} from './ui/dialog'
-import { UploadAvatar } from './upload-avatar'
+} from "./ui/dialog";
+import { UploadAvatar } from "./upload-avatar";
 
 export default function UserProfileForm({
   userId,
 }: {
-  userId: string | undefined
+  userId: string | undefined;
 }) {
   const defaultValues: Partial<TUserProfileSchema> = {
-    name: '',
-    items: ['recents', 'home'],
-  }
-  const animatedComponents = makeAnimated()
-  const { toast } = useToast()
-  const { data: session, update } = useSession()
-  const router = useRouter()
-  const [preview, setPreview] = useState('')
-  const [avatarImg, setAvatarImg] = useState<string>('')
-  const [user, setUser] = useState<any>(null)
+    name: "",
+    items: ["recents", "home"],
+  };
+  const animatedComponents = makeAnimated();
+  const { toast } = useToast();
+  const { data: session, update } = useSession();
+  const router = useRouter();
+  const [preview, setPreview] = useState("");
+  const [avatarImg, setAvatarImg] = useState<string>("");
+  const [user, setUser] = useState<any>(null);
 
   const form = useForm<TUserProfileSchema>({
     resolver: zodResolver(userProfileSchema),
     defaultValues,
-    mode: 'onChange',
-  })
+    mode: "onChange",
+  });
 
   useEffect(() => {
     const getUserProfile = async () => {
       try {
-        const res = await fetch('/api/users/profile', {
-          method: 'POST',
+        const res = await fetch("/api/users/profile", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             userId,
           }),
-        })
-        const data = await res.json()
-        setUser(data)
-        form.setValue('name', data.name)
-        form.setValue('role', data.userPreference.role)
-        form.setValue('skills', data.userPreference.skills)
-        setAvatarImg(data.userPreference.avatar)
+        });
+        const data = await res.json();
+        setUser(data);
+        form.setValue("name", data.name);
+        form.setValue("role", data.userPreference.role);
+        form.setValue("skills", data.userPreference.skills);
+        setAvatarImg(data.userPreference.avatar);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
-    getUserProfile()
-  }, [userId, form])
+    };
+    getUserProfile();
+  }, [userId, form]);
 
   const handleConfirmAvatarEditor = () => {
-    setAvatarImg(preview)
-  }
+    setAvatarImg(preview);
+  };
   //todo add user profile context for re-rendering
   const onSubmit = async (data: TUserProfileSchema) => {
     try {
-      const res = await fetch('/api/users/profile', {
-        method: 'PUT',
+      const res = await fetch("/api/users/profile", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId,
@@ -100,43 +100,43 @@ export default function UserProfileForm({
           skills: data.skills,
           avatar: avatarImg,
         }),
-      })
+      });
       if (res.ok) {
         await update({
           name: data.name,
-        })
+        });
         toast({
-          title: 'Success!',
-          description: 'We have updated your profile.',
-        })
+          title: "Success!",
+          description: "We have updated your profile.",
+        });
       } else {
         toast({
-          title: 'failed!',
-          variant: 'destructive',
+          title: "failed!",
+          variant: "destructive",
           description:
-            'We are not able to update your profile. Please try again',
-        })
+            "We are not able to update your profile. Please try again",
+        });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <Form {...form}>
       <div className="space-y-8">
         {user && (
           <Dialog>
-            <div className="flex items-center gap-4 -mt-2">
+            <div className="-mt-2 flex items-center gap-4">
               <DialogTrigger asChild>
                 <Avatar className="h-20 w-20 cursor-pointer hover:ring-2 hover:ring-teal-300">
                   <AvatarImage src={avatarImg} alt={user.name} />
-                  <AvatarFallback className="text-slate-950 font-bold text-2xl">
+                  <AvatarFallback className="text-2xl font-bold text-slate-950">
                     {user.name[0].toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </DialogTrigger>
-              <p className="w-40 text-md">Click to change your avatar</p>
+              <p className="text-md w-40">Click to change your avatar</p>
             </div>
             <DialogContent>
               <DialogHeader className="text-xl font-bold text-slate-950">
@@ -145,7 +145,7 @@ export default function UserProfileForm({
               <UploadAvatar setPreview={setPreview} preview={preview} />
               <DialogFooter className="flex gap-4">
                 <DialogClose asChild>
-                  <Button className="mr-1" variant={'destructive'}>
+                  <Button className="mr-1" variant={"destructive"}>
                     <span>Cancel</span>
                   </Button>
                 </DialogClose>
@@ -172,7 +172,7 @@ export default function UserProfileForm({
                 <Input
                   placeholder="user name"
                   {...field}
-                  className="text-black font-bold text-lg"
+                  className="text-lg font-bold text-black"
                 />
               </FormControl>
               <FormDescription className="text-slate-300">
@@ -184,7 +184,7 @@ export default function UserProfileForm({
         />
 
         <div>
-          <h1 className="mb-2 text-md font-semibold">Your specialty</h1>
+          <h1 className="text-md mb-2 font-semibold">Your specialty</h1>
           <Controller
             name="role"
             control={form.control}
@@ -195,7 +195,7 @@ export default function UserProfileForm({
                   options={roleOptions}
                   placeholder="Select tags..."
                   components={animatedComponents}
-                  className="text-black font-semibold w-full min-w-[200px] md:w-1/2"
+                  className="w-full min-w-[200px] font-semibold text-black md:w-1/2"
                   instanceId={field.name}
                 />
                 <p className="mt-2 text-red-600">
@@ -208,7 +208,7 @@ export default function UserProfileForm({
         </div>
 
         <div>
-          <h1 className="mb-2 text-md font-semibold">Skills</h1>
+          <h1 className="text-md mb-2 font-semibold">Skills</h1>
           <Controller
             name="skills"
             control={form.control}
@@ -220,7 +220,7 @@ export default function UserProfileForm({
                   options={techStackOptions}
                   placeholder="Select tags..."
                   components={animatedComponents}
-                  className="text-black font-semibold w-full min-w-[200px] md:w-2/3"
+                  className="w-full min-w-[200px] font-semibold text-black md:w-2/3"
                   instanceId={field.name}
                 />
                 <p className="mt-2 text-red-600">
@@ -230,7 +230,7 @@ export default function UserProfileForm({
               </>
             )}
           />
-          <p className="text-sm text-slate-100 mt-2">
+          <p className="mt-2 text-sm text-slate-100">
             What languages, frameworks, databases did you use?
           </p>
         </div>
@@ -238,7 +238,7 @@ export default function UserProfileForm({
         <div className="flex gap-10 ">
           <Button
             type="submit"
-            className="text-lg"
+            className="hover: bg-slate-200 text-lg text-slate-950 hover:bg-slate-300"
             disabled={form.formState.isSubmitting}
             onClick={form.handleSubmit(onSubmit)}
           >
@@ -251,8 +251,8 @@ export default function UserProfileForm({
             variant="destructive"
             className="text-lg"
             onClick={(e) => {
-              e.preventDefault()
-              router.back()
+              e.preventDefault();
+              router.back();
             }}
           >
             Back
@@ -260,5 +260,5 @@ export default function UserProfileForm({
         </div>
       </div>
     </Form>
-  )
+  );
 }
