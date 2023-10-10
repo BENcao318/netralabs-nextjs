@@ -1,8 +1,9 @@
 import prisma from "@/lib/prisma";
 import { compare } from "bcrypt";
-// import { compare } from 'bcrypt'
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GitHubProvider from "next-auth/providers/github";
+import { hash } from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -12,6 +13,10 @@ export const authOptions: NextAuthOptions = {
     signIn: "/auth/signIn",
   },
   providers: [
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID as string,
+      clientSecret: process.env.GITHUB_SECRET as string,
+    }),
     CredentialsProvider({
       name: "Sign in",
       credentials: {
@@ -58,6 +63,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session: async ({ session, token }) => {
       // console.log('Session Callback', { session, token })
+
       return {
         ...session,
         user: {
@@ -68,8 +74,35 @@ export const authOptions: NextAuthOptions = {
         },
       };
     },
-    jwt: async ({ token, user, trigger, session }) => {
+    jwt: async ({ token, user, trigger, session, account }) => {
       // console.log('JWT Callback', { token, user })
+      if (account && account.provider === "github") {
+        const dbUser = await prisma.user.findUnique({
+          where: {
+            email: user.email as string,
+          },
+        });
+        if (!dbUser) {
+          // Create a new user in the database for first time github login
+          const hashedPassword = await hash(generateRandomPassword(12), 10);
+          await prisma.user.create({
+            data: {
+              name: user.name as string,
+              email: user.email as string,
+              password: hashedPassword,
+              userPreference: {
+                create: {},
+              },
+            },
+            include: {
+              userPreference: true,
+            },
+          });
+        }
+
+        user.id = dbUser?.id as string;
+      }
+
       if (trigger === "update") {
         token.name = session.name;
       }
@@ -84,6 +117,17 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
   },
+};
+
+const generateRandomPassword = (length: number) => {
+  const charset =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    password += charset.charAt(randomIndex);
+  }
+  return password;
 };
 
 const handler = NextAuth(authOptions);

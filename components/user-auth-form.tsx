@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -26,6 +26,8 @@ type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isGitHubLoading, setIsGitHubLoading] = useState<boolean>(false);
 
   const {
     register,
@@ -42,6 +44,30 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       redirect: false,
       email: data.email,
       password: data.password,
+      callbackUrl: "/",
+    });
+
+    if (!res?.error) {
+      const session = await getSession();
+      if (session?.user.isAdmin === true) {
+        router.push("/manager");
+        router.refresh();
+      } else {
+        router.push("/dashboard/hackathons");
+        router.refresh();
+      }
+    } else {
+      setError("email", {
+        type: "server",
+        message: "Invalid email or password",
+      });
+    }
+  };
+
+  const onGitHubSignIn = async () => {
+    setIsGitHubLoading(true);
+    const res = await signIn("github", {
+      redirect: false,
       callbackUrl: "/",
     });
 
@@ -137,24 +163,30 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               </Button> */}
             </form>
 
-            {/* <div className="relative">
-            <div className="absolute inset-0 flex items-center ">
-              <span className="w-full border-t" />
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="text-muted-foreground bg-white px-2">
+                  Or continue with
+                </span>
+              </div>
             </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-muted-foreground">
-                Or continue with
-              </span>
-            </div>
-          </div> */}
-            {/* <Button variant="outline" type="button" disabled={isLoading}>
-            {isLoading ? (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Icons.gitHub className="mr-2 h-4 w-4" />
-            )}{' '}
-            Github
-          </Button> */}
+            <Button
+              type="button"
+              className="w-full border-2 border-black"
+              variant={"outline"}
+              onClick={onGitHubSignIn}
+              disabled={isLoading || isGitHubLoading}
+            >
+              {isGitHubLoading ? (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Icons.gitHub className="mr-2 h-4 w-4" />
+              )}
+              Github
+            </Button>
           </CardContent>
           <CardFooter className="flex flex-col">
             <div className="flex justify-center">
