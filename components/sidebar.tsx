@@ -46,7 +46,7 @@ const routes: Route[] = [
 ];
 
 export function Sidebar() {
-  const [toggleCollapse, setToggleCollapse] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [isCollapsible, setIsCollapsible] = useState(false);
 
   const pathname = usePathname();
@@ -57,9 +57,13 @@ export function Sidebar() {
   );
 
   const collapseIconClasses = classNames(
-    "rounded-full  bg-slate-200  absolute -right-[13px] hover:bg-slate-300 p-1",
+    "rounded-full  bg-slate-200 hover:bg-slate-300 p-1",
     {
-      "rotate-180": toggleCollapse,
+      "rotate-180": isCollapsed,
+      "absolute left-[68px] transition-[left] duration-300 ease-in-out":
+        isCollapsed,
+      "absolute left-[268px] transition-[left] duration-300 ease-in-out":
+        !isCollapsed,
     },
   );
 
@@ -73,10 +77,13 @@ export function Sidebar() {
   };
 
   const wrapperClasses = classNames(
-    "h-screen px-4 pt-8 pb-4 bg-slate-700 flex justify-between flex-col fixed shadow-xl",
+    "h-screen px-4 pt-8 pb-4 bg-slate-700 grid min-h-screen shadow-xl",
     {
-      ["w-80"]: !toggleCollapse,
-      ["w-20"]: toggleCollapse,
+      ["grid-cols-[250px]"]: !isCollapsed,
+      ["grid-cols-[50px]"]: isCollapsed,
+      // ["w-80"]: !isCollapsed,
+      // ["w-20"]: isCollapsed,
+      ["transition-[grid-template-columns] duration-300 ease-in-out"]: true,
     },
   );
 
@@ -85,12 +92,12 @@ export function Sidebar() {
   };
 
   const handleSidebarToggle = () => {
-    setToggleCollapse((prev) => !prev);
+    setIsCollapsed((prev) => !prev);
   };
 
   useEffect(() => {
     const handleResize = () => {
-      setToggleCollapse(window.innerWidth < 768);
+      setIsCollapsed(window.innerWidth < 768);
     };
 
     window.addEventListener("resize", handleResize);
@@ -104,7 +111,6 @@ export function Sidebar() {
       className={wrapperClasses}
       onMouseEnter={onMouseOver}
       onMouseLeave={onMouseOver}
-      style={{ transition: "width 300ms cubic-bezier(0.2, 0, 0, 1) 0s" }}
     >
       <div className="flex flex-col">
         <div className="mt-3 flex items-center">
@@ -112,7 +118,7 @@ export function Sidebar() {
             <Image src={BrandImg} className="mx-auto" alt="img" />
             <span
               className={classNames("text-2xl font-bold", {
-                hidden: toggleCollapse,
+                hidden: isCollapsed,
               })}
             >
               NetraLabs
@@ -138,7 +144,7 @@ export function Sidebar() {
                 <Link href={route.link}>
                   <div className="flex h-full w-full items-center px-3 py-3">
                     <div style={{ width: "3rem" }}>{Icon && <Icon />}</div>
-                    {!toggleCollapse && (
+                    {!isCollapsed && (
                       <span className={classNames("text-md font-medium")}>
                         {route.name}
                       </span>
@@ -151,7 +157,7 @@ export function Sidebar() {
         </div>
       </div>
 
-      {!toggleCollapse && (
+      {!isCollapsed && (
         <Card className="mt-auto py-2">
           <CardContent className="-mx-2 flex flex-col">
             <a href="https://www.netrascale.com/" target="_blank">
