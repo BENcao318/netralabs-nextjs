@@ -60,15 +60,7 @@ export default function UserProfileForm({
   useEffect(() => {
     const getUserProfile = async () => {
       try {
-        const res = await fetch("/api/users/profile", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId,
-          }),
-        });
+        const res = await fetch("/api/users/profile");
         const data = await res.json();
         setUser(data);
         form.setValue("name", data.name);
