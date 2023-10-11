@@ -16,15 +16,6 @@ export async function GET(request: Request) {
   }
 
   try {
-    // // If user is logged in as Github user at the first time. Sign up with
-    // if(session.user.email) {
-    //   const user = await prisma.user.findUnique({
-    //     where: {
-    //       email: session.user.email,
-    //     },
-    //   })
-    // }
-
     const notifications = await prisma.notification.findMany({
       where: {
         receiverEmail: session.user.email,

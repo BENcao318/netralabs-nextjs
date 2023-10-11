@@ -1,6 +1,6 @@
-import prisma from '@/lib/prisma'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '../api/auth/[...nextauth]/route'
+import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export async function getAvatar(userId: string) {
   try {
@@ -11,19 +11,19 @@ export async function getAvatar(userId: string) {
       include: {
         userPreference: true,
       },
-    })
+    });
 
-    return user?.userPreference?.avatar
+    return user?.userPreference?.avatar;
   } catch (error) {
-    console.error('Error retrieving managed hackathons:', error)
-    throw new Error('Failed to retrieve managed hackathons')
+    console.error("Error retrieving managed hackathons:", error);
+    throw new Error("Failed to retrieve managed hackathons");
   }
 }
 
 export async function getParticipants() {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
   if (!session) {
-    return []
+    return [];
   }
 
   try {
@@ -46,10 +46,10 @@ export async function getParticipants() {
           },
         },
       },
-    })
-    return participants
+    });
+    return participants;
   } catch (error) {
-    console.error('Error retrieving participants:', error)
-    throw new Error('Failed to retrieve participants')
+    console.error("Error retrieving participants:", error);
+    throw new Error("Failed to retrieve participants");
   }
 }

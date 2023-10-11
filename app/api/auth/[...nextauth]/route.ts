@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
           where: {
             email: credentials.email,
           },
@@ -62,9 +62,8 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     session: async ({ session, token }) => {
-      // console.log('Session Callback', { session, token })
-
-      return {
+      // console.log("Session Callback", { session, token });
+      const newSession = {
         ...session,
         user: {
           ...session.user,
@@ -73,19 +72,21 @@ export const authOptions: NextAuthOptions = {
           name: token.name,
         },
       };
+
+      return newSession;
     },
     jwt: async ({ token, user, trigger, session, account }) => {
-      // console.log('JWT Callback', { token, user })
       if (account && account.provider === "github") {
-        const dbUser = await prisma.user.findUnique({
+        const dbUser = await prisma.user.findFirst({
           where: {
             email: user.email as string,
           },
         });
+
         if (!dbUser) {
           // Create a new user in the database for first time github login
           const hashedPassword = await hash(generateRandomPassword(12), 10);
-          await prisma.user.create({
+          const createdUser = await prisma.user.create({
             data: {
               name: user.name as string,
               email: user.email as string,
@@ -98,22 +99,26 @@ export const authOptions: NextAuthOptions = {
               userPreference: true,
             },
           });
+          user.id = createdUser?.id as string;
+          token.id = user.id;
+          token.isAdmin = false;
+        } else {
+          user.id = dbUser?.id as string;
         }
-
-        user.id = dbUser?.id as string;
+        token.id = user.id;
+        token.isAdmin = false;
       }
 
       if (trigger === "update") {
         token.name = session.name;
       }
+
       if (user) {
         const u = user as unknown as User;
-        return {
-          ...token,
-          id: u.id,
-          isAdmin: u.isAdmin,
-        };
+        token.id = u.id;
+        token.isAdmin = u.isAdmin;
       }
+
       return token;
     },
   },

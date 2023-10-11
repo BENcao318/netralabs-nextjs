@@ -28,15 +28,7 @@ export default function UserDropdownMenu({
   const [avatar, setAvatar] = useState<string>("");
   useEffect(() => {
     const getUserProfile = async () => {
-      const res = await fetch("/api/users/profile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: user.id,
-        }),
-      });
+      const res = await fetch("/api/users/profile");
       if (res.ok) {
         const data = await res.json();
         setAvatar(data.userPreference.avatar);
