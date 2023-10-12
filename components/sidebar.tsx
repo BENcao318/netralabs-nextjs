@@ -163,15 +163,15 @@ export function Sidebar() {
             <a href="https://www.netrascale.com/" target="_blank">
               <Image
                 src={NetraChainImage}
-                className="mx-auto h-3/4 w-3/4"
+                className="mx-auto h-3/4 w-3/4 rounded-lg"
                 alt="netrachainimage"
               />
             </a>
             <h1 className="mt-3 text-center">Join NetraChain for more</h1>
-            <p className="mt-2 font-normal opacity-80">
-              We empower you with game-changing R&D projects, hackathons, and
-              design thinking labs, while genuinely acknowledging and addressing
-              the challenges you encounter.
+            <p className="mt-2 text-sm font-normal opacity-80">
+              We empower you with game-changing R&D projects and panel
+              discussions, while genuinely acknowledging and addressing the
+              challenges you encounter.
             </p>
             <div className="mx-auto -mb-6 mt-4 flex hover:underline">
               <a

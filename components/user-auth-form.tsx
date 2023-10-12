@@ -26,7 +26,6 @@ type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isGitHubLoading, setIsGitHubLoading] = useState<boolean>(false);
 
   const {
@@ -178,7 +177,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               className="w-full border-2 border-black"
               variant={"outline"}
               onClick={onGitHubSignIn}
-              disabled={isLoading || isGitHubLoading}
+              disabled={isGitHubLoading}
             >
               {isGitHubLoading ? (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
