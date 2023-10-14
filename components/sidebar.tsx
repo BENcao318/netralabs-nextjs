@@ -1,7 +1,7 @@
 "use client";
 
 import classNames from "classnames";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import {
   SquareCode,
@@ -67,11 +67,21 @@ export function Sidebar() {
     },
   );
 
-  const getNavItemClasses = (route: Route) => {
+  const getNavItemTagClasses = (route: Route) => {
     return classNames(
       "flex items-center cursor-pointer hover:bg-slate-500 rounded-lg w-full overflow-hidden whitespace-nowrap",
       {
         ["bg-slate-500"]: activeRoute?.name === route.name,
+      },
+    );
+  };
+
+  const getNavItemRibbonClasses = (route: Route) => {
+    return classNames(
+      "absolute -left-2 top-1 h-12 w-[5px] rounded-xl bg-orange-200",
+      {
+        ["visible"]: activeRoute?.name === route.name,
+        ["invisible"]: activeRoute?.name !== route.name,
       },
     );
   };
@@ -81,8 +91,6 @@ export function Sidebar() {
     {
       ["grid-cols-[250px]"]: !isCollapsed,
       ["grid-cols-[50px]"]: isCollapsed,
-      // ["w-80"]: !isCollapsed,
-      // ["w-20"]: isCollapsed,
       ["transition-[grid-template-columns] duration-300 ease-in-out"]: true,
     },
   );
@@ -138,20 +146,26 @@ export function Sidebar() {
         </div>
         <div className="mt-10 flex flex-col items-start gap-1">
           {routes.map(({ icon: Icon, ...route }) => {
-            const classes = getNavItemClasses(route);
+            const tagClasses = getNavItemTagClasses(route);
+            const ribbonClasses = getNavItemRibbonClasses(route);
             return (
-              <div className={classes} key={route.name}>
-                <Link href={route.link}>
-                  <div className="flex h-full w-full items-center px-3 py-3">
-                    <div style={{ width: "3rem" }}>{Icon && <Icon />}</div>
-                    {!isCollapsed && (
-                      <span className={classNames("text-md font-medium")}>
-                        {route.name}
-                      </span>
-                    )}
-                  </div>
-                </Link>
-              </div>
+              <Fragment key={route.name}>
+                <div className="relative">
+                  <span className={ribbonClasses}></span>
+                </div>
+                <div className={tagClasses}>
+                  <Link href={route.link}>
+                    <div className="flex h-full w-full items-center px-3 py-3">
+                      <div style={{ width: "3rem" }}>{Icon && <Icon />}</div>
+                      {!isCollapsed && (
+                        <span className={classNames("text-md font-medium")}>
+                          {route.name}
+                        </span>
+                      )}
+                    </div>
+                  </Link>
+                </div>
+              </Fragment>
             );
           })}
         </div>
