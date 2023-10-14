@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import {
   DropdownMenu,
@@ -18,25 +16,15 @@ type UserDropdownMenuProps = {
   handleSignOut: () => void;
   user: User;
   goToUserProfile: () => void;
+  avatar: string;
 };
 
 export default function UserDropdownMenu({
   handleSignOut,
   user,
   goToUserProfile,
+  avatar,
 }: UserDropdownMenuProps) {
-  const [avatar, setAvatar] = useState<string>("");
-  useEffect(() => {
-    const getUserProfile = async () => {
-      const res = await fetch("/api/users/profile");
-      if (res.ok) {
-        const data = await res.json();
-        setAvatar(data.userPreference.avatar);
-      }
-    };
-    getUserProfile();
-  }, [setAvatar, user.id]);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

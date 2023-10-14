@@ -3,6 +3,7 @@ import { compare } from "bcrypt";
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 import { hash } from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
@@ -16,6 +17,17 @@ export const authOptions: NextAuthOptions = {
     GitHubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID as string,
+      clientSecret: process.env.GOOGLE_SECRET as string,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
     }),
     CredentialsProvider({
       name: "Sign in",
@@ -35,6 +47,9 @@ export const authOptions: NextAuthOptions = {
         const user = await prisma.user.findFirst({
           where: {
             email: credentials.email,
+          },
+          include: {
+            userPreference: true,
           },
         });
 
@@ -56,73 +71,70 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name: user.name,
           isAdmin: user.isAdmin,
+          image: user?.userPreference?.avatar,
         };
       },
     }),
   ],
   callbacks: {
     session: async ({ session, token }) => {
-      // console.log("Session Callback", { session, token });
-      const newSession = {
+      return {
         ...session,
         user: {
           ...session.user,
           id: token.id,
           isAdmin: token.isAdmin,
           name: token.name,
+          email: token.email,
+          image: token.picture,
         },
       };
-
-      return newSession;
     },
     jwt: async ({ token, user, trigger, session, account }) => {
-      if (account && account.provider === "github") {
-        const dbUser = await prisma.user.findFirst({
-          where: {
-            email: user.email as string,
-          },
-        });
+      const dbUser = await prisma.user.findFirst({
+        where: {
+          email: token.email as string,
+        },
+        include: {
+          userPreference: true,
+        },
+      });
 
-        if (!dbUser) {
-          // Create a new user in the database for first time github login
-          const hashedPassword = await hash(generateRandomPassword(12), 10);
-          const createdUser = await prisma.user.create({
-            data: {
-              name: user.name as string,
-              email: user.email as string,
-              password: hashedPassword,
-              userPreference: {
-                create: {},
+      if (!dbUser) {
+        // Create a new user in the database for first time github login
+        const hashedPassword = await hash(generateRandomPassword(12), 10);
+        const createdUser = await prisma.user.create({
+          data: {
+            name: token.name as string,
+            email: token.email as string,
+            password: hashedPassword,
+            userPreference: {
+              create: {
+                avatar: token.picture,
               },
             },
-            include: {
-              userPreference: true,
-            },
-          });
-          user.id = createdUser?.id as string;
-          token.id = user.id;
-          token.isAdmin = false;
-        } else {
-          user.id = dbUser?.id as string;
-        }
-        token.id = user.id;
+          },
+          include: {
+            userPreference: true,
+          },
+        });
+        token.id = createdUser.id;
         token.isAdmin = false;
+      } else {
+        token.id = dbUser.id;
+        token.isAdmin = dbUser.isAdmin;
       }
 
       if (trigger === "update") {
         token.name = session.name;
       }
 
-      if (user) {
-        const u = user as unknown as User;
-        token.id = u.id;
-        token.isAdmin = u.isAdmin;
-      }
-
       return token;
     },
   },
 };
+
+//todo solve avatar problem
 
 const generateRandomPassword = (length: number) => {
   const charset =

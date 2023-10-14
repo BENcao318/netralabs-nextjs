@@ -9,6 +9,7 @@ import NotificationDropdownMenu from "./notification-dropdown-menu";
 export default function DashboardNavbar() {
   const { data: session } = useSession();
   const [notifications, setNotifications] = useState([]);
+  const [avatar, setAvatar] = useState<string>("");
 
   const router = useRouter();
 
@@ -35,6 +36,17 @@ export default function DashboardNavbar() {
     getUserNotifications();
   }, [setNotifications]);
 
+  useEffect(() => {
+    const getUserProfile = async () => {
+      const res = await fetch("/api/users/profile");
+      if (res.ok) {
+        const data = await res.json();
+        setAvatar(data.userPreference.avatar);
+      }
+    };
+    getUserProfile();
+  }, [setAvatar]);
+
   return (
     <>
       {session ? (
@@ -43,6 +55,7 @@ export default function DashboardNavbar() {
             handleSignOut={handleSignOut}
             user={session.user}
             goToUserProfile={goToUserProfile}
+            avatar={avatar}
           />
           <NotificationDropdownMenu notifications={notifications} />
         </div>

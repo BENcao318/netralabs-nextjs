@@ -201,6 +201,7 @@ export type User = {
   name: string;
   email: string;
   isAdmin: boolean;
+  image?: string;
 };
 
 export type UserProfile = {

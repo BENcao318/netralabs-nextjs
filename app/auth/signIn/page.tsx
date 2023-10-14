@@ -17,8 +17,8 @@ export default async function Page() {
         <Image
           src={NetraScaleLogo}
           className="mx-auto"
-          width={150}
-          height={150}
+          width={100}
+          height={100}
           alt="logo"
         />
       </div>
@@ -26,11 +26,11 @@ export default async function Page() {
         <Image
           src={NetraLabsLogo}
           className="mx-auto"
-          width={60}
-          height={60}
+          width={40}
+          height={40}
           alt="logo"
         />
-        <h1 className="text-3xl font-bold">NetraLabs</h1>
+        <h1 className="text-xl font-bold">NetraLabs</h1>
       </div>
       <div className="lg:p-8">
         <div className="absolute left-2/4 top-2/4 z-50 w-full max-w-[24rem] -translate-x-2/4 -translate-y-2/4 sm:w-[350px]">
