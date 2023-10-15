@@ -92,31 +92,32 @@ export default function ProjectTeamCard({
   }, [project.creator, project.participants, userId]);
   const onSubmit = async (data: TInviteTeammateSchema) => {
     try {
-      const res = await fetch("/api/projects/invite", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          projectId: project.id,
-          email: data.email,
-        }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        toast({
-          title: "Success!",
-          description: "You have sent the invitation.",
-        });
-        reset();
-        setOpenSendEmailDialog(false);
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Failed 😓",
-          description: res.statusText,
-        });
-      }
+      const res = await fetch("/api/projects/invite/email");
+      // const res = await fetch("/api/projects/invite", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     projectId: project.id,
+      //     email: data.email,
+      //   }),
+      // });
+      // if (res.ok) {
+      //   const data = await res.json();
+      //   toast({
+      //     title: "Success!",
+      //     description: "You have sent the invitation.",
+      //   });
+      //   reset();
+      //   setOpenSendEmailDialog(false);
+      // } else {
+      //   toast({
+      //     variant: "destructive",
+      //     title: "Failed 😓",
+      //     description: res.statusText,
+      //   });
+      // }
     } catch (error) {
       console.error(error);
       toast({

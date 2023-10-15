@@ -1,17 +1,4 @@
-// import { PrismaClient } from '@prisma/client'
-
-// const globalForPrisma = global as unknown as {
-//   prisma: PrismaClient | undefined
-// }
-
-// export const prisma =
-//   globalForPrisma.prisma ??
-//   new PrismaClient({
-//     log: ['query', 'info', 'warn', 'error'],
-//   })
-
-// if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
 
 declare global {
   namespace NodeJS {
@@ -20,37 +7,13 @@ declare global {
 }
 
 interface CustomNodeJsGlobals extends NodeJS.Global {
-  prisma: PrismaClient
+  prisma: PrismaClient;
 }
 
-declare const global: CustomNodeJsGlobals
-// declare global {
-//   var prisma: PrismaClient
-// }
+declare const global: CustomNodeJsGlobals;
 
-const prisma = global.prisma || new PrismaClient()
+const prisma = global.prisma || new PrismaClient();
 
-if (process.env.NODE_ENV === 'development') global.prisma = prisma
-// let prisma: PrismaClient
+if (process.env.NODE_ENV === "development") global.prisma = prisma;
 
-// if (process.env.NODE_ENV === 'production') {
-//   prisma = new PrismaClient()
-// } else {
-//   if (!global.prisma) {
-//     global.prisma = new PrismaClient()
-//   }
-//   prisma = global.prisma
-// }
-
-export default prisma
-
-// import { PrismaClient } from '@prisma/client'
-
-// declare global {
-//   var prisma: PrismaClient | undefined
-// }
-
-// const prisma = global.prisma || new PrismaClient({ log: ['info'] })
-// if (process.env.NODE_ENV !== 'production') global.prisma = prisma
-
-// export default prisma
+export default prisma;
