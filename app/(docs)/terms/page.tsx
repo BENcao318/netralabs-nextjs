@@ -11,12 +11,13 @@ export default function TermsPage() {
       </p>
       <hr />
       <p className="leading-7 [&:not(:first-child)]:mt-6">
-        These terms and conditions ("Terms") govern your use of netrascale.com
-        or any of the other platforms (collectively the “Site”) owned and/or
-        operated by NetraScale Corp. or any of its affiliated legal entities
-        ("Company"). By accessing or using the Site, you agree to be bound by
-        these Terms. If you do not agree with any part of these Terms, you must
-        not use, or stop using, the Site.
+        These terms and conditions (&quot;Terms&quot;) govern your use of
+        netrascale.com or any of the other platforms (collectively the
+        &quot;Site&quot;) owned and/or operated by NetraScale Corp. or any of
+        its affiliated legal entities (&quot;Company&quot;). By accessing or
+        using the Site, you agree to be bound by these Terms. If you do not
+        agree with any part of these Terms, you must not use, or stop using, the
+        Site.
       </p>
 
       <h4 className="mt-12 scroll-m-20 text-xl font-medium tracking-tight">
@@ -54,7 +55,7 @@ export default function TermsPage() {
           b) Infringing upon the intellectual property rights of others;
         </li>
         <li className="mt-2">
-          c) Interfering with or disrupting the Site's functionality;
+          c) Interfering with or disrupting the Site&aposs functionality;
         </li>
         <li className="mt-2">
           d) Engaging in fraudulent or deceptive activities;
@@ -77,10 +78,10 @@ export default function TermsPage() {
       <hr />
       <p className="leading-7 [&:not(:first-child)]:mt-6">
         3.1. Ownership: You retain ownership of any content you submit or post
-        on the Site ("User Content"). By submitting User Content, you grant the
-        Company a non-exclusive, worldwide, royalty-free license to use,
-        reproduce, modify, adapt, publish, translate, distribute, and display
-        User Content on the Site.
+        on the Site (&quot;User Content&quot;). By submitting User Content, you
+        grant the Company a non-exclusive, worldwide, royalty-free license to
+        use, reproduce, modify, adapt, publish, translate, distribute, and
+        display User Content on the Site.
       </p>
       <p className="leading-7 [&:not(:first-child)]:mt-6">
         3.2. Responsibility: You are solely responsible for any User Content you
@@ -97,7 +98,7 @@ export default function TermsPage() {
         4.1. Listing and Purchasing: Users may list items or services for sale
         on the Site. The Company does not guarantee the quality, safety, or
         legality of any listed items or services. Buyers are responsible for
-        verifying the accuracy of listings and sellers' identities.
+        verifying the accuracy of listings and sellers&apos identities.
       </p>
       <p className="leading-7 [&:not(:first-child)]:mt-6">
         4.2. Disputes: Any disputes or issues arising from transactions between
@@ -117,9 +118,9 @@ export default function TermsPage() {
       </p>
       <p className="leading-7 [&:not(:first-child)]:mt-6">
         5.2. Restrictions: You may not use, reproduce, modify, adapt,
-        distribute, or create derivative works from the Site's content without
-        the prior written consent of the Company.e Company does not mediate or
-        assume any liability for such disputes.
+        distribute, or create derivative works from the Site&aposs content
+        without the prior written consent of the Company.e Company does not
+        mediate or assume any liability for such disputes.
       </p>
 
       <h4 className="mt-12 scroll-m-20 text-xl font-medium tracking-tight">
@@ -127,8 +128,8 @@ export default function TermsPage() {
       </h4>
       <hr />
       <p className="leading-7 [&:not(:first-child)]:mt-6">
-        6.1. Disclaimer: The Site is provided on an "as-is" basis, and the
-        Company makes no warranties or representations regarding its
+        6.1. Disclaimer: The Site is provided on an &quot;as-is&quot; basis, and
+        the Company makes no warranties or representations regarding its
         availability, accuracy, or reliability. You use the Site at your own
         risk.
       </p>

@@ -33,7 +33,7 @@ export default async function Home() {
               href="/auth/signIn"
               className={cn(
                 buttonVariants({ size: "lg", variant: "secondary" }),
-                "font-medium ",
+                "text-lg font-semibold",
               )}
             >
               Get Started

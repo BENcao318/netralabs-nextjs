@@ -1,6 +1,7 @@
 import { LandingPageNav } from "@/components/landing-page-nav";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import Link from "next/link";
 
 type MarketingLayoutProps = {
@@ -12,10 +13,20 @@ export default async function MarketingLayout({
 }: MarketingLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
-      <img
+      <Image
         src="https://unsplash.com/photos/QBpZGqEMsKg/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjkxMTE4Mjc2fA&force=true&w=1920"
-        className="absolute inset-0 z-0 h-full w-full object-cover"
         alt="background page"
+        width={0}
+        height={0}
+        sizes="100vw"
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          zIndex: 0,
+        }}
       />
       <div className="absolute inset-0 z-0 h-full w-full bg-black/100 opacity-80" />
       <header className="bg-background container z-40">

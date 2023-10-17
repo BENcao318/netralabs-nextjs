@@ -123,7 +123,9 @@ export function Sidebar() {
       <div className="flex flex-col">
         <div className="mt-3 flex items-center">
           <div className="flex h-full items-center gap-4 pl-2">
-            <Image src={BrandImg} className="mx-auto h-9 w-9" alt="img" />
+            <Link href={"/"}>
+              <Image src={BrandImg} className="mx-auto h-9 w-9" alt="img" />
+            </Link>
             <span
               className={classNames("text-2xl font-bold", {
                 hidden: isCollapsed,

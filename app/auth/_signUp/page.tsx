@@ -7,10 +7,20 @@ import NetraLabsLogo from "@/components/images/BrandImage.png";
 export default async function Page() {
   return (
     <>
-      <img
+      <Image
         src="https://unsplash.com/photos/QBpZGqEMsKg/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjkxMTE4Mjc2fA&force=true&w=1920"
-        className="absolute inset-0 z-0 h-full w-full object-cover"
         alt="background page"
+        width={0}
+        height={0}
+        sizes="100vw"
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          zIndex: 0,
+        }}
       />
       <div className="absolute inset-0 z-0 h-full w-full bg-black/50" />
       <div className="absolute left-6 top-6">
