@@ -87,7 +87,7 @@ export function Sidebar() {
   };
 
   const wrapperClasses = classNames(
-    "h-screen px-4 pt-8 pb-4 bg-slate-700 grid min-h-screen shadow-xl",
+    "px-4 pt-8 pb-4 bg-slate-700 grid min-h-screen shadow-xl",
     {
       ["grid-cols-[250px]"]: !isCollapsed,
       ["grid-cols-[50px]"]: isCollapsed,
@@ -115,7 +115,7 @@ export function Sidebar() {
   }, []);
 
   return (
-    <div
+    <aside
       className={wrapperClasses}
       onMouseEnter={onMouseOver}
       onMouseLeave={onMouseOver}
@@ -201,6 +201,6 @@ export function Sidebar() {
           </CardContent>
         </Card>
       )}
-    </div>
+    </aside>
   );
 }
