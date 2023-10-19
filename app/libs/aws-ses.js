@@ -11,7 +11,7 @@ const SES_CONFIG = {
 
 const sesClient = new SESClient(SES_CONFIG);
 
-export const sendEmail = async (recipientEmail, name) => {
+export const sendAWSEmail = async (recipientEmail, name) => {
   let params = {
     Source: "netralabs.system@gmail.com",
     Destination: {
