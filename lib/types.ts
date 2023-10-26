@@ -31,12 +31,12 @@ export const createHackathonSchema = z
       .max(60, "Name must be at most 60 characters"),
     tagline: z
       .string()
-      .max(80, "Tagline must be at most 80 characters")
+      .max(60, "Tagline must be at most 60 characters")
       .optional(),
     email: z.string().email().optional(),
     location: z
       .string()
-      .max(40, "Location must be at most 40 characters")
+      .max(25, "Location must be at most 25 characters")
       .optional(),
     startDate: z.string().optional(),
     endDate: z.string().optional(),

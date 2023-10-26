@@ -30,19 +30,23 @@ export default function LaunchedHackathonCard({ hackathon }: Hackathon | any) {
   const router = useRouter();
 
   return (
-    <Card className="w-[500px]">
-      <CardHeader className="grid grid-rows-2 pb-3 text-center">
-        <CardTitle>{hackathon.name}</CardTitle>
-        <CardDescription>{hackathon.tagline}</CardDescription>
+    <Card className="h-[250px] w-[500px]">
+      <CardHeader>
+        <CardTitle className="min-h-[48px] text-center">
+          {hackathon.name}
+        </CardTitle>
+        <CardDescription className="min-w-[480px] text-center font-light text-neutral-600">
+          {hackathon.tagline}
+        </CardDescription>
       </CardHeader>
-      <CardContent className="grid grid-flow-row-dense grid-cols-2 break-all">
+      <CardContent className="-mt-3 grid grid-flow-row-dense grid-cols-2 break-all">
         <div className="flex items-center  rounded-md py-1 transition-all">
           <Clock className="mr-2 h-5 w-5" />
           <p className="text-md text-muted-foreground">
             {`$${calculateTotalPrize(hackathon.prizes)} in prizes`}
           </p>
         </div>
-        <div className="flex items-center  rounded-md py-1 transition-all">
+        <div className="flex min-w-[230px]  items-center rounded-md py-1 transition-all">
           <Map className="mr-2 h-5 w-5" />
           <p className="text-md text-muted-foreground">{hackathon.location}</p>
         </div>
@@ -62,7 +66,7 @@ export default function LaunchedHackathonCard({ hackathon }: Hackathon | any) {
       </CardContent>
       <CardFooter className="-mt-2 flex justify-between">
         <Badge
-          className={`ml-10 w-fit px-2 py-1 ${
+          className={`ml-10 w-fit px-3 py-1 ${
             progress.isRunning ? "bg-green-600" : "bg-sky-600"
           }`}
         >
