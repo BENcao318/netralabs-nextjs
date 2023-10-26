@@ -240,7 +240,6 @@ export default function EditHackathonForm({ hackathon }: { hackathon: any }) {
                 <FormDescription className="text-slate-100">
                   This is the name of your public hackathon.
                 </FormDescription>
-                {/* <div>{80 - form.watch('name')?.length} Characters Left</div> */}
                 <FormMessage />
               </FormItem>
             )}

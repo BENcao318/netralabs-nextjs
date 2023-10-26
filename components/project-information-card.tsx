@@ -55,18 +55,19 @@ export default function ProjectInformationCard({
   }, [project?.videoUrl, setImgUrl]);
 
   return (
-    // <Card className="min-w-[420px] max-w-[600px] w-full">
     <Card className="h-[340px] w-[500px]">
       <CardHeader className="grid grid-cols-2 text-center">
         <div className="flex flex-col justify-center gap-2">
-          <CardTitle>{project.name}</CardTitle>
-          <CardDescription>{project.pitch}</CardDescription>
+          <CardTitle className="break-all text-lg">{project.name}</CardTitle>
+          <CardDescription className="break-all text-sm text-neutral-600">
+            {project.pitch}
+          </CardDescription>
         </div>
         <div>
-          <CardTitle className="text-xl">{project.hackathon.name}</CardTitle>
+          <CardTitle className="text-lg">{project.hackathon.name}</CardTitle>
         </div>
       </CardHeader>
-      <CardContent className="mx-auto grid w-full grid-cols-2 gap-4">
+      <CardContent className="mx-auto -mt-3 grid w-full grid-cols-2 gap-4">
         <Image
           src={imgUrl}
           width={400}
@@ -104,14 +105,14 @@ export default function ProjectInformationCard({
           {project.isSubmitted ? (
             <Badge
               variant="outline"
-              className="font-boldnormal mx-auto w-fit rounded-lg bg-slate-800 px-4 text-xl uppercase text-slate-100"
+              className="font-boldnormal mx-auto w-fit rounded-lg bg-slate-800 px-4 text-lg uppercase text-slate-100"
             >
               submitted
             </Badge>
           ) : (
             <Badge
               variant="outline"
-              className="font-boldnormal mx-auto w-fit rounded-lg bg-slate-800 px-4 text-xl uppercase text-slate-100"
+              className="font-boldnormal mx-auto w-fit rounded-lg bg-slate-800 px-4 text-lg uppercase text-slate-100"
             >
               Not submitted
             </Badge>

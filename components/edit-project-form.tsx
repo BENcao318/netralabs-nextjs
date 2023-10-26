@@ -461,13 +461,19 @@ export default function EditProjectForm({
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-md">Name</FormLabel>
+              <FormLabel className="text-md flex w-1/2 justify-between">
+                <p>Name</p>
+                <p className="text-slate-400">
+                  {40 - (form.watch("name")?.length || 0)} characters left
+                </p>
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Project name"
                   {...field}
                   className="w-1/2 text-lg text-black"
                   disabled={!isCreator}
+                  maxLength={40}
                 />
               </FormControl>
               <FormDescription className="text-slate-100">
@@ -482,13 +488,19 @@ export default function EditProjectForm({
           name="pitch"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-md">Project pitch/tagline</FormLabel>
+              <FormLabel className="text-md flex justify-between">
+                <p>Project pitch/tagline</p>
+                <p className="text-slate-400">
+                  {60 - (form.watch("pitch")?.length || 0)} characters left
+                </p>
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Pitch line"
                   {...field}
-                  className="w-1/2 text-lg text-black"
+                  className="text-lg text-black"
                   disabled={!isCreator}
+                  maxLength={60}
                 />
               </FormControl>
               <FormDescription className="text-slate-100">

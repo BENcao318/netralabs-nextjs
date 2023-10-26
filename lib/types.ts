@@ -54,8 +54,11 @@ export const createHackathonSchema = z
   );
 
 export const createProjectSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  pitch: z.string().optional(),
+  name: z
+    .string()
+    .min(2, "Name must be at least 2 characters")
+    .max(40, "Name must be at most 40 characters"),
+  pitch: z.string().max(60, "Pitch must be at most 60 characters").optional(),
   techStack: z
     .array(
       z.object({
