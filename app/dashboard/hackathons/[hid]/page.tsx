@@ -88,7 +88,7 @@ export default function Page({ params }: { params: { hid: string } }) {
 
   return (
     <div className="container">
-      <div className="h-full w-full justify-center px-4 py-6 lg:px-8">
+      <div className="h-full min-w-[1000px] justify-center px-4 py-6 lg:px-8">
         {hackathon && (
           <Tabs defaultValue="overview" className="h-full w-full space-y-6 ">
             <div className="flex items-center justify-center">

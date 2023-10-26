@@ -240,7 +240,6 @@ export default function EditHackathonForm({ hackathon }: { hackathon: any }) {
                 <FormDescription className="text-slate-100">
                   This is the name of your public hackathon.
                 </FormDescription>
-                {/* <div>{80 - form.watch('name')?.length} Characters Left</div> */}
                 <FormMessage />
               </FormItem>
             )}
@@ -253,7 +252,7 @@ export default function EditHackathonForm({ hackathon }: { hackathon: any }) {
                 <FormLabel className="text-md flex justify-between">
                   <p>Tagline</p>
                   <p className="text-slate-400">
-                    {80 - (form.watch("tagline")?.length || 0)} characters left
+                    {60 - (form.watch("tagline")?.length || 0)} characters left
                   </p>
                 </FormLabel>
                 <FormControl>
@@ -261,7 +260,7 @@ export default function EditHackathonForm({ hackathon }: { hackathon: any }) {
                     placeholder="Tagline"
                     {...field}
                     className="text-lg font-bold text-black"
-                    maxLength={80}
+                    maxLength={60}
                   />
                 </FormControl>
                 <FormDescription className="text-slate-100">
@@ -300,7 +299,7 @@ export default function EditHackathonForm({ hackathon }: { hackathon: any }) {
                 <FormLabel className="text-md flex justify-between">
                   <p>Location</p>
                   <p className="text-slate-400">
-                    {40 - (form.watch("location")?.length || 0)} characters left
+                    {25 - (form.watch("location")?.length || 0)} characters left
                   </p>
                 </FormLabel>
                 <FormControl>
@@ -308,7 +307,7 @@ export default function EditHackathonForm({ hackathon }: { hackathon: any }) {
                     placeholder="Virtual or in-person, e.g.(Toronto, Canada, campus)"
                     {...field}
                     className="text-lg font-bold text-black"
-                    maxLength={40}
+                    maxLength={25}
                   />
                 </FormControl>
                 <FormDescription className="text-slate-100">
