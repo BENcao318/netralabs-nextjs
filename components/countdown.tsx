@@ -3,8 +3,6 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 
-
-
 export default function Countdown({ unixEndDate } : { unixEndDate: number }) { {
   const [countdownTimer, setCountdownTimer] = useState(null);
   const [countdownInfoMessage, setCountdownInfoMessage] = useState("");
@@ -60,7 +58,7 @@ export default function Countdown({ unixEndDate } : { unixEndDate: number }) { {
         <div className="countdown-unit">Secs</div>
       </div>
       <p>
-        Counting down to {eventName} on{" "}
+        Counting down to {name} on{" "}
         {moment.unix(unixEndDate).format("dddd, MMMM Do, YYYY | h:mm A")}
       </p>
     </div>
