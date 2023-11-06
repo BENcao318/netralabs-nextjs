@@ -12,7 +12,7 @@ export const sendEmail = async () => {
         name: "Ben Cao",
       },
     ],
-    templateId: 2,
+    templateId: 1,
     headers: {
       "X-Mailin-custom":
         "custom_header_1:custom_value_1|custom_header_2:custom_value_2",
