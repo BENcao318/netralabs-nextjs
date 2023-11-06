@@ -92,32 +92,32 @@ export default function ProjectTeamCard({
   }, [project.creator, project.participants, userId]);
   const onSubmit = async (data: TInviteTeammateSchema) => {
     try {
-      const res = await fetch("/api/projects/invite/email");
-      // const res = await fetch("/api/projects/invite", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     projectId: project.id,
-      //     email: data.email,
-      //   }),
-      // });
-      // if (res.ok) {
-      //   const data = await res.json();
-      //   toast({
-      //     title: "Success!",
-      //     description: "You have sent the invitation.",
-      //   });
-      //   reset();
-      //   setOpenSendEmailDialog(false);
-      // } else {
-      //   toast({
-      //     variant: "destructive",
-      //     title: "Failed 😓",
-      //     description: res.statusText,
-      //   });
-      // }
+      // const res = await fetch("/api/projects/invite/email");
+      const res = await fetch("/api/projects/invite/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          projectId: project.id,
+          email: data.email,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        toast({
+          title: "Success!",
+          description: "You have sent the invitation.",
+        });
+        reset();
+        setOpenSendEmailDialog(false);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Failed 😓",
+          description: res.statusText,
+        });
+      }
     } catch (error) {
       console.error(error);
       toast({
@@ -141,7 +141,7 @@ export default function ProjectTeamCard({
         </CardDescription>
       </CardHeader>
       <Separator />
-      <CardContent className="mt-3 flex w-full flex-col gap-3">
+      <CardContent className="flex flex-col w-full gap-3 mt-3">
         {teamMembers.map((member) => {
           return (
             <div
@@ -153,7 +153,7 @@ export default function ProjectTeamCard({
                   src={member.userPreference.avatar}
                   alt={member.name}
                 />
-                <AvatarFallback className="bg-slate-800 text-2xl font-bold text-slate-100">
+                <AvatarFallback className="text-2xl font-bold bg-slate-800 text-slate-100">
                   {member.name[0].toUpperCase()}
                 </AvatarFallback>
               </Avatar>
@@ -162,7 +162,7 @@ export default function ProjectTeamCard({
           );
         })}
       </CardContent>
-      <CardFooter className="flex w-full justify-center">
+      <CardFooter className="flex justify-center w-full">
         {project.participants.length < TEAMSIZE - 1 &&
           project.creatorId === userId &&
           progress.isRunning && (
@@ -171,7 +171,7 @@ export default function ProjectTeamCard({
               onOpenChange={setOpenSendEmailDialog}
             >
               <DialogTrigger asChild>
-                <Button className="border-2 border-slate-900 bg-slate-200 font-mono text-xl font-bold text-slate-900 hover:text-slate-200">
+                <Button className="font-mono text-xl font-bold border-2 border-slate-900 bg-slate-200 text-slate-900 hover:text-slate-200">
                   Invite teammate
                 </Button>
               </DialogTrigger>
@@ -202,7 +202,7 @@ export default function ProjectTeamCard({
                     className="bg-green-700"
                   >
                     {isSubmitting && (
-                      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                      <Icons.spinner className="w-4 h-4 mr-2 animate-spin" />
                     )}
                     Send email
                   </Button>
