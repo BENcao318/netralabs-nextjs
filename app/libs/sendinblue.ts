@@ -4,15 +4,27 @@ var apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 var apiKey = apiInstance.authentications["apiKey"];
 apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
 
-export const sendEmail = async () => {
+export const sendEmail = async (
+  projectName: string,
+  hackathonName: string,
+  hackathonId: string,
+  inviterName: string,
+  inviteeEmail: string,
+) => {
   const sendSmtpEmail = {
     to: [
       {
-        email: "cby204@gmail.com",
+        email: inviteeEmail,
         name: "Ben Cao",
       },
     ],
     templateId: 1,
+    params: {
+      projectName,
+      hackathonName,
+      hackathonId,
+      inviterName,
+    },
     headers: {
       "X-Mailin-custom":
         "custom_header_1:custom_value_1|custom_header_2:custom_value_2",
