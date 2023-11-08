@@ -15,7 +15,7 @@ export const sendEmail = async (
     to: [
       {
         email: inviteeEmail,
-        name: "Ben Cao",
+        name: "Netralabs",
       },
     ],
     templateId: 1,
