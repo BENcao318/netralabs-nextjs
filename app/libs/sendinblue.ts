@@ -15,7 +15,7 @@ export const sendEmail = async (
     to: [
       {
         email: inviteeEmail,
-        name: "Netralabs",
+        name: "Netralabs System",
       },
     ],
     templateId: 1,
