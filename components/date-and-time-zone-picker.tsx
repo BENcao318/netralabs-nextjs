@@ -1,19 +1,19 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import { Card, CardContent } from './ui/card'
-import { Label } from './ui/label'
-import DatePickerWithRange from './date-picker-with-range'
-import TimezoneSelect, { ITimezone } from 'react-timezone-select'
-import { DateRange } from 'react-day-picker'
-import moment from 'moment-timezone'
+import React, { useEffect, useState } from "react";
+import { Card, CardContent } from "./ui/card";
+import { Label } from "./ui/label";
+import DatePickerWithRange from "./date-picker-with-range";
+import TimezoneSelect, { ITimezone } from "react-timezone-select";
+import { DateRange } from "react-day-picker";
+import moment from "moment-timezone";
 
 type DateAndTimeZonePickerProps = {
-  timeZone: string
-  setTimeZone: React.Dispatch<React.SetStateAction<string>>
-  date: DateRange | undefined
-  setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>
-}
+  timeZone: string;
+  setTimeZone: React.Dispatch<React.SetStateAction<string>>;
+  date: DateRange | undefined;
+  setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
+};
 
 export default function DateAndTimeZonePicker({
   timeZone,
@@ -21,12 +21,12 @@ export default function DateAndTimeZonePicker({
   date,
   setDate,
 }: DateAndTimeZonePickerProps) {
-  const [timeZoneSelect, setTimeZoneSelect] = useState<any>(timeZone)
-  moment.tz.setDefault('America/Los_Angeles')
+  const [timeZoneSelect, setTimeZoneSelect] = useState<any>(timeZone);
+  moment.tz.setDefault("America/Los_Angeles");
 
   useEffect(() => {
-    setTimeZoneSelect({ value: timeZone })
-  }, [timeZone])
+    setTimeZoneSelect({ value: timeZone });
+  }, [timeZone]);
   return (
     <>
       <Card className="w-fit">
@@ -45,7 +45,7 @@ export default function DateAndTimeZonePicker({
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="date" className="shrink-0">
-                  Pick a time zone
+                  Pick a time-zone
                 </Label>
                 <TimezoneSelect
                   value={timeZoneSelect}
@@ -57,5 +57,5 @@ export default function DateAndTimeZonePicker({
         </CardContent>
       </Card>
     </>
-  )
+  );
 }
