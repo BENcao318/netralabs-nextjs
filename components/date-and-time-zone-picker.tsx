@@ -45,7 +45,7 @@ export default function DateAndTimeZonePicker({
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="date" className="shrink-0">
-                  Pick a time-zone
+                  Pick a time-ezone
                 </Label>
                 <TimezoneSelect
                   value={timeZoneSelect}
