@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -8,82 +8,79 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from './ui/card'
-import { convertDateString } from '@/helpers/utils'
-import { Button } from './ui/button'
-import { useRouter } from 'next/navigation'
+} from "./ui/card";
+import { convertDateString } from "@/helpers/utils";
+import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 type Hackathon = {
-  id: string
-  name: string | null
-  tagline: string | null
-  timeZone: string | null
-  startDate: string | null
-  endDate: string | null
-  managerEmail: string | null
-  launched: boolean | null
-}
+  id: string;
+  name: string | null;
+  tagline: string | null;
+  timeZone: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  managerEmail: string | null;
+  launched: boolean | null;
+};
 
 export default function HackathonManageCard({
   hackathon,
 }: {
-  hackathon: Hackathon
+  hackathon: Hackathon;
 }) {
-  const [launched, setLaunched] = useState(false)
-  const router = useRouter()
+  const [launched, setLaunched] = useState(false);
+  const router = useRouter();
 
   const options = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    // hour: 'numeric',
-    // minute: 'numeric',
-    // hour12: true,
-  }
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
   const TABLE_ROWS = [
     {
-      name: 'Email:',
+      name: "Email:",
       content: hackathon.managerEmail,
     },
     {
-      name: 'Time zone:',
+      name: "Time zone:",
       content: hackathon.timeZone,
     },
     {
-      name: 'Start Date:',
+      name: "Start Date:",
       content: convertDateString(hackathon.startDate, options),
     },
     {
-      name: 'End Date:',
+      name: "End Date:",
       content: convertDateString(hackathon.endDate, options),
     },
-  ]
+  ];
 
   const handleClickEdit = () => {
-    router.push(`/manager/edit-hackathon?hid=${hackathon.id}`)
-  }
+    router.push(`/manager/edit-hackathon?hid=${hackathon.id}`);
+  };
 
   useEffect(() => {
-    setLaunched(hackathon.launched || false)
-  }, [hackathon, setLaunched])
+    setLaunched(hackathon.launched || false);
+  }, [hackathon, setLaunched]);
 
   return (
     <Card className="w-[500px]  break-all">
       <CardHeader>
-        <CardTitle className="text-center text-xl">{hackathon.name}</CardTitle>
-        <CardDescription className="text-center text-lg">
+        <CardTitle className="text-xl text-center">{hackathon.name}</CardTitle>
+        <CardDescription className="text-lg text-center">
           {hackathon.tagline}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <table className="w-full min-w-max text-left">
+        <table className="w-full text-left min-w-max">
           <tbody>
             {TABLE_ROWS.map(({ name, content }, index) => {
-              const isLast = index === TABLE_ROWS.length - 1
+              const isLast = index === TABLE_ROWS.length - 1;
               const classes = isLast
-                ? 'p-4'
-                : 'p-4 border-b border-blue-gray-50l'
+                ? "p-4"
+                : "p-4 border-b border-blue-gray-50l";
 
               return (
                 <tr key={name} className="even:bg-blue-gray-50/50">
@@ -96,29 +93,29 @@ export default function HackathonManageCard({
                     </div>
                   </td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </table>
       </CardContent>
-      <CardFooter className="pt-0 flex justify-between mx-4">
+      <CardFooter className="flex justify-between pt-0 mx-4">
         <Button
-          className="font-bold hover:underline text-lg"
+          className="text-lg font-bold hover:underline"
           onClick={handleClickEdit}
         >
           Edit
         </Button>
 
         {launched ? (
-          <p className="flex uppercase items-center font-bold text-green-600">
+          <p className="flex items-center font-bold text-green-600 uppercase">
             launched
           </p>
         ) : (
-          <p className="flex uppercase items-center font-bold text-red-600">
+          <p className="flex items-center font-bold text-red-600 uppercase">
             Not launched yet
           </p>
         )}
       </CardFooter>
     </Card>
-  )
+  );
 }
