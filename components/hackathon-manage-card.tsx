@@ -108,7 +108,7 @@ export default function HackathonManageCard({
 
         {launched ? (
           <p className="flex items-center font-bold text-green-600 uppercase">
-            launched
+            Launched
           </p>
         ) : (
           <p className="flex items-center font-bold text-red-600 uppercase">
