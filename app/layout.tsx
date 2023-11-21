@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: "Netra Labs App",
-  description: "Powered by Netra Labs - Ben Cao",
+  description: "Powered by Netra Labs - Benyuan Cao",
 };
 
 export default function RootLayout({
