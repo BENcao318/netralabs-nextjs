@@ -1,4 +1,4 @@
-import prisma from '@/lib/prisma'
+import prisma from "@/lib/prisma";
 
 export async function getManagedHackathons(creatorId: string) {
   try {
@@ -6,12 +6,12 @@ export async function getManagedHackathons(creatorId: string) {
       where: {
         creatorId,
       },
-    })
+    });
 
-    return hackathons
+    return hackathons;
   } catch (error) {
-    console.error('Error retrieving managed hackathons:', error)
-    throw new Error('Failed to retrieve managed hackathons')
+    console.error("Error retrieving managed hackathons:", error);
+    throw new Error("Failed to retrieve managed hackathons");
   }
 }
 
@@ -21,12 +21,12 @@ export async function launchHackathon(hackathonId: string) {
       where: {
         id: hackathonId,
       },
-    })
+    });
 
-    return hackathons
+    return hackathons;
   } catch (error) {
-    console.error('Error retrieving managed hackathons:', error)
-    throw new Error('Failed to retrieve managed hackathons')
+    console.error("Error retrieving managed hackathons:", error);
+    throw new Error("Failure retrieving managed hackathons");
   }
 }
 
@@ -36,12 +36,12 @@ export async function getLaunchedHackathons() {
       where: {
         launched: true,
       },
-    })
+    });
 
-    return hackathons
+    return hackathons;
   } catch (error) {
-    console.error('Error retrieving launched hackathons:', error)
-    throw new Error('Failed to retrieve hackathons')
+    console.error("Error retrieving launched hackathons:", error);
+    throw new Error("Failed to retrieve hackathons");
   }
 }
 
@@ -51,11 +51,11 @@ export async function getHackathonByHackathonId(hid: string) {
       where: {
         id: hid,
       },
-    })
+    });
 
-    return hackathon
+    return hackathon;
   } catch (error) {
-    console.error('Error retrieving launched hackathons:', error)
-    throw new Error('Failed to retrieve hackathons')
+    console.error("Error retrieving launched hackathons:", error);
+    throw new Error("Failed to retrieve hackathons");
   }
 }
