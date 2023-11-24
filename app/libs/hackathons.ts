@@ -11,7 +11,7 @@ export async function getManagedHackathons(creatorId: string) {
     return hackathons;
   } catch (error) {
     console.error("Error retrieving managed hackathons:", error);
-    throw new Error("Failed to retrieve managed hackathons");
+    throw new Error("Failure retrieving managed hackathon");
   }
 }
 
