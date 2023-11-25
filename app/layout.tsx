@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Netra Labs App",
+  title: "NetraLabs App",
   description: "Powered by Netra Labs - Benyuan Cao",
 };
 
