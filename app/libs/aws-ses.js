@@ -26,12 +26,12 @@ export const sendAWSEmail = async (recipientEmail, name) => {
         },
         Text: {
           Charset: "UTF-8",
-          Data: `This is the body of my email!`,
+          Data: `This is my email's body!`,
         },
       },
       Subject: {
         Charset: "UTF-8",
-        Data: `This is the subject of my email!`,
+        Data: `This is my email's subject!`,
       },
     },
   };
