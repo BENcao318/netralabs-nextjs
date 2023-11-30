@@ -36,9 +36,6 @@ export const sendAWSEmail = async (recipientEmail, name) => {
     },
   };
 
-  console.log(process.env.AWS_ACCESS_KEY);
-  console.log(process.env.AWS_SECRET_ACCESS_KEY);
-
   try {
     const sendEmailCommand = new SendEmailCommand(params);
     const res = await sesClient.send(sendEmailCommand);
