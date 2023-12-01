@@ -101,7 +101,7 @@ export async function POST(request: Request) {
 
     if (isEmailAlreadyInProject) {
       return NextResponse.json(
-        { error: "Already in the team" },
+        { error: "Already in this team" },
         {
           statusText: "This person is already in the team",
           status: 401,
