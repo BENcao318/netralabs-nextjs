@@ -81,7 +81,7 @@ export async function POST(request: Request) {
     });
 
     if (!project) {
-      throw new Error("Project not found");
+      throw new Error("Project is not found");
     } else if (project.creatorId !== session.user.id) {
       return NextResponse.json(
         { error: "unauthorized" },
