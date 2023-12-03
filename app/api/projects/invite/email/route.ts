@@ -87,7 +87,7 @@ export async function POST(request: Request) {
         { error: "unauthorized" },
         {
           status: 401,
-          statusText: "Unauthorized user",
+          statusText: "User is not authorized",
         },
       );
     }
