@@ -43,7 +43,7 @@ export async function POST(request: Request) {
       { errors: zodErrors },
       {
         status: 401,
-        statusText: "Failed to pass email format validation",
+        statusText: "Failed to validate the email format",
       },
     );
   }
