@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json(
-      { error: "unauthorized" },
+      { error: "Unauthorized" },
       {
         status: 401,
         statusText: "Unauthorized user",
