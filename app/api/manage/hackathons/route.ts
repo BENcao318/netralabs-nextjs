@@ -70,5 +70,4 @@ export async function PUT(request: Request) {
   });
 
   return NextResponse.json(updated);
-  // return NextResponse.json({ message: 'ok' })
 }
