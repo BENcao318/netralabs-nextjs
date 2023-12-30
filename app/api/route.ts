@@ -15,4 +15,4 @@ export async function GET(request: Request) {
   return NextResponse.json({ authenticated: !!session });
 }
 
-//todo add api route protection for projects and submissions using nextAuth
+//todo: add api route protection for projects and submissions using nextAuth
