@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Prize,
   TCreateHackathonSchema,
@@ -42,7 +41,6 @@ export default function CreateHackathonForm({
   creatorId: string;
 }) {
   const router = useRouter();
-
   const [descriptionContent, setDescriptionContent] = useState<string>("");
   const [requirementContent, setRequirementContent] = useState<string>("");
   const [rulesContent, setRulesContent] = useState<string>("");
