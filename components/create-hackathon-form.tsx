@@ -76,7 +76,6 @@ export default function CreateHackathonForm({
       prizes: prizeList,
       creatorId,
     };
-
     try {
       const res = await fetch("/api/manage/hackathons/create", {
         method: "POST",
