@@ -38,8 +38,7 @@ model UserPreference {
   skills  Json?
   avatar  String? @db.LongText
   company String?
-
-  user User?
+  user    User?
 }
 
 model Hackathon {
