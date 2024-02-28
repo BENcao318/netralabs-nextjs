@@ -82,12 +82,11 @@ model Project {
   repositoryUrl String?   @db.Text
   createdAt     DateTime? @default(now())
   updatedAt     DateTime? @updatedAt
-
-  creator      User      @relation("ProjectCreator", fields: [creatorId], references: [id])
-  creatorId    String
-  participants User[]    @relation("ProjectParticipant")
-  hackathon    Hackathon @relation(fields: [hackathonId], references: [id])
-  hackathonId  String
+  creator       User      @relation("ProjectCreator", fields: [creatorId], references: [id])
+  creatorId     String
+  participants  User[]    @relation("ProjectParticipant")
+  hackathon     Hackathon @relation(fields: [hackathonId], references: [id])
+  hackathonId   String
 
   @@index([creatorId])
   @@index([hackathonId])
