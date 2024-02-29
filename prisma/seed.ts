@@ -71,10 +71,7 @@ async function main() {
   await prisma.user.deleteMany({});
   await prisma.userPreference.deleteMany({});
 
-  // for (let i = 0; i < 20; i++) {
-  //   await generateUsers()
-  // }
-
+  
   const createdUserPreferences = await prisma.userPreference.createMany({
     data: [{}, {}, {}],
   });
