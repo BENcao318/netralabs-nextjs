@@ -140,8 +140,6 @@ async function main() {
     },
   });
 
-  console.log(users);
-
   await prisma.hackathon.createMany({
     data: [
       {
