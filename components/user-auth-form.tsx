@@ -135,15 +135,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col">
-            {/* <div className="flex justify-center">
-              Don&apos;t have an account?
-              <Link
-                href="/auth/signUp"
-                className="hover:text-primary underline underline-offset-4"
-              >
-                <span className="ml-2 font-bold">Sign up</span>
-              </Link>
-            </div> */}
             <p className="text-muted-foreground mt-2 px-2 text-center text-sm">
               By clicking Sign In, you agree to our{" "}
               <Link
