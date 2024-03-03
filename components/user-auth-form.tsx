@@ -86,46 +86,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <CardDescription>Sign in and start your journey!</CardDescription>
           </CardHeader>
           <CardContent>
-            {/* <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  {...register("email")}
-                  placeholder="name@example.com"
-                  type="email"
-                  autoCapitalize="none"
-                  autoComplete="email"
-                  autoCorrect="off"
-                  disabled={isSubmitting}
-                />
-                {errors.email && (
-                  <p className="text-red-500">{`${errors.email.message}`}</p>
-                )}
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  {...register("password")}
-                  placeholder="**********"
-                  type="password"
-                  autoCapitalize="none"
-                  autoComplete="password"
-                  autoCorrect="off"
-                  disabled={isSubmitting}
-                />
-                {errors.password && (
-                  <p className="text-red-500">{`${errors.password.message}`}</p>
-                )}
-              </div>
-              <Button disabled={isSubmitting} type="submit">
-                {isSubmitting && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Sign In with Email
-              </Button>
-            </form>
-            */}
-
             <div className="relative mb-4">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t border-black" />
@@ -175,15 +135,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col">
-            {/* <div className="flex justify-center">
-              Don&apos;t have an account?
-              <Link
-                href="/auth/signUp"
-                className="hover:text-primary underline underline-offset-4"
-              >
-                <span className="ml-2 font-bold">Sign up</span>
-              </Link>
-            </div> */}
             <p className="text-muted-foreground mt-2 px-2 text-center text-sm">
               By clicking Sign In, you agree to our{" "}
               <Link
