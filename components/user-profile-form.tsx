@@ -77,7 +77,6 @@ export default function UserProfileForm({
   const handleConfirmAvatarEditor = () => {
     setAvatarImg(preview);
   };
-  //todo add user profile context for re-rendering
   const onSubmit = async (data: TUserProfileSchema) => {
     try {
       const res = await fetch("/api/users/profile", {
