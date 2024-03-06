@@ -18,10 +18,12 @@ export const calculateTimeForHackathon = (
   hackathonTimeZone: string,
   localTimeZone: string
 ) => {
+
   const startTimeUTCDateString = convertToUTCDateTimeString(
     startDate,
     hackathonTimeZone
   )
+
   const deadlineUTCDateString = convertToUTCDateTimeString(
     endDate,
     hackathonTimeZone
@@ -30,6 +32,7 @@ export const calculateTimeForHackathon = (
   const utcStartTimeDateUTC = DateTime.fromISO(startTimeUTCDateString, {
     zone: 'utc',
   })
+  
   const utcDeadlineDateUTC = DateTime.fromISO(deadlineUTCDateString, {
     zone: 'utc',
   })
@@ -53,6 +56,7 @@ export const calculateTimeForHackathon = (
     status: '',
   }
   let formattedString = ''
+
   if (startTimeDaysDifference > 0) {
     if (startTimeDaysDifference > 1) {
       const roundedTime = Math.floor(startTimeDaysDifference)
