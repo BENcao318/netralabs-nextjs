@@ -50,7 +50,6 @@ export function Sidebar() {
   const [isCollapsible, setIsCollapsible] = useState(false);
 
   const pathname = usePathname();
-
   const activeRoute = useMemo(
     () => routes.find((route) => route.link === pathname),
     [pathname],
