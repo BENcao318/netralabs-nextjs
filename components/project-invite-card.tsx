@@ -1,12 +1,4 @@
 import React, { useMemo } from 'react'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from './ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Project } from '@/lib/types'
 
