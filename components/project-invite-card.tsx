@@ -46,15 +46,3 @@ export default function ProjectInviteCard({
     </div>
   )
 }
-
-{
-  /* <Avatar className="h-7 w-7 mr-3">
-<AvatarImage
-      src={participant?.userPreference?.avatar || ''}
-      alt={participant.name}
-    />
-    <AvatarFallback className="text-slate-100 font-semibold text-xl bg-slate-700">
-      {participant.name[0].toUpperCase()}
-    </AvatarFallback>
-</Avatar> */
-}
