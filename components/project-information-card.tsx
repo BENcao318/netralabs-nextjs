@@ -87,7 +87,6 @@ export default function ProjectInformationCard({
               {progress.status}
             </span>
           </Badge>
-
           {project.participants.length === 0 ? (
             <p className="text-center font-serif text-lg font-bold uppercase text-orange-700">
               SOLOING
