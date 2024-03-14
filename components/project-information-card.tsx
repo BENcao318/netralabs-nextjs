@@ -100,7 +100,6 @@ export default function ProjectInformationCard({
               As team member
             </p>
           )}
-
           {project.isSubmitted ? (
             <Badge
               variant="outline"
