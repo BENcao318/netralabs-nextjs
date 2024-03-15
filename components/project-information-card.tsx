@@ -115,7 +115,6 @@ export default function ProjectInformationCard({
               Not submitted
             </Badge>
           )}
-
           {progress.isRunning ? (
             <Button
               className="mx-auto mt-2 w-fit border-2 border-slate-950 bg-slate-100 px-4 text-xl font-bold text-slate-950 hover:text-slate-100"

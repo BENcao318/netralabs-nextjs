@@ -46,7 +46,6 @@ export default function NotificationDropdownMenu({
     projectName: "",
     invitationId: "",
   });
-  // projectInvitations.push(projectInvitations[0])
 
   const onClickNotificationTab = (invitation: Notification) => {
     const arr = projectInvitations.map((notification) => {
