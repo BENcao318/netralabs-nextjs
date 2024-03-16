@@ -21,7 +21,7 @@ export default function Countdown({ unixEndDate } : { unixEndDate: number }) { {
   }, [unixEndDate]);
 
   const playTimer = (currentUnixEndDate: number) => {
-    const distance = currentUnixEndDate - moment().unix();
+    const distance: number = currentUnixEndDate - moment().unix();
 
     if (distance > 0) {
       setCountdownTimer({
