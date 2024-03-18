@@ -32,7 +32,7 @@ import { calculateTimeForHackathon } from "@/helpers/utils";
 import { useToast } from "./ui/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
-const TEAMSIZE = 5;
+const TEAMSIZE = 7;
 const getTitleAndDescription = (project: Project, userId: string) => {
   let title = "";
   let description = "";
