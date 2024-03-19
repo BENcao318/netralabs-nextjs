@@ -25,7 +25,6 @@ export default function ManagerNavbar() {
             <p className="text-4xl font-bold">NetraLabs</p>
           </Link>
         </div>
-
         <Button
           className="bg-slate-200 text-slate-950 hover:bg-slate-300"
           onClick={handleClick}
