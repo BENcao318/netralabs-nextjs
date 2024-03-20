@@ -16,7 +16,6 @@ export default function ManagerNavbar() {
   };
 
   return (
-    <>
       <div className="top sticky flex w-full items-center justify-between rounded-lg px-6 py-6 transition-all ">
         <div></div>
         <div className="flex items-center ">
@@ -32,6 +31,5 @@ export default function ManagerNavbar() {
           Sign out
         </Button>
       </div>
-    </>
   );
 }
