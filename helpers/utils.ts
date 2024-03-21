@@ -155,7 +155,6 @@ export const convertDateStringToFormattedString = (
 export const timeAgo = (dateString: string) => {
   const pastDate = moment(dateString)
   const currentDate = moment()
-
   const duration = moment.duration(currentDate.diff(pastDate))
 
   if (duration.asMinutes() < 1) {
