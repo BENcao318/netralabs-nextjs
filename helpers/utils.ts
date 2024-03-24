@@ -32,7 +32,7 @@ export const calculateTimeForHackathon = (
   const utcStartTimeDateUTC = DateTime.fromISO(startTimeUTCDateString, {
     zone: 'utc',
   })
-  
+
   const utcDeadlineDateUTC = DateTime.fromISO(deadlineUTCDateString, {
     zone: 'utc',
   })
@@ -156,33 +156,26 @@ export const timeAgo = (dateString: string) => {
   const pastDate = moment(dateString)
   const currentDate = moment()
   const duration = moment.duration(currentDate.diff(pastDate))
-
   if (duration.asMinutes() < 1) {
     return 'Just now'
   } else if (duration.asHours() < 1) {
-    return `${Math.floor(duration.asMinutes())} minute${
-      duration.asMinutes() >= 2 ? 's' : ''
-    } ago`
+    return `${Math.floor(duration.asMinutes())} minute${duration.asMinutes() >= 2 ? 's' : ''
+      } ago`
   } else if (duration.asDays() < 1) {
-    return `${Math.floor(duration.asHours())} hour${
-      duration.asHours() >= 2 ? 's' : ''
-    } ago`
+    return `${Math.floor(duration.asHours())} hour${duration.asHours() >= 2 ? 's' : ''
+      } ago`
   } else if (duration.asWeeks() < 1) {
-    return `${Math.floor(duration.asDays())} day${
-      duration.asDays() >= 2 ? 's' : ''
-    } ago`
+    return `${Math.floor(duration.asDays())} day${duration.asDays() >= 2 ? 's' : ''
+      } ago`
   } else if (duration.asMonths() < 1) {
-    return `${Math.floor(duration.asWeeks())} week${
-      duration.asWeeks() >= 2 ? 's' : ''
-    } ago`
+    return `${Math.floor(duration.asWeeks())} week${duration.asWeeks() >= 2 ? 's' : ''
+      } ago`
   } else if (duration.asYears() < 1) {
-    return `${Math.floor(duration.asMonths())} month${
-      duration.asMonths() >= 2 ? 's' : ''
-    } ago`
+    return `${Math.floor(duration.asMonths())} month${duration.asMonths() >= 2 ? 's' : ''
+      } ago`
   } else {
-    return `${Math.floor(duration.asYears())} year${
-      duration.asYears() >= 2 ? 's' : ''
-    } ago`
+    return `${Math.floor(duration.asYears())} year${duration.asYears() >= 2 ? 's' : ''
+      } ago`
   }
 }
 
