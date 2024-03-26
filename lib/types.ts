@@ -155,8 +155,6 @@ export const userProfileSchema = z.object({
       }),
     )
     .optional(),
-  // numberOfWinningTeams: z.string(),
-  // description: z.string(),
 });
 
 export const inviteTeammateSchema = z.object({
@@ -283,11 +281,11 @@ export type Participant = {
   name: string;
   userPreference: {
     role:
-      | {
-          value: string;
-          label: string;
-        }
-      | any;
+    | {
+      value: string;
+      label: string;
+    }
+    | any;
     skills: any | null;
     avatar: string | null;
     company: string | null;
