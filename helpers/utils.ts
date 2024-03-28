@@ -3,7 +3,7 @@ const { DateTime } = require('luxon')
 
 export const convertDateString = (dateString: string | null, options: {}) => {
   if (dateString === null) {
-    return null // or handle the null case appropriately
+    return null
   }
 
   const dateObj = new Date(dateString)
