@@ -10,7 +10,6 @@ type CreatePrizeFormProps = {
   prizeList: Prize[]
   setPrizeList: any
 }
-
 export default function CreatePrizeForm({
   prize,
   removeElement,
