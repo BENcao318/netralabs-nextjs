@@ -28,7 +28,7 @@ export default function CreatePrizeForm({
   const onSubmit = (data: TCreatePrizeSchema) => {
     if (prizeList !== undefined) {
       const prizeData = { ...data, isEditing: false }
-      const index = prizeList.findIndex((elm) => elm.id === prize.id)
+      const index = prizeList.findIndex((it) => it.id === prize.id)
       const newPrizeList: Prize[] = [...prizeList]
       newPrizeList[index] = { ...newPrizeList[index], ...prizeData }
       setPrizeList(newPrizeList)
