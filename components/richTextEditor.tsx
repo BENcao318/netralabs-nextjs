@@ -382,6 +382,8 @@ const classes: Record<number, string> = {
   3: 'text-2xl',
   4: 'text-xl',
   5: 'text-lg',
+  6: 'text-md',
+  7: 'text-sm',
 }
 
 export default function Tiptap(props: TiptapProps) {
