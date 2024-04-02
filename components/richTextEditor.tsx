@@ -446,7 +446,6 @@ export default function Tiptap(props: TiptapProps) {
       },
     },
     content: '',
-
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML())
     },
