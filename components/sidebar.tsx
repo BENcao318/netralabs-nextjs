@@ -54,7 +54,6 @@ export function Sidebar() {
     () => routes.find((route) => route.link === pathname),
     [pathname],
   );
-
   const collapseIconClasses = classNames(
     "rounded-full  bg-slate-200 hover:bg-slate-300 p-1",
     {
