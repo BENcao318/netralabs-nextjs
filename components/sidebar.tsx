@@ -53,7 +53,7 @@ export function Sidebar() {
   const activeRoute = useMemo(
     () => routes.find((route) => route.link === pathname),
     [pathname],
-  );
+  ); 
   const collapseIconClasses = classNames(
     "rounded-full  bg-slate-200 hover:bg-slate-300 p-1",
     {
@@ -105,10 +105,8 @@ export function Sidebar() {
     const handleResize = () => {
       setIsCollapsed(window.innerWidth < 768);
     };
-
     window.addEventListener("resize", handleResize);
     handleResize();
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
