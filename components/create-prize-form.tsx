@@ -72,7 +72,7 @@ export default function CreatePrizeForm({
       </div>
       <div className="w-[16rem]">
         <h1 className="mb-1 font-semibold dark:text-white">
-          Number of winning teams
+          Number of the winning teams
         </h1>
         <input
           {...register('numberOfWinningTeams')}
