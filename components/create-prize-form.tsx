@@ -81,8 +81,8 @@ export default function CreatePrizeForm({
           type="number"
         />
         <p className="text-normal mt-2 font-bold text-red-600">
-          {errors.numberOfWinningTeams && (
-            <p className="text-red-500">{`${errors.numberOfWinningTeams.message}`}</p>
+          {errors.numberOfWinningTeams && (;l
+            <p className="text-red-500">{`${errors?.numberOfWinningTeams?.message}`}</p>
           )}
         </p>
       </div>
