@@ -1,7 +1,8 @@
 'use client'
 
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import App from "next/app";
+import React, { use, useEffect, useState } from "react";
 
 export default function Countdown({ unixEndDate } : { unixEndDate: number }) { {
   const [countdownTimer, setCountdownTimer] = useState(null);
@@ -42,19 +43,19 @@ export default function Countdown({ unixEndDate } : { unixEndDate: number }) { {
   return (
     <div className="countdown">
       <div className="card">
-        <div className="countdown-value">{countdownTimer.days}</div>
+        <div className="countdown-value">{countdownTimer?.days}</div>
         <div className="countdown-unit">Days</div>
       </div>
       <div className="card">
-        <div className="countdown-value">{countdownTimer.hours}</div>
+        <div className="countdown-value">{countdownTimer?.hours}</div>
         <div className="countdown-unit">Hours</div>
       </div>
       <div className="card">
-        <div className="countdown-value">{countdownTimer.mins}</div>
+        <div className="countdown-value">{countdownTimer?.mins}</div>
         <div className="countdown-unit">Mins</div>
       </div>
       <div className="card">
-        <div className="countdown-value">{countdownTimer.secs}</div>
+        <div className="countdown-value">{countdownTimer?.secs}</div>
         <div className="countdown-unit">Secs</div>
       </div>
       <p>
@@ -65,5 +66,3 @@ export default function Countdown({ unixEndDate } : { unixEndDate: number }) { {
   );
 }
 
-
-  
