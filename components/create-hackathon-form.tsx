@@ -81,7 +81,6 @@ export default function CreateHackathonForm({
         method: "POST",
         body: JSON.stringify(formData),
       });
-
       if (res.ok) {
         router.refresh();
         router.push("/manager");
