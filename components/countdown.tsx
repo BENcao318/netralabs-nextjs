@@ -5,7 +5,12 @@ import App from "next/app";
 import React, { use, useEffect, useState } from "react";
 
 export default function Countdown({ unixEndDate } : { unixEndDate: number }) { {
-  const [countdownTimer, setCountdownTimer] = useState(null);
+  const [countdownTimer, setCountdownTimer] = useState({
+    days: 0,
+    hours: 0,
+    mins: 0,
+    secs: 0
+  });
   const [countdownInfoMessage, setCountdownInfoMessage] = useState("");
 
   useEffect(() => {
@@ -26,17 +31,22 @@ export default function Countdown({ unixEndDate } : { unixEndDate: number }) { {
 
     if (distance > 0) {
       setCountdownTimer({
-        days: parseInt(distance / (60 * 60 * 24), 10),
-        hours: parseInt((distance % (60 * 60 * 24)) / (60 * 60), 10),
-        mins: parseInt((distance % (60 * 60)) / 60, 10),
-        secs: parseInt(distance % 60, 10),
+        days: distance / (60 * 60 * 24),
+        hours: (distance % (60 * 60 * 24)) / (60 * 60),
+        mins: (distance % (60 * 60)) / 60,
+        secs: distance % 60,
       });
       setCountdownInfoMessage("");
     } else {
       setCountdownInfoMessage(
         "Countdown ended. Click the Settings button to start a new countdown.",
-      );
-      setCountdownTimer(null);
+      ); 
+      setCountdownTimer({
+        days: 0,
+        hours: 0,
+        mins: 0,
+        secs: 0
+      });
     }
   }
 
@@ -59,10 +69,10 @@ export default function Countdown({ unixEndDate } : { unixEndDate: number }) { {
         <div className="countdown-unit">Secs</div>
       </div>
       <p>
-        Counting down to {name} on{" "}
+        Counting down to on
         {moment.unix(unixEndDate).format("dddd, MMMM Do, YYYY | h:mm A")}
       </p>
     </div>
   );
+  }
 }
-
