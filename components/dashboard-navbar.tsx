@@ -10,7 +10,6 @@ export default function DashboardNavbar() {
   const { data: session } = useSession();
   const [notifications, setNotifications] = useState([]);
   const [avatar, setAvatar] = useState<string>("");
-
   const router = useRouter();
 
   const handleSignIn = () => {
