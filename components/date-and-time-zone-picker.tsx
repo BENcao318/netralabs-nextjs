@@ -35,7 +35,7 @@ export default function DateAndTimeZonePicker({
             <div className="flex items-center gap-6">
               <div className="flex flex-col gap-2">
                 <Label htmlFor="date" className="shrink-0">
-                  Pick start and end dates
+                  Pick the start and end dates
                 </Label>
                 <DatePickerWithRange
                   className="[&>button]:w-[260px]"
