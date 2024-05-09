@@ -10,7 +10,6 @@ export default function CreateNewHackathonCard() {
   const handleClick = () => {
     router.push('/manager/create-hackathon')
   }
-
   return (
     <Card
       className="flex flex-col items-center justify-center h-full cursor-pointer hover:bg-orange-50 w-[500px] py-12"
