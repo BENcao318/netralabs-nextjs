@@ -89,7 +89,7 @@ export default function CreatePrizeForm({
       <div className="w-1/2">
         <h1 className="mb-1 font-semibold  dark:text-white">Description</h1>
         <label htmlFor="tagline" className="block text-sm text-gray-600">
-          Create details of your hackathon prize.
+          Create the details of your hackathon prize.
         </label>
         <textarea
           {...register('description')}
