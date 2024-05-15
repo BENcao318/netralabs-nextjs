@@ -30,6 +30,7 @@ export default function HackathonCardForSubmittedProjects({
     hackathon.timeZone,
     localTimeZone,
   ).progress;
+  
   const router = useRouter();
 
   return (
