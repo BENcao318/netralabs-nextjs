@@ -1,28 +1,24 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-datasource db {
-  provider          = "mysql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-  relationMode      = "prisma"
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id        String   @id @default(uuid())
-  name      String
-  password  String
-  email     String   @unique
-  isAdmin   Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  directUrl    = env("DIRECT_URL")
+  relationMode = "prisma"
+}
 
-  userPreference         UserPreference? @relation(fields: [userPreferenceId], references: [id])
+model User {
+  id                     String          @id @default(uuid())
+  name                   String
+  password               String
+  email                  String          @unique
+  isAdmin                Boolean         @default(false)
+  createdAt              DateTime        @default(now())
+  updatedAt              DateTime        @updatedAt
   userPreferenceId       String?         @unique
+  userPreference         UserPreference? @relation(fields: [userPreferenceId], references: [id])
   createdHackathons      Hackathon[]     @relation("HackathonCreator")
   participatedHackathons Hackathon[]     @relation("HackathonParticipant")
   createdProjects        Project[]       @relation("ProjectCreator")
@@ -36,35 +32,34 @@ model UserPreference {
   id      String  @id @default(uuid())
   role    Json?
   skills  Json?
-  avatar  String? @db.LongText
+  avatar  String?
   company String?
   user    User?
 }
 
 model Hackathon {
   id           String    @id @default(uuid())
-  name         String    @db.Text
-  description  String?   @db.Text
-  rules        String?   @db.LongText
-  tagline      String?   @db.Text
+  name         String
+  description  String?
+  rules        String?
+  tagline      String?
   managerEmail String?
-  location     String?   @db.Text
-  timeZone     String?   @db.Text
+  location     String?
+  timeZone     String?
   startDate    String?
   endDate      String?
   prizes       Json?
-  judges       String?   @db.LongText
-  requirements String?   @db.LongText
-  about        String?   @db.LongText
-  partners     String?   @db.LongText
-  resources    String?   @db.LongText
+  judges       String?
+  requirements String?
+  about        String?
+  partners     String?
+  resources    String?
   launched     Boolean   @default(false)
   company      String?
   createdAt    DateTime? @default(now())
   updatedAt    DateTime? @updatedAt
-
-  creator      User      @relation("HackathonCreator", fields: [creatorId], references: [id])
   creatorId    String
+  creator      User      @relation("HackathonCreator", fields: [creatorId], references: [id])
   participants User[]    @relation("HackathonParticipant")
   projects     Project[]
 
@@ -73,20 +68,20 @@ model Hackathon {
 
 model Project {
   id            String    @id @default(uuid())
-  name          String    @db.Text
+  name          String
   isSubmitted   Boolean   @default(false)
-  pitch         String?   @db.Text
-  story         String?   @db.LongText
+  pitch         String?
+  story         String?
   techStack     Json?
-  videoUrl      String?   @db.Text
-  repositoryUrl String?   @db.Text
+  videoUrl      String?
+  repositoryUrl String?
   createdAt     DateTime? @default(now())
   updatedAt     DateTime? @updatedAt
-  creator       User      @relation("ProjectCreator", fields: [creatorId], references: [id])
   creatorId     String
+  hackathonId   String
+  creator       User      @relation("ProjectCreator", fields: [creatorId], references: [id])
   participants  User[]    @relation("ProjectParticipant")
   hackathon     Hackathon @relation(fields: [hackathonId], references: [id])
-  hackathonId   String
 
   @@index([creatorId])
   @@index([hackathonId])
@@ -98,14 +93,31 @@ model Notification {
   isViewed      Boolean   @default(false)
   isAccepted    Boolean   @default(false)
   contentId     String
-  contentName   String    @db.Text
-  content       String?   @db.LongText
+  contentName   String
+  content       String?
   createdAt     DateTime? @default(now())
   updatedAt     DateTime? @updatedAt
   receiverEmail String
-
-  sender   User   @relation("NotificationSender", fields: [senderId], references: [id])
-  senderId String
+  senderId      String
+  sender        User      @relation("NotificationSender", fields: [senderId], references: [id])
 
   @@index([senderId])
+}
+
+model HackathonParticipant {
+  A String
+  B String
+
+  @@unique([A, B], map: "_HackathonParticipant_AB_unique")
+  @@index([B], map: "_HackathonParticipant_B_index")
+  @@map("_HackathonParticipant")
+}
+
+model ProjectParticipant {
+  A String
+  B String
+
+  @@unique([A, B], map: "_ProjectParticipant_AB_unique")
+  @@index([B], map: "_ProjectParticipant_B_index")
+  @@map("_ProjectParticipant")
 }

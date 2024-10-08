@@ -1,7 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import NetraLabsLogo from "../images/BrandImage.png";
+import NetraLabsLogo from "@/components/images/BrandImage.png";
 
 export function LandingPageNav() {
   return (
