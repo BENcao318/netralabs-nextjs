@@ -27,6 +27,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
   const [isGitHubLoading, setIsGitHubLoading] = useState<boolean>(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
+  const [isCognitoLoading, setIsCognitoLoading] = useState<boolean>(false);
 
   const {
     register,
@@ -77,6 +78,14 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     });
   };
 
+  const onCognitoSignIn = () => {
+    setIsCognitoLoading(true);
+    signIn("cognito", {
+      callbackUrl: "/",
+    });
+  };
+
+
   return (
     <>
       <div className={cn("grid gap-6", className)} {...props}>
@@ -97,7 +106,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               </div>
             </div>
             <div className="grid gap-2">
-              <Button
+              {/* <Button
                 type="button"
                 className="w-full border-2 border-black"
                 variant={"outline"}
@@ -131,6 +140,21 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                   />
                 )}
                 Google
+              </Button> */}
+
+              <Button
+                type="button"
+                className="w-full border-2 border-black"
+                variant={"outline"}
+                onClick={onCognitoSignIn}
+                disabled={isCognitoLoading}
+              >
+                {isCognitoLoading ? (
+                  <Icons.spinner className="mr-3 h-5 w-5 animate-spin" />
+                ) : (
+                  <Icons.logo className="mr-3 h-5 w-5" />
+                )}
+                Cognito
               </Button>
             </div>
           </CardContent>

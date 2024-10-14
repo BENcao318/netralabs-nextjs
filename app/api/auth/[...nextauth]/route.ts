@@ -4,6 +4,7 @@ import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import CognitoProvider from "next-auth/providers/cognito";
 import { hash } from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
@@ -28,6 +29,12 @@ export const authOptions: NextAuthOptions = {
           response_type: "code",
         },
       },
+    }),
+    CognitoProvider({
+      clientId: process.env.COGNITO_CLIENT_ID as string,
+      clientSecret: process.env.COGNITO_CLIENT_SECRET as string,
+      issuer: process.env.COGNITO_ISSUER as string,
+      checks: ['nonce'],
     }),
     CredentialsProvider({
       name: "Sign in",
@@ -102,21 +109,22 @@ export const authOptions: NextAuthOptions = {
 
       if (!dbUser) {
         // Create a new user in the database for first time github login
+        // console.log('create~~~~~~~~~~~~~~~', token)
         const hashedPassword = await hash(generateRandomPassword(12), 10);
         const createdUser = await prisma.user.create({
           data: {
-            name: token.name as string,
+            name: "Cognito User " + token.email,
             email: token.email as string,
             password: hashedPassword,
-            userPreference: {
-              create: {
-                avatar: token.picture,
-              },
-            },
+            // userPreference: {
+            //   create: {
+            //     avatar: token.picture,
+            //   },
+            // },
           },
-          include: {
-            userPreference: true,
-          },
+          // include: {
+          //   userPreference: true,
+          // },
         });
         token.id = createdUser.id;
         token.isAdmin = false;
@@ -132,6 +140,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
   },
+  // debug: true
 };
 
 //todo solve avatar problem

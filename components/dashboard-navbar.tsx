@@ -17,7 +17,7 @@ export default function DashboardNavbar() {
   };
 
   const handleSignOut = () => {
-    signOut();
+    signOut({ callbackUrl: "/" });
   };
 
   const goToUserProfile = () => {
@@ -40,7 +40,7 @@ export default function DashboardNavbar() {
       const res = await fetch("/api/users/profile");
       if (res.ok) {
         const data = await res.json();
-        setAvatar(data.userPreference.avatar);
+        setAvatar(data.userPreference?.avatar);
       }
     };
     getUserProfile();

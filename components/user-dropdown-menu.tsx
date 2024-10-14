@@ -25,6 +25,7 @@ export default function UserDropdownMenu({
   goToUserProfile,
   avatar,
 }: UserDropdownMenuProps) {
+  console.log(user)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -35,7 +36,7 @@ export default function UserDropdownMenu({
           <Avatar className="h-10 w-10">
             <AvatarImage src={avatar} alt={user.name} />
             <AvatarFallback className="text-xl font-bold text-slate-950">
-              {user.name[0].toUpperCase()}
+              {user.name ? user.name[0].toUpperCase() : 'C'}
             </AvatarFallback>
           </Avatar>
         </Button>

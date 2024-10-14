@@ -11,8 +11,7 @@ export default function ManagerNavbar() {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/");
-    signOut();
+    signOut({ callbackUrl: "/" });
   };
 
   return (
